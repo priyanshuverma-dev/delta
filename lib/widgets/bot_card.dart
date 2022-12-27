@@ -1,70 +1,85 @@
+import 'dart:developer';
+
+import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:answer_it/core/copy_text.dart';
+import 'package:answer_it/core/id_count.dart';
+import 'package:answer_it/core/inAppNames.dart';
+import 'package:answer_it/core/inAppUserIcon.dart';
 import 'package:answer_it/utlts/colors.dart';
+import 'package:answer_it/utlts/global_vars.dart';
 import 'package:flutter/material.dart';
 
 class BotCard extends StatelessWidget {
-  const BotCard({super.key});
+  const BotCard({
+    super.key,
+    required this.answer,
+  });
 
+  final String answer;
   @override
   Widget build(BuildContext context) {
     return Card(
       elevation: 50,
-      shadowColor: Colors.black,
-      color: Colours.textColor,
-      child: SizedBox(
-        width: MediaQuery.of(context).size.width - 15,
-        height: MediaQuery.of(context).size.height / 4,
+      color: Colors.transparent,
+      child: ConstrainedBox(
+        constraints: BoxConstraints(
+          minHeight: 35.0,
+          maxHeight: MediaQuery.of(context).size.height / 2,
+          maxWidth: MediaQuery.of(context).size.width - 30,
+          minWidth: MediaQuery.of(context).size.width - 30,
+        ),
         child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    width: 2,
-                    color: Colours.secondaryColor,
+          padding: const EdgeInsets.all(10.0),
+          child: SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      width: 1,
+                      color: Colours.secondaryColor,
+                    ),
+                    color: Colours.textColor,
+                    borderRadius: BorderRadius.circular(10),
                   ),
-                  color: Colours.textColor,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(5.0),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(top: 2, bottom: 8),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: Colours.textColor,
-                            shape: BoxShape.circle,
-                            boxShadow: [
-                              BoxShadow(
-                                blurRadius: 2,
-                                color: Colors.grey.shade300,
-                                spreadRadius: 5,
-                              )
-                            ],
-                          ),
-                          child: CircleAvatar(
-                            backgroundColor: Colours.textColor,
-                            child: Image.asset('assets/bot.png'),
-                          ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(5.0),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        inAppUserIcon(Globals.bot),
+                        inAppName(Globals.botName),
+                        const Spacer(
+                          flex: 2,
                         ),
-                      ),
-                      const Text(
-                        'BOT',
-                        style: TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold,
+                        idCount('10'),
+                        copyText(answer),
+                      ],
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 10),
+                  child: AnimatedTextKit(
+                    key: ValueKey(answer),
+                    totalRepeatCount: 1,
+                    animatedTexts: [
+                      TypewriterAnimatedText(
+                        answer,
+                        speed: const Duration(milliseconds: 20),
+                        textStyle: TextStyle(
+                          fontSize: 16,
+                          color: Colours.textColorBlack,
                         ),
                       ),
                     ],
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

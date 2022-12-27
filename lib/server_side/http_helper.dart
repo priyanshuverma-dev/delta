@@ -1,5 +1,8 @@
 import 'package:answer_it/models/message.dart';
 import 'package:answer_it/utlts/global_vars.dart';
+import 'package:answer_it/widgets/toaster.dart';
+import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'dart:developer';
 
@@ -19,10 +22,25 @@ class HttpHelper {
 
       log('Number of books about http: $output. ');
       log('Request with status: ${response.statusCode}.');
-
+      toast(
+        response.statusCode.toString(),
+        Toast.LENGTH_LONG,
+        ToastGravity.BOTTOM,
+        Colors.black,
+        Colors.white,
+        16,
+      );
       return output.message;
     } else {
       log('Request failed with status: ${response.statusCode}.');
+      toast(
+        response.statusCode.toString(),
+        Toast.LENGTH_LONG,
+        ToastGravity.BOTTOM,
+        Colors.black,
+        Colors.white,
+        16,
+      );
     }
   }
 }

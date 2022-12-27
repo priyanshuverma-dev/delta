@@ -15,13 +15,16 @@ class TextFieldInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextField(
+      style: TextStyle(
+        color: Colours.textColorBlack,
+      ),
       controller: textEditingController,
       decoration: InputDecoration(
         constraints: BoxConstraints(
           maxHeight: Globals.textfieldAndButtonheight,
           minHeight: Globals.textfieldAndButtonheight,
         ),
-        enabledBorder: const OutlineInputBorder(
+        enabledBorder: const UnderlineInputBorder(
           borderRadius: BorderRadius.vertical(
             top: Radius.circular(10),
             bottom: Radius.circular(5),
@@ -30,7 +33,7 @@ class TextFieldInput extends StatelessWidget {
             color: Colors.white,
           ),
         ),
-        focusedBorder: OutlineInputBorder(
+        focusedBorder: UnderlineInputBorder(
           borderRadius: const BorderRadius.vertical(
             top: Radius.circular(10),
             bottom: Radius.circular(5),

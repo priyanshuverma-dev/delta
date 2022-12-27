@@ -6,7 +6,10 @@ import 'dart:developer';
 import 'package:answer_it/models/bot.dart';
 import 'package:answer_it/server_side/http_helper.dart';
 import 'package:answer_it/utlts/global_vars.dart';
+import 'package:answer_it/widgets/toaster.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
@@ -61,7 +64,27 @@ class Controller extends GetxController {
       }
       userInput.clear();
     } catch (e) {
-      log(e.toString());
+      if (e == 'Connection reset by peer') {
+        toast(
+          e.toString(),
+          Toast.LENGTH_LONG,
+          ToastGravity.BOTTOM,
+          Colors.black,
+          Colors.white,
+          16,
+        );
+        log(e.toString());
+      } else {
+        log(e.toString());
+        toast(
+          e.toString(),
+          Toast.LENGTH_LONG,
+          ToastGravity.BOTTOM,
+          Color.fromARGB(255, 234, 23, 23),
+          Colors.white,
+          16,
+        );
+      }
     } finally {
       isloading.value = false;
     }
