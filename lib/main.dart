@@ -1,9 +1,19 @@
-import 'package:answer_it/screens/home_screen.dart';
+import 'package:answer_it/screens/splash_screen.dart';
 import 'package:answer_it/utlts/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // initialize hive
+  await Hive.initFlutter();
+
+  // opening box for Database
+  await Hive.openBox('UserBox');
+  await Hive.openBox('BotBox');
+
   runApp(const MyApp());
 }
 
@@ -19,7 +29,7 @@ class MyApp extends StatelessWidget {
         primaryColor: Colours.primaryColor,
         secondaryHeaderColor: Colours.secondaryColor,
       ),
-      home: HomeScreen(),
+      home: const SplashScreen(),
     );
   }
 }

@@ -6,6 +6,7 @@ class Globals {
 
   static String user = "assets/user.png";
   static String bot = "assets/bot.png";
+  static String splash = "assets/splash.json";
 
   static String botName = "BOT :";
   static String userName = ": YOU";

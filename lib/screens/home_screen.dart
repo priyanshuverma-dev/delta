@@ -1,4 +1,4 @@
-import 'package:answer_it/server_side/controller.dart';
+import 'package:answer_it/server/controller.dart';
 import 'package:answer_it/utlts/colors.dart';
 import 'package:answer_it/widgets/asking_section.dart';
 import 'package:answer_it/widgets/bot_card.dart';
@@ -25,8 +25,23 @@ class _HomeScreenState extends State<HomeScreen> {
     setState(() {
       widget.controller.userInput.text = input;
     });
-    widget.controller.askQuestion();
-    inputController.clear();
+    if (input.isNotEmpty) {
+      widget.controller.askQuestion();
+      inputController.clear();
+    } else {
+      Get.showSnackbar(
+        GetSnackBar(
+          dismissDirection: DismissDirection.endToStart,
+          snackStyle: SnackStyle.FLOATING,
+          duration: const Duration(seconds: 3),
+          snackPosition: SnackPosition.BOTTOM,
+          title: 'Please enter a question',
+          message: 'You can ask anything',
+          icon: const Icon(Icons.error),
+          backgroundColor: Colours.primaryColor,
+        ),
+      );
+    }
   }
 
   @override
@@ -63,7 +78,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     )),
                   Container(
                     decoration: const BoxDecoration(
-                      color: Colors.white,
+                      // color: Colors.white,
                       borderRadius: BorderRadius.only(
                         bottomLeft: Radius.circular(20),
                         bottomRight: Radius.circular(20),
@@ -71,7 +86,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     height: MediaQuery.of(context).size.height / 2,
                     width: MediaQuery.of(context).size.width,
-                    child: ListView.builder(
+                    child: PageView.builder(
                       physics: const BouncingScrollPhysics(),
                       itemCount: 2,
                       scrollDirection: Axis.horizontal,
@@ -82,9 +97,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       },
                     ),
                   ),
+                  const SizedBox(height: 100),
                   Container(
                     decoration: const BoxDecoration(
-                      color: Colors.white,
                       borderRadius: BorderRadius.only(
                         bottomLeft: Radius.circular(20),
                         bottomRight: Radius.circular(20),
@@ -94,7 +109,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     height: MediaQuery.of(context).size.height / 5,
                     width: MediaQuery.of(context).size.width,
-                    child: ListView.builder(
+                    child: PageView.builder(
                       physics: const BouncingScrollPhysics(),
                       itemCount: 2,
                       scrollDirection: Axis.horizontal,
@@ -107,7 +122,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   Container(
                     decoration: const BoxDecoration(
-                      color: Colors.white,
+                      // color: Colors.white,
                       borderRadius: BorderRadius.only(
                         bottomLeft: Radius.circular(20),
                         bottomRight: Radius.circular(20),

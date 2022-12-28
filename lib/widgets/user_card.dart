@@ -26,9 +26,13 @@ class _UserCardState extends State<UserCard> {
     return Card(
       elevation: 50,
       color: Colors.transparent,
-      child: SizedBox(
-        width: MediaQuery.of(context).size.width - 15,
-        height: MediaQuery.of(context).size.height / 5,
+      child: ConstrainedBox(
+        constraints: BoxConstraints(
+          minHeight: 35.0,
+          maxHeight: MediaQuery.of(context).size.height / 2,
+          maxWidth: MediaQuery.of(context).size.width - 30,
+          minWidth: MediaQuery.of(context).size.width - 30,
+        ),
         child: Padding(
           padding: const EdgeInsets.all(10.0),
           child: SingleChildScrollView(
