@@ -1,22 +1,25 @@
-// ignore_for_file: avoid_print
-
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:answer_it/core/snackbar.dart';
+import 'package:answer_it/localStorage/database.dart';
 import 'package:answer_it/models/bot.dart';
 import 'package:answer_it/server/http_helper.dart';
 import 'package:answer_it/utlts/global_vars.dart';
-import 'package:answer_it/widgets/toaster.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
 class Controller extends GetxController {
-  var message = 'Getx'.obs;
-  var isloading = true.obs;
+  var message = ''.obs;
+  var question = ''.obs;
+
+  var isloading = false.obs;
 
   TextEditingController userInput = TextEditingController();
+
+  final userBox = DataBase.getUserData();
+  final botBox = DataBase.getBotData();
 
   @override
   void onInit() {
@@ -61,28 +64,24 @@ class Controller extends GetxController {
       } else {
         message.value = 'Error';
       }
+
       userInput.clear();
     } catch (e) {
       if (e == 'Connection reset by peer') {
-        toast(
+        Get.showSnackbar(customSnakeBar(
+          'Connection reset',
           e.toString(),
-          Toast.LENGTH_LONG,
-          ToastGravity.BOTTOM,
-          Colors.black,
-          Colors.white,
-          16,
-        );
+          Icons.wifi_1_bar_outlined,
+        ));
+
         log(e.toString());
       } else {
         log(e.toString());
-        toast(
+        Get.showSnackbar(customSnakeBar(
+          'Connection reset',
           e.toString(),
-          Toast.LENGTH_LONG,
-          ToastGravity.BOTTOM,
-          Color.fromARGB(255, 234, 23, 23),
-          Colors.white,
-          16,
-        );
+          Icons.wifi_1_bar_outlined,
+        ));
       }
     } finally {
       isloading.value = false;

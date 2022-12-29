@@ -1,8 +1,8 @@
+import 'package:answer_it/core/snackbar.dart';
 import 'package:answer_it/models/message.dart';
 import 'package:answer_it/utlts/global_vars.dart';
-import 'package:answer_it/widgets/toaster.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'dart:developer';
 
@@ -20,27 +20,27 @@ class HttpHelper {
 
       var output = messageFromJson(jsonResponse);
 
-      log('Number of books about http: $output. ');
+      log('Output http: ${output.message}. ');
       log('Request with status: ${response.statusCode}.');
-      toast(
-        response.statusCode.toString(),
-        Toast.LENGTH_LONG,
-        ToastGravity.BOTTOM,
-        Colors.black,
-        Colors.white,
-        16,
+      Get.showSnackbar(
+        customSnakeBar(
+          'Connection Success',
+          output.message,
+          Icons.wifi_1_bar_outlined,
+        ),
       );
-      return output.message;
+      if (output.message == 'Hello World') {
+        return 'Bot Online';
+      }
+
+      // return output.message;
     } else {
       log('Request failed with status: ${response.statusCode}.');
-      toast(
+      Get.showSnackbar(customSnakeBar(
+        'Connection Code',
         response.statusCode.toString(),
-        Toast.LENGTH_LONG,
-        ToastGravity.BOTTOM,
-        Colors.black,
-        Colors.white,
-        16,
-      );
+        Icons.wifi_1_bar_outlined,
+      ));
     }
   }
 }

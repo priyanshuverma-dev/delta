@@ -1,7 +1,7 @@
 import 'package:answer_it/utlts/colors.dart';
 import 'package:flutter/material.dart';
 
-Widget idCount(String count) {
+Widget idCount(int count) {
   return Padding(
     padding: const EdgeInsets.only(right: 8.0),
     child: RichText(
@@ -16,7 +16,7 @@ Widget idCount(String count) {
             ),
           ),
           TextSpan(
-            text: count,
+            text: '$count',
             style: TextStyle(
               fontSize: 16,
               color: Colours.textColorBlack,

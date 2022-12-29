@@ -1,26 +1,25 @@
-import 'dart:developer';
-
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:answer_it/core/copy_text.dart';
+import 'package:answer_it/core/delete_button.dart';
 import 'package:answer_it/core/id_count.dart';
 import 'package:answer_it/core/inAppNames.dart';
 import 'package:answer_it/core/inAppUserIcon.dart';
+import 'package:answer_it/localStorage/models/dataModel.dart';
 import 'package:answer_it/utlts/colors.dart';
 import 'package:answer_it/utlts/global_vars.dart';
 import 'package:flutter/material.dart';
 
 class BotCard extends StatelessWidget {
-  const BotCard({
-    super.key,
-    required this.answer,
-  });
+  const BotCard({super.key, required this.botData, required this.onDelete});
 
-  final String answer;
+  final BotData botData;
+  final VoidCallback onDelete;
+
   @override
   Widget build(BuildContext context) {
     return Card(
       elevation: 50,
-      color: Colors.transparent,
+      color: Colors.black26,
       child: ConstrainedBox(
         constraints: BoxConstraints(
           minHeight: 35.0,
@@ -55,8 +54,9 @@ class BotCard extends StatelessWidget {
                         const Spacer(
                           flex: 2,
                         ),
-                        idCount('10'),
-                        copyText(answer),
+                        idCount(botData.id),
+                        copyText(botData.anwser),
+                        deleteButton(onDelete),
                       ],
                     ),
                   ),
@@ -64,11 +64,11 @@ class BotCard extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(top: 10),
                   child: AnimatedTextKit(
-                    key: ValueKey(answer),
+                    key: ValueKey(botData.anwser),
                     totalRepeatCount: 1,
                     animatedTexts: [
                       TypewriterAnimatedText(
-                        answer,
+                        botData.anwser,
                         speed: const Duration(milliseconds: 20),
                         textStyle: TextStyle(
                           fontSize: 16,

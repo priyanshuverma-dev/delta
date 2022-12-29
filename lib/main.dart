@@ -1,18 +1,31 @@
+import 'package:answer_it/localStorage/models/dataModel.dart';
 import 'package:answer_it/screens/splash_screen.dart';
 import 'package:answer_it/utlts/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
+late Box userBox;
+late Box botBox;
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
   // initialize hive
   await Hive.initFlutter();
 
+  // register adapter
+  if (!Hive.isAdapterRegistered(BotDataAdapter().typeId)) {
+    Hive.registerAdapter(BotDataAdapter());
+  }
+  if (!Hive.isAdapterRegistered(UserDataAdapter().typeId)) {
+    Hive.registerAdapter(UserDataAdapter());
+  }
+
   // opening box for Database
-  await Hive.openBox('UserBox');
-  await Hive.openBox('BotBox');
+  await Hive.openBox<UserData>('UserBox');
+  await Hive.openBox<BotData>('BotBox');
+
+  // run app
 
   runApp(const MyApp());
 }
