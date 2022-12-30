@@ -1,12 +1,11 @@
-import 'package:answer_it/localStorage/models/dataModel.dart';
+import 'package:answer_it/localStorage/models/pvtalk.dart';
 import 'package:answer_it/screens/splash_screen.dart';
 import 'package:answer_it/utlts/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
-late Box userBox;
-late Box botBox;
+late Box pvbox;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -14,16 +13,9 @@ void main() async {
   await Hive.initFlutter();
 
   // register adapter
-  if (!Hive.isAdapterRegistered(BotDataAdapter().typeId)) {
-    Hive.registerAdapter(BotDataAdapter());
-  }
-  if (!Hive.isAdapterRegistered(UserDataAdapter().typeId)) {
-    Hive.registerAdapter(UserDataAdapter());
-  }
-
+  Hive.registerAdapter(PvTalkAdapter());
   // opening box for Database
-  await Hive.openBox<UserData>('UserBox');
-  await Hive.openBox<BotData>('BotBox');
+  await Hive.openBox<PvTalk>('Box');
 
   // run app
 

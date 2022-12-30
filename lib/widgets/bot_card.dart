@@ -4,15 +4,15 @@ import 'package:answer_it/core/delete_button.dart';
 import 'package:answer_it/core/id_count.dart';
 import 'package:answer_it/core/inAppNames.dart';
 import 'package:answer_it/core/inAppUserIcon.dart';
-import 'package:answer_it/localStorage/models/dataModel.dart';
+import 'package:answer_it/localStorage/models/pvtalk.dart';
 import 'package:answer_it/utlts/colors.dart';
 import 'package:answer_it/utlts/global_vars.dart';
 import 'package:flutter/material.dart';
 
 class BotCard extends StatelessWidget {
-  const BotCard({super.key, required this.botData, required this.onDelete});
+  const BotCard({super.key, required this.data, required this.onDelete});
 
-  final BotData botData;
+  final PvTalk data;
   final VoidCallback onDelete;
 
   @override
@@ -54,8 +54,8 @@ class BotCard extends StatelessWidget {
                         const Spacer(
                           flex: 2,
                         ),
-                        idCount(botData.id),
-                        copyText(botData.anwser),
+                        idCount(data.id),
+                        copyText(data.answer),
                         deleteButton(onDelete),
                       ],
                     ),
@@ -64,11 +64,11 @@ class BotCard extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(top: 10),
                   child: AnimatedTextKit(
-                    key: ValueKey(botData.anwser),
+                    key: ValueKey(data.answer),
                     totalRepeatCount: 1,
                     animatedTexts: [
                       TypewriterAnimatedText(
-                        botData.anwser,
+                        data.answer,
                         speed: const Duration(milliseconds: 20),
                         textStyle: TextStyle(
                           fontSize: 16,

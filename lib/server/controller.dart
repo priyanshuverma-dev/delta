@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:answer_it/core/snackbar.dart';
 import 'package:answer_it/localStorage/database.dart';
+import 'package:answer_it/localStorage/models/pvtalk.dart';
 import 'package:answer_it/models/bot.dart';
 import 'package:answer_it/server/http_helper.dart';
 import 'package:answer_it/utlts/global_vars.dart';
@@ -11,19 +12,27 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
 class Controller extends GetxController {
-  var message = ''.obs;
-  var question = ''.obs;
+  var connectionOutlook = ''.obs;
 
   var isloading = false.obs;
 
   TextEditingController userInput = TextEditingController();
+  TextEditingController messageOutput = TextEditingController();
 
-  final userBox = DataBase.getUserData();
-  final botBox = DataBase.getBotData();
+  final pvbox = DataBase.getData();
 
   @override
   void onInit() {
     fetchData();
+    if (pvbox.length == 0) {
+      final initData = PvTalk(
+        question: 'Hello',
+        answer: 'Hi',
+        createdAt: DateTime.now(),
+        id: 0,
+      );
+      pvbox.add(initData);
+    }
     super.onInit();
   }
 
@@ -33,9 +42,9 @@ class Controller extends GetxController {
     try {
       isloading.value = true;
       if (message != null) {
-        this.message.value = message;
+        connectionOutlook.value = message;
       } else {
-        this.message.value = 'Error';
+        connectionOutlook.value = 'Error';
       }
     } finally {
       isloading.value = false;
@@ -60,11 +69,10 @@ class Controller extends GetxController {
 
         var output = botFromJson(jsonResponse);
 
-        message.value = output.bot;
+        messageOutput.text = output.bot;
       } else {
-        message.value = 'Error';
+        messageOutput.text = 'Error';
       }
-
       userInput.clear();
     } catch (e) {
       if (e == 'Connection reset by peer') {

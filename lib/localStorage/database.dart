@@ -1,7 +1,6 @@
-import 'package:answer_it/localStorage/models/dataModel.dart';
+import 'package:answer_it/localStorage/models/pvtalk.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 class DataBase {
-  static Box<BotData> getBotData() => Hive.box<BotData>('BotBox');
-  static Box<UserData> getUserData() => Hive.box<UserData>('UserBox');
+  static Box<PvTalk> getData() => Hive.box<PvTalk>('Box');
 }

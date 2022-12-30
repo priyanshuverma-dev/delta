@@ -3,7 +3,7 @@ import 'package:answer_it/core/delete_button.dart';
 import 'package:answer_it/core/id_count.dart';
 import 'package:answer_it/core/inAppNames.dart';
 import 'package:answer_it/core/inAppUserIcon.dart';
-import 'package:answer_it/localStorage/models/dataModel.dart';
+import 'package:answer_it/localStorage/models/pvtalk.dart';
 import 'package:answer_it/utlts/colors.dart';
 import 'package:answer_it/utlts/global_vars.dart';
 import 'package:flutter/material.dart';
@@ -11,11 +11,11 @@ import 'package:flutter/material.dart';
 class UserCard extends StatefulWidget {
   const UserCard({
     super.key,
-    required this.userData,
+    required this.data,
     required this.onDelete,
   });
 
-  final UserData userData;
+  final PvTalk data;
   final VoidCallback onDelete;
 
   @override
@@ -47,7 +47,7 @@ class _UserCardState extends State<UserCard> {
                 Padding(
                   padding: const EdgeInsets.only(top: 10, bottom: 10),
                   child: Text(
-                    widget.userData.question,
+                    widget.data.question,
                     style: TextStyle(
                       fontSize: 18,
                       color: Colours.textColorBlack,
@@ -70,9 +70,9 @@ class _UserCardState extends State<UserCard> {
                       children: [
                         inAppUserIcon(Globals.user),
                         inAppName(Globals.userName),
-                        idCount(widget.userData.id),
+                        idCount(widget.data.id),
                         const Spacer(flex: 2),
-                        copyText(widget.userData.question),
+                        copyText(widget.data.question),
                         deleteButton(widget.onDelete),
                       ],
                     ),
