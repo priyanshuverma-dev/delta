@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-GetSnackBar customSnakeBar(String title, String message, IconData icon) {
+GetSnackBar customSnakeBar(
+    String title, String message, IconData icon, int time) {
   return GetSnackBar(
     margin: const EdgeInsets.all(20),
     borderRadius: 20,
@@ -9,7 +10,7 @@ GetSnackBar customSnakeBar(String title, String message, IconData icon) {
     borderColor: Colors.grey.shade700,
     dismissDirection: DismissDirection.endToStart,
     snackStyle: SnackStyle.FLOATING,
-    duration: const Duration(seconds: 2),
+    duration: Duration(seconds: time),
     snackPosition: SnackPosition.BOTTOM,
     title: title,
     message: message,

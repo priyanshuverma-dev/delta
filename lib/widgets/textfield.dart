@@ -16,7 +16,7 @@ class TextFieldInput extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextField(
       style: TextStyle(
-        color: Colours.textColorBlack,
+        color: Colours.primaryColor,
       ),
       controller: textEditingController,
       decoration: InputDecoration(

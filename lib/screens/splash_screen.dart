@@ -45,10 +45,6 @@ class _SplashScreenState extends State<SplashScreen>
               () => Get.offAll(
                 () => HomeScreen(),
               ),
-              // () => Navigator.pushReplacement(
-              //   context,
-              //   MaterialPageRoute(builder: (context) => HomeScreen()),
-              // ),
             );
         },
       ),

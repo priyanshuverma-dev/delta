@@ -80,6 +80,7 @@ class Controller extends GetxController {
           'Connection reset',
           e.toString(),
           Icons.wifi_1_bar_outlined,
+          2,
         ));
 
         log(e.toString());
@@ -89,6 +90,7 @@ class Controller extends GetxController {
           'Connection reset',
           e.toString(),
           Icons.wifi_1_bar_outlined,
+          2,
         ));
       }
     } finally {

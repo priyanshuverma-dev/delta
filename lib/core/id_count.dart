@@ -19,7 +19,7 @@ Widget idCount(int count) {
             text: '$count',
             style: TextStyle(
               fontSize: 16,
-              color: Colours.textColorBlack,
+              color: Colours.primaryColor,
               fontWeight: FontWeight.bold,
             ),
           ),

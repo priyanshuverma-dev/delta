@@ -1,6 +1,6 @@
 {
-    "name": "answer_it",
-    "short_name": "answer_it",
+    "name": "Answer it",
+    "short_name": "Answer it",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

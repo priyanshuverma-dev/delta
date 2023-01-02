@@ -27,6 +27,7 @@ class HttpHelper {
           'Connection Success',
           output.message,
           Icons.wifi_1_bar_outlined,
+          2,
         ),
       );
       if (output.message == 'Hello World') {
@@ -40,6 +41,7 @@ class HttpHelper {
         'Connection Code',
         response.statusCode.toString(),
         Icons.wifi_1_bar_outlined,
+        2,
       ));
     }
   }
