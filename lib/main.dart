@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Answer it',
       theme: ThemeData(
-        fontFamily: 'Sight',
+        fontFamily: 'ubuntu',
         primaryColor: Colours.primaryColor,
         secondaryHeaderColor: Colours.secondaryColor,
       ),

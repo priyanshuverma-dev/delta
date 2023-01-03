@@ -33,8 +33,6 @@ class HttpHelper {
       if (output.message == 'Hello World') {
         return 'Bot Online';
       }
-
-      // return output.message;
     } else {
       log('Request failed with status: ${response.statusCode}.');
       Get.showSnackbar(customSnakeBar(
@@ -43,6 +41,7 @@ class HttpHelper {
         Icons.wifi_1_bar_outlined,
         2,
       ));
+      return 'Bot offline';
     }
   }
 }

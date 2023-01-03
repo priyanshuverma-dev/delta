@@ -3,13 +3,6 @@ import 'package:answer_it/utlts/colors.dart';
 import 'package:flutter/material.dart';
 
 Widget inAppName(String name) {
-  const colorizeColors = [
-    Colors.purple,
-    Colors.blue,
-    Colors.yellow,
-    Colors.red,
-  ];
-
   return Padding(
     padding: const EdgeInsets.only(left: 10, right: 5),
     child: AnimatedTextKit(
@@ -17,9 +10,9 @@ Widget inAppName(String name) {
       animatedTexts: [
         ColorizeAnimatedText(
           name,
-          colors: colorizeColors,
+          colors: Colours.colorizeColors,
           textStyle: TextStyle(
-            fontSize: 16,
+            fontSize: 18,
             color: Colours.secondaryColor,
             fontWeight: FontWeight.bold,
           ),
