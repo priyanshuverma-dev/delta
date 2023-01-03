@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:answer_it/core/snackbar.dart';
 import 'package:answer_it/localStorage/database.dart';
@@ -13,6 +14,7 @@ import 'package:http/http.dart' as http;
 
 class Controller extends GetxController {
   var connectionOutlook = ''.obs;
+  var ActiveConnection = false.obs;
 
   var isloading = false.obs;
 
@@ -33,7 +35,21 @@ class Controller extends GetxController {
       );
       pvbox.add(initData);
     }
+    CheckUserConnection();
     super.onInit();
+  }
+
+  Future CheckUserConnection() async {
+    try {
+      final result = await InternetAddress.lookup(Globals.backendURL);
+      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+        ActiveConnection.value = true;
+        connectionOutlook.value = "Bot online";
+      }
+    } on SocketException catch (_) {
+      ActiveConnection.value = false;
+      connectionOutlook.value = "Bot offline";
+    }
   }
 
   void fetchData() async {

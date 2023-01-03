@@ -1,5 +1,7 @@
+import 'dart:async';
 import 'dart:developer';
 
+import 'package:answer_it/utlts/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
@@ -39,11 +41,9 @@ class _HomeScreenState extends State<HomeScreen> {
           2,
         ),
       );
-      log('ex : ' + widget.controller.pvbox.get(3)!.question.toString());
 
       return;
     }
-
     try {
       setState(() {
         widget.controller.userInput.text = input;
@@ -78,102 +78,104 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
+  // loading on submit
+
   @override
   Widget build(BuildContext context) {
-    var dataLoading = widget.controller.isloading;
     var pvboxlength = widget.controller.pvbox.length - 1;
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.grey[300],
         body: Obx(
-          () => dataLoading.isTrue
-              ? Center(
-                  child: LinearProgressIndicator(),
-                )
-              : GestureDetector(
-                  onTap: () {
-                    FocusScope.of(context).unfocus();
-                  },
-                  child: RefreshIndicator(
-                    onRefresh: () {
-                      return Future.delayed(
-                        Duration(seconds: 1),
-                        () {
-                          widget.controller.fetchData();
-                          Get.showSnackbar(
-                            customSnakeBar(
-                              'Answer it',
-                              'Refreshed !',
-                              Icons.refresh,
-                              2,
-                            ),
-                          );
-                        },
-                      );
-                    },
-                    child: SingleChildScrollView(
-                      physics: const AlwaysScrollableScrollPhysics(
-                        parent: BouncingScrollPhysics(),
+          () => GestureDetector(
+            onTap: () {
+              FocusScope.of(context).unfocus();
+            },
+            child: RefreshIndicator(
+              onRefresh: () {
+                return Future.delayed(
+                  Duration(seconds: 1),
+                  () {
+                    widget.controller.CheckUserConnection();
+                    widget.controller.fetchData();
+                    Get.showSnackbar(
+                      customSnakeBar(
+                        'Answer it',
+                        'Refreshed !',
+                        Icons.refresh,
+                        2,
                       ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          const SizedBox(height: 10),
-                          getSearchBarUI(
-                            'Ask anything...',
-                            inputController,
-                            () {
-                              FocusScope.of(context).requestFocus(FocusNode());
-                              clickAsk(inputController.text);
-                            },
-                          ),
-                          // getQuestionUI is a widget which is used to show question...
-                          getQuestionUI(
-                            widget.controller.pvbox
-                                .get(pvboxlength)!
-                                .question
-                                .toString(),
-                          ),
-                          colorDivider(),
-
-                          const SizedBox(height: 10),
-                          getAnswerUI(
-                            widget.controller.pvbox
-                                .get(pvboxlength)!
-                                .answer
-                                .toString(),
-                            MediaQuery.of(context).size.height,
-                            false,
-                          ),
-                          const SizedBox(height: 20),
-                          SizedBox(
-                            child: Text(
-                              widget.controller.pvbox
-                                  .get(widget.controller.pvbox.length - 1)!
-                                  .createdAt
-                                  .toString(),
-                            ),
-                          ),
-                          const SizedBox(height: 20),
-                          SizedBox(
-                            child: Text(
-                              widget.controller.pvbox
-                                  .get(widget.controller.pvbox.length - 1)!
-                                  .id
-                                  .toString(),
-                            ),
-                          ),
-                          const SizedBox(height: 20),
-                          SizedBox(
-                            child: Text(
-                                widget.controller.connectionOutlook.toString()),
-                          ),
-                          const SizedBox(height: 20),
-                        ],
+                    );
+                  },
+                );
+              },
+              child: SingleChildScrollView(
+                physics: const AlwaysScrollableScrollPhysics(
+                  parent: BouncingScrollPhysics(),
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    const SizedBox(height: 10),
+                    // getSearchBarUI is a widget which is used to get input from user...
+                    getSearchBarUI(
+                      'Ask anything...',
+                      inputController,
+                      () {
+                        FocusScope.of(context).requestFocus(FocusNode());
+                        clickAsk(inputController.text);
+                      },
+                      widget.controller.isloading.value,
+                    ),
+                    // getQuestionUI is a widget which is used to show question...
+                    getQuestionUI(
+                      widget.controller.pvbox
+                          .get(pvboxlength)!
+                          .question
+                          .toString(),
+                    ),
+                    // rgb colored divider...
+                    colorDivider(),
+                    const SizedBox(height: 10),
+                    // getAnswerUI is a widget which is used to show answer by server...
+                    getAnswerUI(
+                      widget.controller.pvbox
+                          .get(pvboxlength)!
+                          .answer
+                          .toString(),
+                      Get.height,
+                      widget.controller.ActiveConnection.value,
+                      widget.controller.isloading.value,
+                    ),
+                    const SizedBox(height: 20),
+                    SizedBox(
+                      child: Text(
+                        widget.controller.pvbox
+                            .get(widget.controller.pvbox.length - 1)!
+                            .createdAt
+                            .toString(),
                       ),
                     ),
-                  ),
+                    const SizedBox(height: 20),
+                    SizedBox(
+                      child: Text(
+                        widget.controller.pvbox
+                            .get(widget.controller.pvbox.length - 1)!
+                            .id
+                            .toString(),
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    SizedBox(
+                      child:
+                          Text(widget.controller.connectionOutlook.toString()),
+                    ),
+                    const SizedBox(height: 20),
+                  ],
                 ),
+              ),
+            ),
+          ),
         ),
       ),
     );

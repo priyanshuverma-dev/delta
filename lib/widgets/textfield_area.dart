@@ -2,8 +2,11 @@ import 'package:answer_it/utlts/colors.dart';
 // import 'package:answer_it/utlts/global_vars.dart';
 import 'package:flutter/material.dart';
 
-Widget getSearchBarUI(String hintText,
-    TextEditingController textEditingController, VoidCallback onPressed) {
+Widget getSearchBarUI(
+    String hintText,
+    TextEditingController textEditingController,
+    VoidCallback onPressed,
+    bool isloading) {
   return Padding(
     padding: const EdgeInsets.only(left: 16, right: 16, top: 8),
     child: Row(
@@ -47,7 +50,7 @@ Widget getSearchBarUI(String hintText,
         // Button
         Container(
           decoration: BoxDecoration(
-            color: Colours.primaryColor,
+            // color: Colours.secondaryColor,
             borderRadius: const BorderRadius.only(
               // topLeft: Radius.circular(10.0),
               topRight: Radius.circular(10.0),
@@ -62,20 +65,33 @@ Widget getSearchBarUI(String hintText,
           ),
           child: Material(
             color: Colors.transparent,
-            child: InkWell(
-              borderRadius: const BorderRadius.all(
-                Radius.circular(32.0),
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                fixedSize: Size(60, 60),
+                elevation: 0,
+                backgroundColor: Colours.secondaryColor,
               ),
-              onTap: onPressed,
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Icon(
-                  Icons.shortcut_sharp,
-                  size: 20,
-                  color: Colours.textColor,
-                ),
+              onPressed: isloading ? null : onPressed,
+              child: Icon(
+                Icons.add,
+                size: 28,
+                color: Colours.textColor,
               ),
             ),
+            // child: InkWell(
+            //   borderRadius: const BorderRadius.all(
+            //     Radius.circular(32.0),
+            //   ),
+            //   onTap: isloading ? onPressed : null,
+            //   child: Padding(
+            //     padding: const EdgeInsets.all(16.0),
+            //     child: Icon(
+            //       Icons.shortcut_sharp,
+            //       size: 20,
+            //       color: Colours.textColor,
+            //     ),
+            //   ),
+            // ),
           ),
         ),
       ],

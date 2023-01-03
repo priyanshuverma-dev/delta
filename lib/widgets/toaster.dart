@@ -3,18 +3,15 @@ import 'package:fluttertoast/fluttertoast.dart';
 
 Widget toast(
   String message,
-  Toast toastLength,
-  ToastGravity gravity,
-  Color backgroundColor,
   Color textColor,
   double fontSize,
 ) {
   Fluttertoast.showToast(
     msg: message,
-    toastLength: toastLength,
-    gravity: gravity,
+    toastLength: Toast.LENGTH_LONG,
+    gravity: ToastGravity.BOTTOM,
     timeInSecForIosWeb: 1,
-    backgroundColor: backgroundColor,
+    backgroundColor: Colors.black87,
     textColor: textColor,
     fontSize: fontSize,
   );
