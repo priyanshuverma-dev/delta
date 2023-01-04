@@ -12,6 +12,8 @@ Widget getQuestionUI(text) {
       borderRadius: const BorderRadius.only(
         bottomLeft: Radius.circular(15.0),
         bottomRight: Radius.circular(15.0),
+        topLeft: Radius.circular(15.0),
+        topRight: Radius.circular(15.0),
       ),
       boxShadow: [
         BoxShadow(

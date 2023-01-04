@@ -19,7 +19,9 @@ Widget getSearchBarUI(
                 color: Colours.primarySwatch,
                 borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(10.0),
-                  // topRight: Radius.circular(10.0),
+                  bottomLeft: Radius.circular(10.0),
+                  topRight: Radius.circular(10.0),
+                  bottomRight: Radius.circular(10.0),
                 ),
                 boxShadow: [
                   BoxShadow(
@@ -41,6 +43,8 @@ Widget getSearchBarUI(
                   decoration: InputDecoration(
                     border: InputBorder.none,
                     hintText: hintText,
+                    hintStyle:
+                        TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                   ),
                 ),
               ),
@@ -52,7 +56,7 @@ Widget getSearchBarUI(
           decoration: BoxDecoration(
             // color: Colours.secondaryColor,
             borderRadius: const BorderRadius.only(
-              // topLeft: Radius.circular(10.0),
+              topLeft: Radius.circular(10.0),
               topRight: Radius.circular(10.0),
             ),
             boxShadow: [
@@ -63,35 +67,22 @@ Widget getSearchBarUI(
               ),
             ],
           ),
-          child: Material(
-            color: Colors.transparent,
-            child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                fixedSize: Size(60, 60),
-                elevation: 0,
-                backgroundColor: Colours.secondaryColor,
-              ),
-              onPressed: isloading ? null : onPressed,
-              child: Icon(
-                Icons.add,
-                size: 28,
-                color: Colours.textColor,
+          child: TextButton(
+            child: Text('Ask...', style: TextStyle(color: Colours.textColor)),
+            onPressed: isloading ? null : onPressed,
+            style: ButtonStyle(
+              padding:
+                  MaterialStateProperty.all<EdgeInsets>(EdgeInsets.all(15)),
+              foregroundColor:
+                  MaterialStateProperty.all<Color>(Colours.secondaryColor),
+              backgroundColor:
+                  MaterialStateProperty.all<Color>(Colours.secondaryColor),
+              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(18.0),
+                ),
               ),
             ),
-            // child: InkWell(
-            //   borderRadius: const BorderRadius.all(
-            //     Radius.circular(32.0),
-            //   ),
-            //   onTap: isloading ? onPressed : null,
-            //   child: Padding(
-            //     padding: const EdgeInsets.all(16.0),
-            //     child: Icon(
-            //       Icons.shortcut_sharp,
-            //       size: 20,
-            //       color: Colours.textColor,
-            //     ),
-            //   ),
-            // ),
           ),
         ),
       ],

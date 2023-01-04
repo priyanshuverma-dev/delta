@@ -2,12 +2,12 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:answer_it/utlts/colors.dart';
+import 'package:answer_it/widgets/more_bar_container.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 
 import 'package:answer_it/controllers/controller.dart';
-import 'package:answer_it/core/divider.dart';
 import 'package:answer_it/core/snackbar.dart';
 import 'package:answer_it/localStorage/models/pvtalk.dart';
 import 'package:answer_it/main.dart';
@@ -24,8 +24,19 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends State<HomeScreen>
+    with SingleTickerProviderStateMixin {
   final TextEditingController inputController = TextEditingController();
+  late AnimationController bottomSheetController;
+
+  @override
+  void initState() {
+    bottomSheetController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 500),
+    );
+    super.initState();
+  }
 
   // user input capture and sent to server...
   void clickAsk(String input) async {
@@ -78,13 +89,55 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
-  // loading on submit
+  // onPress Floating Action Button...
+
+  void onClickFloatingButton() {
+    showModalBottomSheet<void>(
+      backgroundColor: Colors.transparent,
+      transitionAnimationController: bottomSheetController,
+      context: context,
+      builder: (BuildContext context) {
+        return ClipRRect(
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(8),
+            topRight: Radius.circular(8),
+          ),
+          child: Container(
+            height: 500,
+            color: Colors.grey[300],
+            child: Column(
+              children: <Widget>[
+                // getSearchBarUI is a widget which is used to get input from user...
+                getSearchBarUI(
+                  'Ask anything...',
+                  inputController,
+                  () {
+                    FocusScope.of(context).requestFocus(FocusNode());
+                    Navigator.pop(context);
+                    clickAsk(inputController.text);
+                  },
+                  widget.controller.isloading.value,
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     var pvboxlength = widget.controller.pvbox.length - 1;
     return SafeArea(
       child: Scaffold(
+        floatingActionButton: FloatingActionButton(
+          enableFeedback: true,
+          tooltip: 'Ask a Question',
+          onPressed: () => onClickFloatingButton(),
+          child: const Icon(Icons.add),
+          backgroundColor: Colours.secondaryColor,
+        ),
         backgroundColor: Colors.grey[300],
         body: Obx(
           () => GestureDetector(
@@ -92,6 +145,8 @@ class _HomeScreenState extends State<HomeScreen> {
               FocusScope.of(context).unfocus();
             },
             child: RefreshIndicator(
+              color: Colours.primaryColor,
+              backgroundColor: Colors.transparent,
               onRefresh: () {
                 return Future.delayed(
                   Duration(seconds: 1),
@@ -110,23 +165,12 @@ class _HomeScreenState extends State<HomeScreen> {
                 );
               },
               child: SingleChildScrollView(
-                physics: const AlwaysScrollableScrollPhysics(
-                  parent: BouncingScrollPhysics(),
-                ),
+                physics: const AlwaysScrollableScrollPhysics(),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
+                    // some space
                     const SizedBox(height: 10),
-                    // getSearchBarUI is a widget which is used to get input from user...
-                    getSearchBarUI(
-                      'Ask anything...',
-                      inputController,
-                      () {
-                        FocusScope.of(context).requestFocus(FocusNode());
-                        clickAsk(inputController.text);
-                      },
-                      widget.controller.isloading.value,
-                    ),
                     // getQuestionUI is a widget which is used to show question...
                     getQuestionUI(
                       widget.controller.pvbox
@@ -134,8 +178,14 @@ class _HomeScreenState extends State<HomeScreen> {
                           .question
                           .toString(),
                     ),
-                    // rgb colored divider...
-                    colorDivider(),
+                    // divider...
+                    Divider(
+                      color: Colours.secondaryColor,
+                      thickness: 2,
+                      indent: 80,
+                      endIndent: 80,
+                    ),
+                    // some space
                     const SizedBox(height: 10),
                     // getAnswerUI is a widget which is used to show answer by server...
                     getAnswerUI(
@@ -147,29 +197,21 @@ class _HomeScreenState extends State<HomeScreen> {
                       widget.controller.ActiveConnection.value,
                       widget.controller.isloading.value,
                     ),
-                    const SizedBox(height: 20),
-                    SizedBox(
-                      child: Text(
-                        widget.controller.pvbox
-                            .get(widget.controller.pvbox.length - 1)!
-                            .createdAt
-                            .toString(),
-                      ),
+                    // some space
+                    const SizedBox(height: 10),
+                    getMoreOptions(
+                      createdAt: widget.controller.pvbox
+                          .get(widget.controller.pvbox.length - 1)!
+                          .createdAt
+                          .toString(),
+                      id: widget.controller.pvbox
+                          .get(widget.controller.pvbox.length - 1)!
+                          .id
+                          .toString(),
+                      connectionStatus:
+                          widget.controller.connectionOutlook.toString(),
                     ),
-                    const SizedBox(height: 20),
-                    SizedBox(
-                      child: Text(
-                        widget.controller.pvbox
-                            .get(widget.controller.pvbox.length - 1)!
-                            .id
-                            .toString(),
-                      ),
-                    ),
-                    const SizedBox(height: 20),
-                    SizedBox(
-                      child:
-                          Text(widget.controller.connectionOutlook.toString()),
-                    ),
+
                     const SizedBox(height: 20),
                   ],
                 ),

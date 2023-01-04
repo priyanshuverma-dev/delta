@@ -2,7 +2,6 @@ import 'package:answer_it/utlts/colors.dart';
 import 'package:answer_it/widgets/toaster.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
 Widget copyText(String text) {
   return ElevatedButton.icon(
@@ -16,9 +15,6 @@ Widget copyText(String text) {
       Clipboard.setData(ClipboardData(text: text));
       toast(
         'Copied to Clipboard',
-        Toast.LENGTH_LONG,
-        ToastGravity.BOTTOM,
-        Colours.secondaryColor,
         Colours.textColor,
         16,
       );
