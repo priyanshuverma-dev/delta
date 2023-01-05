@@ -74,9 +74,9 @@ Widget getSearchBarUI(
               padding:
                   MaterialStateProperty.all<EdgeInsets>(EdgeInsets.all(15)),
               foregroundColor:
-                  MaterialStateProperty.all<Color>(Colours.secondaryColor),
+                  MaterialStateProperty.all<Color>(Colours.primaryColor),
               backgroundColor:
-                  MaterialStateProperty.all<Color>(Colours.secondaryColor),
+                  MaterialStateProperty.all<Color>(Colours.primaryColor),
               shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                 RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(18.0),

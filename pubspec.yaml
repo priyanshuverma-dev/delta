@@ -45,6 +45,7 @@ dependencies:
   path_provider: ^2.0.11
   smooth_page_indicator: ^1.0.0+2
   permission_handler: ^10.2.0
+  intl: ^0.18.0
 
 dev_dependencies:
   flutter_app_name: ^0.1.0

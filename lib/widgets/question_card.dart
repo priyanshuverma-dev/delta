@@ -27,7 +27,7 @@ Widget getQuestionUI(text) {
       children: [
         Container(
           padding: const EdgeInsets.only(right: 16.0),
-          child: inAppName('YOU:'),
+          child: inAppName('YOU:', time: const Duration(milliseconds: 2000)),
         ),
         Expanded(
           child: Text(

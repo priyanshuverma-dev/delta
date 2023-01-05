@@ -1,19 +1,31 @@
+import 'package:answer_it/core/inAppNames.dart';
+import 'package:answer_it/screens/history_screen.dart';
+import 'package:answer_it/utlts/colors.dart';
+import 'package:answer_it/widgets/toaster.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 Widget getMoreOptions({
   required String createdAt,
   required String id,
   required String connectionStatus,
 }) {
+  DateTime tempDate = new DateFormat("yyyy-MM-dd hh:mm:ss").parse(createdAt);
+  String formattedTime = DateFormat.jm().format(tempDate);
+  String formattedDate = DateFormat.yMEd().format(tempDate);
+  print(formattedTime);
+  print(formattedDate);
+
   return Container(
     width: Get.width,
     padding: const EdgeInsets.all(16.0),
     margin: const EdgeInsets.only(bottom: 16.0, right: 16.0, left: 16.0),
     decoration: BoxDecoration(
       color: Colors.white,
-      borderRadius: const BorderRadius.all(
-        Radius.circular(15.0),
+      borderRadius: const BorderRadius.only(
+        bottomLeft: Radius.circular(15.0),
+        bottomRight: Radius.circular(15.0),
       ),
       boxShadow: [
         BoxShadow(
@@ -25,17 +37,81 @@ Widget getMoreOptions({
     ),
     child: Column(
       children: [
-        SizedBox(
-          child: Text(createdAt),
+        Divider(
+          height: 5,
+          color: Colors.grey,
+          thickness: 1,
+          indent: 20,
+          endIndent: 20,
         ),
-        const SizedBox(height: 20),
-        SizedBox(
-          child: Text(id),
+        SizedBox(height: 10),
+        // Extra options...
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            // Id Ui InKwell and container...
+            InkWell(
+              onTap: () => toast('Answer No. : $id', Colors.white, 14),
+              splashColor: Colours.primaryColor,
+              highlightColor: Colours.primaryColor,
+              hoverColor: Colours.primaryColor,
+              child: Container(
+                padding: const EdgeInsets.only(right: 10),
+                decoration: BoxDecoration(
+                  border: Border.all(width: 1, color: Colors.grey),
+                  borderRadius: BorderRadius.all(Radius.circular(20)),
+                  color: Colors.grey.shade300,
+                ),
+                child: Row(
+                  children: [
+                    inAppName('#'),
+                    Text(
+                      id,
+                      style: TextStyle(color: Colors.grey.shade900),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            // Connection Status Ui
+            SizedBox(
+              child: Text(connectionStatus),
+            ),
+            // Date Time Status Ui
+            SizedBox(
+              child: Text(
+                '$formattedDate\n$formattedTime',
+                textAlign: TextAlign.end,
+              ),
+            ),
+          ],
         ),
-        const SizedBox(height: 20),
-        SizedBox(
-          child: Text(connectionStatus),
-        ),
+        SizedBox(height: 10),
+        // History button
+        Material(
+          child: ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colours.primaryColor,
+              fixedSize: Size(Get.width, 50),
+            ),
+            onPressed: () => Get.to(
+              () => HistoryScreen(),
+              duration: Duration(milliseconds: 400),
+              transition: Transition.downToUp,
+            ),
+            child: Hero(
+              tag: 'heading',
+              child: Text(
+                'HISTORY',
+                style: TextStyle(
+                  color: Colors.grey.shade100,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
+                ),
+              ),
+            ),
+          ),
+        )
       ],
     ),
   );

@@ -5,7 +5,6 @@ import 'package:answer_it/utlts/colors.dart';
 import 'package:answer_it/widgets/more_bar_container.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:hive/hive.dart';
 
 import 'package:answer_it/controllers/controller.dart';
 import 'package:answer_it/core/snackbar.dart';
@@ -71,10 +70,12 @@ class _HomeScreenState extends State<HomeScreen>
   void saveAllData() async {
     pvbox = widget.controller.pvbox;
     try {
+      var now = new DateTime.now();
+
       final pvtalk = await PvTalk(
         question: inputController.text,
         answer: widget.controller.messageOutput.text,
-        createdAt: DateTime.now(),
+        createdAt: now,
         id: widget.controller.pvbox.length,
       );
       await pvbox.add(pvtalk);
@@ -136,7 +137,7 @@ class _HomeScreenState extends State<HomeScreen>
           tooltip: 'Ask a Question',
           onPressed: () => onClickFloatingButton(),
           child: const Icon(Icons.add),
-          backgroundColor: Colours.secondaryColor,
+          backgroundColor: Colours.primaryColor,
         ),
         backgroundColor: Colors.grey[300],
         body: Obx(
@@ -145,7 +146,7 @@ class _HomeScreenState extends State<HomeScreen>
               FocusScope.of(context).unfocus();
             },
             child: RefreshIndicator(
-              color: Colours.primaryColor,
+              color: Colours.secondaryColor,
               backgroundColor: Colors.transparent,
               onRefresh: () {
                 return Future.delayed(
@@ -197,8 +198,6 @@ class _HomeScreenState extends State<HomeScreen>
                       widget.controller.ActiveConnection.value,
                       widget.controller.isloading.value,
                     ),
-                    // some space
-                    const SizedBox(height: 10),
                     getMoreOptions(
                       createdAt: widget.controller.pvbox
                           .get(widget.controller.pvbox.length - 1)!
@@ -227,7 +226,7 @@ class _HomeScreenState extends State<HomeScreen>
   @override
   void dispose() {
     inputController.dispose();
-    Hive.box('Box').close();
+    bottomSheetController.dispose();
     super.dispose();
   }
 }

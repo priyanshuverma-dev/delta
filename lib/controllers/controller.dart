@@ -44,7 +44,7 @@ class Controller extends GetxController {
       final result = await InternetAddress.lookup(Globals.backendURL);
       if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
         ActiveConnection.value = true;
-        connectionOutlook.value = "Bot online";
+        connectionOutlook.value = "Bot Online";
       }
     } on SocketException catch (_) {
       ActiveConnection.value = false;

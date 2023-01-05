@@ -7,11 +7,12 @@ import 'package:flutter/services.dart';
 Widget getAnswerUI(String text, dynamic height, bool status, bool isloading) {
   return Container(
     padding: const EdgeInsets.all(16.0),
-    margin: const EdgeInsets.only(bottom: 16.0, right: 16.0, left: 16.0),
+    margin: const EdgeInsets.only(right: 16.0, left: 16.0),
     decoration: BoxDecoration(
       color: Colors.white,
-      borderRadius: const BorderRadius.all(
-        Radius.circular(15.0),
+      borderRadius: const BorderRadius.only(
+        topLeft: Radius.circular(15.0),
+        topRight: Radius.circular(15.0),
       ),
       boxShadow: [
         BoxShadow(
