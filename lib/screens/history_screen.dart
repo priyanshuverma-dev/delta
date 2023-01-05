@@ -8,11 +8,13 @@ import 'package:get/get.dart';
 
 class HistoryScreen extends StatelessWidget {
   HistoryScreen({super.key});
+
   final Controller controller = Get.put(Controller());
 
   @override
   Widget build(BuildContext context) {
-    ScrollController listScrollController = ScrollController();
+    ScrollController listController = ScrollController();
+
     return Scaffold(
       backgroundColor: Colors.grey[300],
       body: SafeArea(
@@ -56,35 +58,36 @@ class HistoryScreen extends StatelessWidget {
                           ),
                         ),
                       ),
-                      SizedBox(width: 10),
+                      InkWell(
+                        onTap: () {
+                          if (listController.hasClients) {
+                            final upDis =
+                                listController.position.maxScrollExtent;
+
+                            if (listController.position != upDis) {
+                              listController.jumpTo(upDis);
+                              listController.animateTo(upDis,
+                                  duration: Duration(seconds: 3),
+                                  curve: Curves.easeInOut);
+                            }
+                          }
+                        },
+                        child: Icon(
+                          Icons.arrow_upward,
+                          color: Colors.grey.shade200,
+                        ),
+                      ),
                     ],
                   ),
                 ),
                 SizedBox(height: 10),
                 Expanded(
                   child: ListView.builder(
-                    controller: listScrollController,
+                    controller: listController,
                     reverse: true,
                     scrollDirection: Axis.vertical,
                     itemCount: controller.pvbox.length,
                     itemBuilder: (context, index) {
-                      Future.delayed(
-                        Duration(seconds: 1),
-                        () {
-                          if (listScrollController.hasClients) {
-                            final upPosition =
-                                listScrollController.position.maxScrollExtent;
-
-                            listScrollController.jumpTo(upPosition);
-                            listScrollController.animateTo(
-                              upPosition,
-                              duration: Duration(seconds: 3),
-                              curve: Curves.easeOut,
-                            );
-                          }
-                        },
-                      );
-
                       return historyCard(
                         userText: controller.pvbox.getAt(index)!.question,
                         botText: controller.pvbox.getAt(index)!.answer,

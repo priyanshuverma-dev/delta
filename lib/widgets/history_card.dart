@@ -14,8 +14,7 @@ Widget historyCard({
 }) {
   String formattedTime = DateFormat.jm().format(createdAt);
   String formattedDate = DateFormat.yMEd().format(createdAt);
-  print(formattedTime);
-  print(formattedDate);
+
   return Column(
     children: [
       Container(
@@ -53,7 +52,13 @@ Widget historyCard({
                 ),
                 child: Row(
                   children: [
-                    inAppName('#'),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 10),
+                      child: Text(
+                        '#',
+                        style: TextStyle(color: Colors.grey.shade900),
+                      ),
+                    ),
                     Text(
                       '$id',
                       style: TextStyle(color: Colors.grey.shade900),
