@@ -1,5 +1,5 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
-import 'package:answer_it/utlts/colors.dart';
+import 'package:answer_it/utils/colors.dart';
 import 'package:flutter/material.dart';
 
 Widget colorDivider() {

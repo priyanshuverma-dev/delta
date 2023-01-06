@@ -1,6 +1,6 @@
-import 'package:answer_it/controllers/controller.dart';
-import 'package:answer_it/screens/home_screen.dart';
-import 'package:answer_it/utlts/colors.dart';
+import 'package:answer_it/features/Chat/controller/controller.dart';
+import 'package:answer_it/features/Chat/screens/chat_screen.dart';
+import 'package:answer_it/utils/colors.dart';
 import 'package:answer_it/widgets/history_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -38,7 +38,7 @@ class HistoryScreen extends StatelessWidget {
                     children: [
                       InkWell(
                         onTap: () => Get.to(
-                          () => HomeScreen(),
+                          () => ChatScreen(),
                           duration: Duration(milliseconds: 400),
                           transition: Transition.upToDown,
                         ),

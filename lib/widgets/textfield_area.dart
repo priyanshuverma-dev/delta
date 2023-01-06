@@ -1,4 +1,4 @@
-import 'package:answer_it/utlts/colors.dart';
+import 'package:answer_it/utils/colors.dart';
 // import 'package:answer_it/utlts/global_vars.dart';
 import 'package:flutter/material.dart';
 

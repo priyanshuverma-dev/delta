@@ -3,11 +3,11 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:answer_it/core/snackbar.dart';
-import 'package:answer_it/localStorage/database.dart';
-import 'package:answer_it/localStorage/models/pvtalk.dart';
-import 'package:answer_it/models/bot.dart';
-import 'package:answer_it/server/http_helper.dart';
-import 'package:answer_it/utlts/global_vars.dart';
+import 'package:answer_it/DeviceDataBase/database.dart';
+import 'package:answer_it/DeviceDataBase/models/pvtalk.dart';
+import 'package:answer_it/features/Chat/models/bot.dart';
+import 'package:answer_it/features/Chat/server/http_helper.dart';
+import 'package:answer_it/utils/global_vars.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;

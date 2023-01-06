@@ -1,29 +1,29 @@
 import 'dart:async';
 import 'dart:developer';
 
-import 'package:answer_it/utlts/colors.dart';
+import 'package:answer_it/utils/colors.dart';
 import 'package:answer_it/widgets/more_bar_container.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import 'package:answer_it/controllers/controller.dart';
+import 'package:answer_it/features/Chat/controller/controller.dart';
 import 'package:answer_it/core/snackbar.dart';
-import 'package:answer_it/localStorage/models/pvtalk.dart';
+import 'package:answer_it/DeviceDataBase/models/pvtalk.dart';
 import 'package:answer_it/main.dart';
 import 'package:answer_it/widgets/answer_card.dart';
 import 'package:answer_it/widgets/question_card.dart';
 import 'package:answer_it/widgets/textfield_area.dart';
 
-class HomeScreen extends StatefulWidget {
+class ChatScreen extends StatefulWidget {
   final Controller controller = Get.put(Controller());
 
-  HomeScreen({super.key});
+  ChatScreen({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<ChatScreen> createState() => _ChatScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen>
+class _ChatScreenState extends State<ChatScreen>
     with SingleTickerProviderStateMixin {
   final TextEditingController inputController = TextEditingController();
   late AnimationController bottomSheetController;

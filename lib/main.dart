@@ -1,8 +1,8 @@
 import 'dart:io';
 
-import 'package:answer_it/localStorage/models/pvtalk.dart';
-import 'package:answer_it/screens/splash_screen.dart';
-import 'package:answer_it/utlts/colors.dart';
+import 'package:answer_it/DeviceDataBase/models/pvtalk.dart';
+import 'package:answer_it/basics/splash_screen.dart';
+import 'package:answer_it/utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';

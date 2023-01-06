@@ -1,6 +1,5 @@
-import 'package:answer_it/core/inAppNames.dart';
-import 'package:answer_it/utlts/colors.dart';
-import 'package:answer_it/widgets/toaster.dart';
+import 'package:answer_it/utils/colors.dart';
+import 'package:answer_it/core/toaster.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';

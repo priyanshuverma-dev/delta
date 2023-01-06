@@ -1,6 +1,6 @@
 import 'package:answer_it/core/snackbar.dart';
-import 'package:answer_it/models/message.dart';
-import 'package:answer_it/utlts/global_vars.dart';
+import 'package:answer_it/features/Chat/models/message.dart';
+import 'package:answer_it/utils/global_vars.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
