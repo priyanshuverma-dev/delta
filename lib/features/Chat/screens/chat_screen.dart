@@ -1,8 +1,10 @@
 import 'dart:async';
 import 'dart:developer';
+import 'dart:ui';
 
 import 'package:answer_it/utils/colors.dart';
 import 'package:answer_it/widgets/more_bar_container.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -120,6 +122,178 @@ class _ChatScreenState extends State<ChatScreen>
                   },
                   widget.controller.isloading.value,
                 ),
+                Text('History'),
+                Expanded(
+                  child: Container(
+                    padding: const EdgeInsets.all(10),
+                    child: ListView.builder(
+                      itemCount: 10,
+                      itemBuilder: (context, index) {
+                        return widget.controller.pvbox.getAt(index)!.question ==
+                                'Deleted'
+                            ? SizedBox()
+                            : Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  border: Border.all(
+                                    width: 1,
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                                padding: const EdgeInsets.all(10),
+                                margin: const EdgeInsets.all(2),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Container(
+                                      width: Get.width - 100,
+                                      child: SingleChildScrollView(
+                                        scrollDirection: Axis.horizontal,
+                                        child: Text(
+                                          widget.controller.pvbox
+                                              .getAt(index)!
+                                              .question,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      ),
+                                    ),
+                                    IconButton(
+                                      onPressed: () {
+                                        showDialog(
+                                          context: context,
+                                          builder: (context) {
+                                            return Center(
+                                              child: Container(
+                                                padding:
+                                                    const EdgeInsets.all(25),
+                                                margin:
+                                                    const EdgeInsets.all(25),
+                                                width: Get.width - 50,
+                                                height: 187.5,
+                                                decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(20),
+                                                  border: Border.all(
+                                                    width: 1,
+                                                    color: Colors.grey,
+                                                  ),
+                                                  color: Colors.grey.shade300,
+                                                ),
+                                                child: Column(
+                                                  children: [
+                                                    Text(
+                                                      'Warning !!',
+                                                      style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 28,
+                                                      ),
+                                                    ),
+                                                    Text(
+                                                        'Do you want to delete this history.'),
+                                                    SizedBox(height: 10),
+                                                    Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                      children: [
+                                                        OutlinedButton(
+                                                          style: OutlinedButton
+                                                              .styleFrom(
+                                                            backgroundColor:
+                                                                Colours
+                                                                    .primaryColor,
+                                                            foregroundColor:
+                                                                Colours
+                                                                    .primaryColor,
+                                                          ),
+                                                          onPressed: () {
+                                                            widget.controller
+                                                                .pvbox
+                                                                .putAt(
+                                                              index,
+                                                              PvTalk(
+                                                                question:
+                                                                    'Deleted',
+                                                                answer: widget
+                                                                    .controller
+                                                                    .pvbox
+                                                                    .getAt(
+                                                                        index)!
+                                                                    .answer,
+                                                                createdAt: widget
+                                                                    .controller
+                                                                    .pvbox
+                                                                    .getAt(
+                                                                        index)!
+                                                                    .createdAt,
+                                                                id: widget
+                                                                    .controller
+                                                                    .pvbox
+                                                                    .getAt(
+                                                                        index)!
+                                                                    .id,
+                                                              ),
+                                                            );
+                                                            Navigator.of(
+                                                                    context)
+                                                                .pop();
+                                                            Navigator.pop(
+                                                                context);
+                                                          },
+                                                          child: Text(
+                                                            'Yes',
+                                                            style: TextStyle(
+                                                              color: Colours
+                                                                  .textColor,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        OutlinedButton(
+                                                          onPressed: () =>
+                                                              Navigator.of(
+                                                                      context)
+                                                                  .pop(),
+                                                          style: OutlinedButton
+                                                              .styleFrom(
+                                                                  foregroundColor:
+                                                                      Colours
+                                                                          .primaryColor,
+                                                                  side:
+                                                                      BorderSide(
+                                                                    color: Colors
+                                                                        .black,
+                                                                  )),
+                                                          child: Text(
+                                                            'Cancel',
+                                                            style: TextStyle(
+                                                              color:
+                                                                  Colors.black,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    )
+                                                  ],
+                                                ),
+                                              ),
+                                            );
+                                          },
+                                        );
+                                      },
+                                      icon: Icon(
+                                        Icons.delete_forever,
+                                        color: Colors.red.shade300,
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              );
+                      },
+                    ),
+                  ),
+                )
               ],
             ),
           ),

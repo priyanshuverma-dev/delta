@@ -66,13 +66,13 @@ Widget getAnswerUI(String text, dynamic height, bool status, bool isloading) {
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   border: Border.all(
-                    color: isloading && status
+                    color: isloading || !status
                         ? Colors.white
                         : Colors.grey.shade300,
                     width: 2,
                   ),
                 ),
-                child: isloading && status
+                child: isloading || !status
                     ? CircularProgressIndicator(
                         backgroundColor: Colours.secondaryColor,
                         color: Colours.textColor,
