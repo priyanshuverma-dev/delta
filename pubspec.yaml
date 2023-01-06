@@ -121,6 +121,11 @@ flutter:
         - asset: assets/fonts/Ubuntu-Regular.ttf
         - asset: assets/fonts/Ubuntu-Bold.ttf
           weight: 700
+    - family: header
+      fonts:
+        - asset: assets/fonts/heading/Amita-Regular.ttf
+        - asset: assets/fonts/heading/Amita-Bold.ttf
+          weight: 700
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

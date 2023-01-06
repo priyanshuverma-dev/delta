@@ -1,12 +1,12 @@
 import 'package:answer_it/core/inAppNames.dart';
-import 'package:answer_it/features/Chat/screens/history_screen.dart';
 import 'package:answer_it/utils/colors.dart';
 import 'package:answer_it/core/toaster.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
-Widget getMoreOptions({
+Widget getMoreOptions(
+  context, {
   required String createdAt,
   required String id,
   required String connectionStatus,
@@ -92,20 +92,13 @@ Widget getMoreOptions({
               backgroundColor: Colours.primaryColor,
               fixedSize: Size(Get.width, 50),
             ),
-            onPressed: () => Get.to(
-              () => HistoryScreen(),
-              duration: Duration(milliseconds: 400),
-              transition: Transition.downToUp,
-            ),
-            child: Hero(
-              tag: 'heading',
-              child: Text(
-                'HISTORY',
-                style: TextStyle(
-                  color: Colors.grey.shade100,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20,
-                ),
+            onPressed: () => Get.toNamed("/history"),
+            child: Text(
+              'HISTORY',
+              style: TextStyle(
+                color: Colors.grey.shade100,
+                fontWeight: FontWeight.bold,
+                fontSize: 20,
               ),
             ),
           ),

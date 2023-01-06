@@ -1,6 +1,5 @@
 import 'package:answer_it/core/snackbar.dart';
 import 'package:answer_it/features/Chat/controller/controller.dart';
-import 'package:answer_it/features/Chat/screens/chat_screen.dart';
 import 'package:answer_it/utils/colors.dart';
 import 'package:answer_it/widgets/history_card.dart';
 import 'package:flutter/material.dart';
@@ -23,12 +22,12 @@ class _HistoryScreenState extends State<HistoryScreen> {
 
     return Scaffold(
       backgroundColor: Colors.grey[300],
-      body: SafeArea(
-        child: AnnotatedRegion<SystemUiOverlayStyle>(
-          value: SystemUiOverlayStyle.light.copyWith(
-            statusBarColor: Theme.of(context).secondaryHeaderColor,
-            systemNavigationBarColor: Colours.textColor,
-          ),
+      body: AnnotatedRegion<SystemUiOverlayStyle>(
+        value: SystemUiOverlayStyle.light.copyWith(
+          statusBarColor: Theme.of(context).secondaryHeaderColor,
+          systemNavigationBarColor: Colours.textColor,
+        ),
+        child: SafeArea(
           child: Container(
             child: Column(
               children: [
@@ -49,15 +48,12 @@ class _HistoryScreenState extends State<HistoryScreen> {
                           color: Colors.grey.shade100,
                         ),
                       ),
-                      Hero(
-                        tag: 'heading',
-                        child: Text(
-                          'HISTORY',
-                          style: TextStyle(
-                            color: Colors.grey.shade100,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20,
-                          ),
+                      Text(
+                        'HISTORY',
+                        style: TextStyle(
+                          color: Colors.grey.shade100,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
                         ),
                       ),
                       InkWell(

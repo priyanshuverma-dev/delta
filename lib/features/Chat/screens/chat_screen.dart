@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:answer_it/utils/colors.dart';
 import 'package:answer_it/widgets/more_bar_container.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 import 'package:answer_it/features/Chat/controller/controller.dart';
@@ -130,95 +131,152 @@ class _ChatScreenState extends State<ChatScreen>
   @override
   Widget build(BuildContext context) {
     var pvboxlength = widget.controller.pvbox.length - 1;
-    return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text(
-            'Answer It',
-            style: TextStyle(
-              color: Colours.textColor,
-              fontSize: 30,
-              fontWeight: FontWeight.bold,
-            ),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          'Answer it',
+          style: TextStyle(
+            wordSpacing: 2,
+            letterSpacing: 2,
+            color: Colours.textColor,
+            fontSize: 28,
+            fontWeight: FontWeight.bold,
+            fontFamily: 'header',
           ),
-          centerTitle: true,
-          elevation: 0,
-          backgroundColor: Colours.secondaryColor,
-          actions: [],
         ),
-        floatingActionButton: FloatingActionButton(
-          enableFeedback: true,
-          tooltip: 'Ask a Question',
-          onPressed: () => onClickFloatingButton(),
-          child: const Icon(Icons.add),
-          backgroundColor: Colours.primaryColor,
-        ),
-        backgroundColor: Colors.grey[300],
-        body: Obx(
-          () => GestureDetector(
-            onTap: () {
-              FocusScope.of(context).unfocus();
-            },
-            child: RefreshIndicator(
-              color: Colours.secondaryColor,
-              backgroundColor: Colors.transparent,
-              onRefresh: () {
-                return Future.delayed(
-                  Duration(seconds: 1),
-                  () {
-                    widget.controller.CheckUserConnection();
-                    widget.controller.fetchData();
-                  },
+        centerTitle: true,
+        elevation: 0,
+        backgroundColor: Colours.secondaryColor,
+        actions: [
+          PopupMenuButton(
+            iconSize: 30,
+            icon: Icon(
+              Icons.more_vert,
+              size: 30,
+              color: Colours.textColor,
+            ),
+            tooltip: 'Menu',
+            color: Colors.white,
+            splashRadius: 50,
+            padding: const EdgeInsets.only(right: 5, left: 5),
+            enableFeedback: true,
+            position: PopupMenuPosition.under,
+            offset: Offset(0.0, 10),
+            shape: RoundedRectangleBorder(
+              side: BorderSide(
+                color: Colors.grey.shade400,
+                width: 1,
+              ),
+              borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(8.0),
+                bottomRight: Radius.circular(8.0),
+                topLeft: Radius.circular(8.0),
+                topRight: Radius.circular(8.0),
+              ),
+            ),
+            itemBuilder: (context) {
+              return {'Credits', 'Feedback'}.map((String choice) {
+                return PopupMenuItem<String>(
+                  value: choice,
+                  child: Text(choice),
                 );
+              }).toList();
+            },
+            onSelected: (choice) {
+              if (choice == 'Credits') {
+                Get.toNamed(
+                  '/credits',
+                );
+              } else if (choice == 'Feedback') {
+                Get.toNamed(
+                  '/feedback',
+                );
+              }
+            },
+          ),
+        ],
+      ),
+      backgroundColor: Colors.grey[300],
+      floatingActionButton: FloatingActionButton(
+        enableFeedback: true,
+        tooltip: 'Ask a Question',
+        onPressed: () => onClickFloatingButton(),
+        child: const Icon(Icons.add),
+        backgroundColor: Colours.primaryColor,
+      ),
+      body: AnnotatedRegion<SystemUiOverlayStyle>(
+        value: SystemUiOverlayStyle.light.copyWith(
+          statusBarColor: Theme.of(context).secondaryHeaderColor,
+          systemNavigationBarColor: Colours.textColor,
+        ),
+        child: SafeArea(
+          child: Obx(
+            () => GestureDetector(
+              onTap: () {
+                FocusScope.of(context).unfocus();
               },
-              child: SingleChildScrollView(
-                physics: const AlwaysScrollableScrollPhysics(),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    // some space
-                    const SizedBox(height: 10),
-                    // getQuestionUI is a widget which is used to show question...
-                    getQuestionUI(
-                      widget.controller.pvbox
-                          .get(pvboxlength)!
-                          .question
-                          .toString(),
-                    ),
-                    // divider...
-                    Divider(
-                      color: Colours.secondaryColor,
-                      thickness: 2,
-                      indent: 80,
-                      endIndent: 80,
-                    ),
-                    // some space
-                    const SizedBox(height: 10),
-                    // getAnswerUI is a widget which is used to show answer by server...
-                    getAnswerUI(
-                      widget.controller.pvbox
-                          .get(pvboxlength)!
-                          .answer
-                          .toString(),
-                      Get.height,
-                      widget.controller.ActiveConnection.value,
-                      widget.controller.isloading.value,
-                    ),
-                    getMoreOptions(
-                      createdAt: widget.controller.pvbox
-                          .get(widget.controller.pvbox.length - 1)!
-                          .createdAt
-                          .toString(),
-                      id: widget.controller.pvbox
-                          .get(widget.controller.pvbox.length - 1)!
-                          .id
-                          .toString(),
-                      connectionStatus:
-                          widget.controller.connectionOutlook.toString(),
-                    ),
+              child: RefreshIndicator(
+                color: Colours.secondaryColor,
+                backgroundColor: Colors.transparent,
+                onRefresh: () {
+                  return Future.delayed(
+                    Duration(seconds: 1),
+                    () {
+                      widget.controller.CheckUserConnection();
+                      widget.controller.fetchData();
+                    },
+                  );
+                },
+                child: SingleChildScrollView(
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      // some space
+                      const SizedBox(height: 10),
+                      // getQuestionUI is a widget which is used to show question...
+                      getQuestionUI(
+                        widget.controller.pvbox
+                            .get(pvboxlength)!
+                            .question
+                            .toString(),
+                      ),
+                      // divider...
+                      Divider(
+                        color: Colours.secondaryColor,
+                        thickness: 2,
+                        indent: 80,
+                        endIndent: 80,
+                      ),
+                      // some space
+                      const SizedBox(height: 10),
+                      // getAnswerUI is a widget which is used to show answer by server...
+                      getAnswerUI(
+                        widget.controller.pvbox
+                            .get(pvboxlength)!
+                            .answer
+                            .toString(),
+                        Get.height,
+                        widget.controller.ActiveConnection.value,
+                        widget.controller.isloading.value,
+                      ),
+                      getMoreOptions(
+                        context,
+                        createdAt: widget.controller.pvbox
+                            .get(widget.controller.pvbox.length - 1)!
+                            .createdAt
+                            .toString(),
+                        id: widget.controller.pvbox
+                            .get(widget.controller.pvbox.length - 1)!
+                            .id
+                            .toString(),
+                        connectionStatus:
+                            widget.controller.connectionOutlook.toString(),
+                      ),
 
-                    const SizedBox(height: 20),
-                  ],
+                      const SizedBox(height: 20),
+                    ],
+                  ),
                 ),
               ),
             ),
