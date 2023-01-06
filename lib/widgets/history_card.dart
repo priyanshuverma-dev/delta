@@ -1,7 +1,6 @@
 import 'package:answer_it/utils/colors.dart';
 import 'package:answer_it/core/toaster.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
@@ -10,6 +9,7 @@ Widget historyCard({
   required String botText,
   required int id,
   required DateTime createdAt,
+  required VoidCallback onPressDelete,
 }) {
   String formattedTime = DateFormat.jm().format(createdAt);
   String formattedDate = DateFormat.yMEd().format(createdAt);
@@ -75,29 +75,48 @@ Widget historyCard({
             ),
             PopupMenuButton(
               tooltip: 'Menu',
-              color: Colors.grey[300],
+              color: Colors.white,
               splashRadius: 50,
               padding: const EdgeInsets.only(right: 5, left: 5),
               enableFeedback: true,
               position: PopupMenuPosition.under,
+              offset: Offset(0.0, 10),
+              shape: RoundedRectangleBorder(
+                side: BorderSide(
+                  color: Colors.grey.shade400,
+                  width: 1,
+                ),
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(8.0),
+                  bottomRight: Radius.circular(8.0),
+                  topLeft: Radius.circular(8.0),
+                  topRight: Radius.circular(8.0),
+                ),
+              ),
               itemBuilder: (context) {
                 return {'Delete'}.map((String choice) {
                   return PopupMenuItem<String>(
                     value: choice,
-                    child: Text(
-                      choice,
-                      style: TextStyle(color: Colors.red.shade500),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Icon(
+                          Icons.delete_forever,
+                          color: Colors.red.shade500,
+                        ),
+                        Text(
+                          choice,
+                          style: TextStyle(color: Colors.red.shade500),
+                        ),
+                      ],
                     ),
                   );
                 }).toList();
               },
               onSelected: (choice) {
-                Clipboard.setData(ClipboardData(text: ''));
-                toast(
-                  'Copied to Clipboard',
-                  Colours.textColor,
-                  16,
-                );
+                if (choice == 'Delete') {
+                  onPressDelete();
+                }
               },
             )
           ],

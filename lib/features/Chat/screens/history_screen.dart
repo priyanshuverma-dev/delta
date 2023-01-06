@@ -1,3 +1,4 @@
+import 'package:answer_it/core/snackbar.dart';
 import 'package:answer_it/features/Chat/controller/controller.dart';
 import 'package:answer_it/features/Chat/screens/chat_screen.dart';
 import 'package:answer_it/utils/colors.dart';
@@ -6,9 +7,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
-class HistoryScreen extends StatelessWidget {
+class HistoryScreen extends StatefulWidget {
   HistoryScreen({super.key});
 
+  @override
+  State<HistoryScreen> createState() => _HistoryScreenState();
+}
+
+class _HistoryScreenState extends State<HistoryScreen> {
   final Controller controller = Get.put(Controller());
 
   @override
@@ -37,11 +43,7 @@ class HistoryScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       InkWell(
-                        onTap: () => Get.to(
-                          () => ChatScreen(),
-                          duration: Duration(milliseconds: 400),
-                          transition: Transition.upToDown,
-                        ),
+                        onTap: () => Get.back(),
                         child: Icon(
                           Icons.arrow_back_ios,
                           color: Colors.grey.shade100,
@@ -93,6 +95,18 @@ class HistoryScreen extends StatelessWidget {
                         botText: controller.pvbox.getAt(index)!.answer,
                         id: controller.pvbox.getAt(index)!.id,
                         createdAt: controller.pvbox.getAt(index)!.createdAt,
+                        onPressDelete: () {
+                          controller.pvbox.deleteAt(index);
+                          setState(() {});
+                          Get.showSnackbar(
+                            customSnakeBar(
+                              'Deleted',
+                              'Query Deleted',
+                              Icons.delete_outline_rounded,
+                              2,
+                            ),
+                          );
+                        },
                       );
                     },
                   ),

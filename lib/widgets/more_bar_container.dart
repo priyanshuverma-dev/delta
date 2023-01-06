@@ -14,8 +14,6 @@ Widget getMoreOptions({
   DateTime tempDate = new DateFormat("yyyy-MM-dd hh:mm:ss").parse(createdAt);
   String formattedTime = DateFormat.jm().format(tempDate);
   String formattedDate = DateFormat.yMEd().format(tempDate);
-  print(formattedTime);
-  print(formattedDate);
 
   return Container(
     width: Get.width,

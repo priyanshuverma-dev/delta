@@ -132,6 +132,20 @@ class _ChatScreenState extends State<ChatScreen>
     var pvboxlength = widget.controller.pvbox.length - 1;
     return SafeArea(
       child: Scaffold(
+        appBar: AppBar(
+          title: Text(
+            'Answer It',
+            style: TextStyle(
+              color: Colours.textColor,
+              fontSize: 30,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          centerTitle: true,
+          elevation: 0,
+          backgroundColor: Colours.secondaryColor,
+          actions: [],
+        ),
         floatingActionButton: FloatingActionButton(
           enableFeedback: true,
           tooltip: 'Ask a Question',
@@ -154,14 +168,6 @@ class _ChatScreenState extends State<ChatScreen>
                   () {
                     widget.controller.CheckUserConnection();
                     widget.controller.fetchData();
-                    Get.showSnackbar(
-                      customSnakeBar(
-                        'Answer it',
-                        'Refreshed !',
-                        Icons.refresh,
-                        2,
-                      ),
-                    );
                   },
                 );
               },
