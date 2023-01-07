@@ -45,6 +45,11 @@ dependencies:
   path_provider: ^2.0.11
   smooth_page_indicator: ^1.0.0+2
   permission_handler: ^10.2.0
+  intl: ^0.18.0
+  url_launcher: ^6.1.7
+  webview_flutter: ^3.0.4
+  share_plus: ^6.3.0
+  font_awesome_flutter: ^10.3.0
 
 dev_dependencies:
   flutter_app_name: ^0.1.0
@@ -96,6 +101,8 @@ flutter:
   assets:
     - assets/bot.png
     - assets/splash.json
+    - assets/backgrounds/
+    - assets/ico.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
@@ -119,6 +126,11 @@ flutter:
       fonts:
         - asset: assets/fonts/Ubuntu-Regular.ttf
         - asset: assets/fonts/Ubuntu-Bold.ttf
+          weight: 700
+    - family: header
+      fonts:
+        - asset: assets/fonts/heading/Amita-Regular.ttf
+        - asset: assets/fonts/heading/Amita-Bold.ttf
           weight: 700
   #
   # For details regarding fonts from package dependencies,
