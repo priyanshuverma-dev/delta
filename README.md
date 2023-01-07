@@ -1,3 +1,6 @@
+[![Build & Release](https://github.com/priyanshu-creator/answer-it/actions/workflows/main.yml/badge.svg)](https://github.com/priyanshu-creator/answer-it/actions/workflows/main.yml)
+
+
 # Answer it
 
 A project app help you to solve hard problems on any place this project is available on android , ios , windows , macos , web.
