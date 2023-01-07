@@ -1,6 +1,5 @@
 import 'dart:ui';
 
-import 'package:answer_it/core/inAppNames.dart';
 import 'package:answer_it/utils/colors.dart';
 
 import 'package:flutter/material.dart';

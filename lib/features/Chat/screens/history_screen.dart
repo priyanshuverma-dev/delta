@@ -1,6 +1,7 @@
 import 'package:answer_it/core/snackbar.dart';
 import 'package:answer_it/features/Chat/controller/controller.dart';
 import 'package:answer_it/utils/colors.dart';
+import 'package:answer_it/utils/global_vars.dart';
 import 'package:answer_it/widgets/history_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -21,7 +22,49 @@ class _HistoryScreenState extends State<HistoryScreen> {
     ScrollController listController = ScrollController();
 
     return Scaffold(
-      backgroundColor: Colors.grey[300],
+      backgroundColor: Colours.darkScaffoldColor,
+      appBar: AppBar(
+        centerTitle: true,
+        backgroundColor: Colours.darkScaffoldColor,
+        title: Text(
+          'History',
+          style: TextStyle(
+            color: Colours.textColor.withOpacity(0.7),
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        elevation: 10,
+        leading: InkWell(
+          onTap: () => Get.back(),
+          child: Icon(
+            Icons.arrow_back_ios,
+            color: Colors.grey.shade100,
+          ),
+        ),
+        actions: [
+          InkWell(
+            borderRadius: BorderRadius.circular(50),
+            onTap: () {
+              if (listController.hasClients) {
+                final upDis = listController.position.maxScrollExtent;
+
+                if (listController.position != upDis) {
+                  listController.jumpTo(upDis);
+                  listController.animateTo(upDis,
+                      duration: Duration(seconds: 3), curve: Curves.easeInOut);
+                }
+              }
+            },
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Icon(
+                Icons.arrow_upward,
+                color: Colors.grey.shade200,
+              ),
+            ),
+          ),
+        ],
+      ),
       body: AnnotatedRegion<SystemUiOverlayStyle>(
         value: SystemUiOverlayStyle.light.copyWith(
           statusBarColor: Theme.of(context).secondaryHeaderColor,
@@ -29,55 +72,14 @@ class _HistoryScreenState extends State<HistoryScreen> {
         ),
         child: SafeArea(
           child: Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage(Globals.bg1),
+                fit: BoxFit.fill,
+              ),
+            ),
             child: Column(
               children: [
-                Container(
-                  padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
-                  height: 60,
-                  decoration: BoxDecoration(
-                    color: Colours.secondaryColor,
-                  ),
-                  // AppBar...
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      InkWell(
-                        onTap: () => Get.back(),
-                        child: Icon(
-                          Icons.arrow_back_ios,
-                          color: Colors.grey.shade100,
-                        ),
-                      ),
-                      Text(
-                        'HISTORY',
-                        style: TextStyle(
-                          color: Colors.grey.shade100,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20,
-                        ),
-                      ),
-                      InkWell(
-                        onTap: () {
-                          if (listController.hasClients) {
-                            final upDis =
-                                listController.position.maxScrollExtent;
-
-                            if (listController.position != upDis) {
-                              listController.jumpTo(upDis);
-                              listController.animateTo(upDis,
-                                  duration: Duration(seconds: 3),
-                                  curve: Curves.easeInOut);
-                            }
-                          }
-                        },
-                        child: Icon(
-                          Icons.arrow_upward,
-                          color: Colors.grey.shade200,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
                 SizedBox(height: 10),
                 Expanded(
                   child: ListView.builder(

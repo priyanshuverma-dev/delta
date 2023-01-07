@@ -1,7 +1,10 @@
 import 'dart:async';
 import 'dart:developer';
+import 'dart:ui';
 
 import 'package:answer_it/utils/colors.dart';
+import 'package:answer_it/utils/global_vars.dart';
+import 'package:answer_it/widgets/history_cell.dart';
 import 'package:answer_it/widgets/more_bar_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -103,73 +106,64 @@ class _ChatScreenState extends State<ChatScreen>
             topLeft: Radius.circular(8),
             topRight: Radius.circular(8),
           ),
-          child: Container(
-            height: 500,
-            color: Colors.grey[300],
-            child: Column(
-              children: <Widget>[
-                // getSearchBarUI is a widget which is used to get input from user...
-                getSearchBarUI(
-                  'Ask anything...',
-                  inputController,
-                  () {
-                    FocusScope.of(context).requestFocus(FocusNode());
-                    Navigator.pop(context);
-                    clickAsk(inputController.text);
-                  },
-                  widget.controller.isloading.value,
+          child: BackdropFilter(
+            filter: ImageFilter.blur(
+              sigmaX: 15,
+              sigmaY: 15,
+            ),
+            child: Container(
+              height: 500,
+              decoration: BoxDecoration(
+                color: Colours.darkScaffoldColor,
+                gradient: LinearGradient(
+                  begin: Alignment.bottomCenter,
+                  end: Alignment.topCenter,
+                  colors: [
+                    Colours.darkScaffoldColor,
+                    Colours.darkScaffoldColor.withOpacity(0.5),
+                  ],
                 ),
-                Text('History'),
-                Expanded(
-                  child: Container(
-                    padding: const EdgeInsets.all(10),
-                    child: ListView.builder(
-                      itemCount: widget.controller.pvbox.length,
-                      itemBuilder: (context, index) {
-                        return widget.controller.pvbox.getAt(index)!.question ==
-                                'Deleted'
-                            ? SizedBox()
-                            : Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  border: Border.all(
-                                    width: 1,
-                                    color: Colors.grey,
-                                  ),
-                                ),
-                                padding: const EdgeInsets.all(10),
-                                margin: const EdgeInsets.all(2),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Container(
-                                      width: Get.width - 100,
-                                      child: SingleChildScrollView(
-                                        scrollDirection: Axis.horizontal,
-                                        child: Text(
-                                          widget.controller.pvbox
-                                              .getAt(index)!
-                                              .question,
-                                          overflow: TextOverflow.ellipsis,
-                                        ),
-                                      ),
-                                    ),
-                                    IconButton(
-                                      onPressed: () => onPressDelete(index),
-                                      icon: Icon(
-                                        Icons.delete_forever,
-                                        color: Colors.red.shade300,
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              );
-                      },
-                    ),
+              ),
+              child: Column(
+                children: <Widget>[
+                  // getSearchBarUI is a widget which is used to get input from user...
+                  getSearchBarUI(
+                    'Ask anything...',
+                    inputController,
+                    () {
+                      FocusScope.of(context).requestFocus(FocusNode());
+                      Navigator.pop(context);
+                      clickAsk(inputController.text);
+                    },
+                    widget.controller.isloading.value,
                   ),
-                )
-              ],
+                  Text(
+                    'History',
+                    style: TextStyle(color: Colours.textColor.withOpacity(0.7)),
+                  ),
+                  Expanded(
+                    child: Container(
+                      padding: const EdgeInsets.all(10),
+                      child: ListView.builder(
+                        itemCount: widget.controller.pvbox.length,
+                        itemBuilder: (context, index) {
+                          return widget.controller.pvbox
+                                      .getAt(index)!
+                                      .question ==
+                                  'Deleted'
+                              ? SizedBox()
+                              : getHistoryCell(
+                                  widget.controller.pvbox
+                                      .getAt(index)!
+                                      .question,
+                                  () => onPressDelete(index, context),
+                                );
+                        },
+                      ),
+                    ),
+                  )
+                ],
+              ),
             ),
           ),
         );
@@ -178,82 +172,98 @@ class _ChatScreenState extends State<ChatScreen>
   }
 
   // onPress delete in bottom bar...
-  void onPressDelete(index) {
+  void onPressDelete(index, BuildContext buildContext) {
     showDialog(
-      context: context,
-      builder: (context) {
+      barrierColor: Colors.transparent,
+      context: buildContext,
+      builder: (buildContext) {
         return Center(
-          child: Container(
-            padding: const EdgeInsets.all(25),
-            margin: const EdgeInsets.all(25),
-            width: Get.width - 50,
-            height: 187.5,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
-              border: Border.all(
-                width: 1,
-                color: Colors.grey,
-              ),
-              color: Colors.grey.shade300,
+          child: BackdropFilter(
+            filter: ImageFilter.blur(
+              sigmaX: 15,
+              sigmaY: 15,
             ),
-            child: Column(
-              children: [
-                Text(
-                  'Warning !!',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 28,
-                  ),
-                ),
-                Text('Do you want to delete this history.'),
-                SizedBox(height: 10),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    OutlinedButton(
-                      style: OutlinedButton.styleFrom(
-                        backgroundColor: Colours.primaryColor,
-                        foregroundColor: Colours.primaryColor,
-                      ),
-                      onPressed: () {
-                        widget.controller.pvbox.putAt(
-                          index,
-                          PvTalk(
-                            question: 'Deleted',
-                            answer:
-                                widget.controller.pvbox.getAt(index)!.answer,
-                            createdAt:
-                                widget.controller.pvbox.getAt(index)!.createdAt,
-                            id: widget.controller.pvbox.getAt(index)!.id,
-                          ),
-                        );
-                        Navigator.of(context).pop();
-                        Navigator.pop(context);
-                      },
-                      child: Text(
-                        'Yes',
-                        style: TextStyle(
-                          color: Colours.textColor,
-                        ),
-                      ),
-                    ),
-                    OutlinedButton(
-                      onPressed: () => Navigator.of(context).pop(),
-                      style: OutlinedButton.styleFrom(
-                          foregroundColor: Colours.primaryColor,
-                          side: BorderSide(
-                            color: Colors.black,
-                          )),
-                      child: Text(
-                        'Cancel',
-                        style: TextStyle(
-                          color: Colors.black,
-                        ),
-                      ),
-                    ),
+            child: Container(
+              padding: const EdgeInsets.all(25),
+              margin: const EdgeInsets.all(25),
+              width: Get.width - 50,
+              height: 187.5,
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.bottomCenter,
+                  end: Alignment.topCenter,
+                  colors: [
+                    Colors.white12,
+                    Colors.white10,
                   ],
-                )
-              ],
+                ),
+                borderRadius: BorderRadius.circular(20),
+                color: Colours.darkScaffoldColor,
+              ),
+              child: Column(
+                children: [
+                  Text(
+                    'Warning !!',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Colours.textColor.withOpacity(0.7),
+                      fontSize: 28,
+                    ),
+                  ),
+                  Text('Do you want to delete this history.'),
+                  SizedBox(height: 10),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      OutlinedButton(
+                        onPressed: () => Navigator.of(context).pop(),
+                        style: OutlinedButton.styleFrom(
+                            foregroundColor: Colours.primaryColor,
+                            side: BorderSide(
+                              color: Colors.black,
+                            )),
+                        child: Text(
+                          'Cancel',
+                          style: TextStyle(
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
+                      OutlinedButton(
+                        style: OutlinedButton.styleFrom(
+                          backgroundColor: Colours.darkScaffoldColor,
+                          foregroundColor: Colours.darkScaffoldColor,
+                          side: BorderSide(
+                            color: Colours.darkScaffoldColor,
+                          ),
+                        ),
+                        onPressed: () {
+                          widget.controller.pvbox.putAt(
+                            index,
+                            PvTalk(
+                              question: 'Deleted',
+                              answer:
+                                  widget.controller.pvbox.getAt(index)!.answer,
+                              createdAt: widget.controller.pvbox
+                                  .getAt(index)!
+                                  .createdAt,
+                              id: widget.controller.pvbox.getAt(index)!.id,
+                            ),
+                          );
+                          Navigator.of(context).pop();
+                          Navigator.pop(context);
+                        },
+                        child: Text(
+                          'Yes',
+                          style: TextStyle(
+                            color: Colors.red.shade300,
+                          ),
+                        ),
+                      ),
+                    ],
+                  )
+                ],
+              ),
             ),
           ),
         );
@@ -289,7 +299,7 @@ class _ChatScreenState extends State<ChatScreen>
               color: Colours.textColor,
             ),
             tooltip: 'Menu',
-            color: Colors.white,
+            color: Colours.darkScaffoldColor,
             splashRadius: 50,
             padding: const EdgeInsets.only(right: 5, left: 5),
             enableFeedback: true,
@@ -311,7 +321,10 @@ class _ChatScreenState extends State<ChatScreen>
               return {'Credits', 'Feedback'}.map((String choice) {
                 return PopupMenuItem<String>(
                   value: choice,
-                  child: Text(choice),
+                  child: Text(choice,
+                      style: TextStyle(
+                        color: Colours.textColor,
+                      )),
                 );
               }).toList();
             },
@@ -352,12 +365,15 @@ class _ChatScreenState extends State<ChatScreen>
                 constraints: BoxConstraints.expand(),
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                    image: AssetImage('assets/back.jpg'),
+                    image: AssetImage(Globals.bg0),
                     fit: BoxFit.fill,
                   ),
                 ),
                 child: RefreshIndicator(
-                  color: Colours.secondaryColor,
+                  semanticsLabel: 'Refresh',
+                  color: Colours.textColor,
+                  strokeWidth: RefreshProgressIndicator.defaultStrokeWidth + 1,
+                  triggerMode: RefreshIndicatorTriggerMode.anywhere,
                   backgroundColor: Colors.transparent,
                   onRefresh: () {
                     return Future.delayed(
@@ -369,7 +385,9 @@ class _ChatScreenState extends State<ChatScreen>
                     );
                   },
                   child: SingleChildScrollView(
-                    physics: const AlwaysScrollableScrollPhysics(),
+                    physics: const BouncingScrollPhysics(
+                      parent: AlwaysScrollableScrollPhysics(),
+                    ),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
@@ -415,7 +433,7 @@ class _ChatScreenState extends State<ChatScreen>
                               widget.controller.connectionOutlook.toString(),
                         ),
 
-                        const SizedBox(height: 20),
+                        const SizedBox(height: 100),
                       ],
                     ),
                   ),

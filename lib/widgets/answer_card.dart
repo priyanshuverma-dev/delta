@@ -43,17 +43,27 @@ Widget getAnswerUI(String text, dynamic height, bool status, bool isloading) {
             children: [
               Stack(
                 children: <Widget>[
-                  Container(
-                    height: 60.0,
-                    width: 60.0,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(30.0),
-                      image: DecorationImage(
-                        scale: 0.5,
-                        image: const AssetImage('assets/bot.png'),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: CircleAvatar(
+                      backgroundColor: Colours.darkScaffoldColor,
+                      child: CircleAvatar(
+                        backgroundImage: const AssetImage('assets/bot.png'),
+                        backgroundColor: Colors.transparent,
                       ),
                     ),
                   ),
+                  // Container(
+                  //   height: 60.0,
+                  //   width: 60.0,
+                  //   decoration: BoxDecoration(
+                  //     borderRadius: BorderRadius.circular(30.0),
+                  //     image: DecorationImage(
+                  //       scale: 0.5,
+                  //       image: const AssetImage('assets/bot.png'),
+                  //     ),
+                  //   ),
+                  // ),
                   Container(
                     margin: EdgeInsets.only(left: 40.0),
                     height: 15.0,

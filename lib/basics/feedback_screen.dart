@@ -39,7 +39,8 @@ class _FeedBackScreenState extends State<FeedBackScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colours.secondaryColor,
+        backgroundColor: Colours.darkScaffoldColor,
+        elevation: 10,
         leading: IconButton(
           onPressed: () => Get.back(),
           icon: Icon(
@@ -96,6 +97,7 @@ class WebViewContainerState extends State<WebViewContainer> {
     return Stack(
       children: [
         WebView(
+          backgroundColor: Colours.darkScaffoldColor,
           javascriptMode: JavascriptMode.unrestricted,
           onWebViewCreated: (controller) {
             _webViewController = controller;
@@ -109,7 +111,9 @@ class WebViewContainerState extends State<WebViewContainer> {
         ),
         isloading
             ? Center(
-                child: CircularProgressIndicator(),
+                child: CircularProgressIndicator(
+                  color: Colours.textColor,
+                ),
               )
             : Stack(),
       ],
