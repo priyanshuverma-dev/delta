@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:answer_it/utils/colors.dart';
 import 'package:answer_it/core/toaster.dart';
@@ -9,7 +11,17 @@ Widget getAnswerUI(String text, dynamic height, bool status, bool isloading) {
     padding: const EdgeInsets.all(16.0),
     margin: const EdgeInsets.only(right: 16.0, left: 16.0),
     decoration: BoxDecoration(
-      color: Colors.white,
+      // color: Colors.white,
+      gradient: LinearGradient(
+        begin: Alignment.topCenter,
+        end: Alignment.bottomCenter,
+        colors: [
+          Colors.white12,
+          Colors.white10,
+        ],
+      ),
+      // color: Colors.transparent,
+      color: Colours.primarySwatch.withOpacity(0.5),
       borderRadius: const BorderRadius.only(
         topLeft: Radius.circular(15.0),
         topRight: Radius.circular(15.0),
@@ -50,7 +62,7 @@ Widget getAnswerUI(String text, dynamic height, bool status, bool isloading) {
                       borderRadius: BorderRadius.circular(30.0),
                       color: status ? Colors.green : Colors.amber,
                       border: Border.all(
-                        color: Colors.white,
+                        color: Colours.darkScaffoldColor,
                         style: BorderStyle.solid,
                         width: 2.0,
                       ),
@@ -66,15 +78,13 @@ Widget getAnswerUI(String text, dynamic height, bool status, bool isloading) {
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   border: Border.all(
-                    color: isloading || !status
-                        ? Colors.white
-                        : Colors.grey.shade300,
+                    color: Colours.darkScaffoldColor,
                     width: 2,
                   ),
                 ),
                 child: isloading || !status
                     ? CircularProgressIndicator(
-                        backgroundColor: Colours.secondaryColor,
+                        backgroundColor: Colours.darkScaffoldColor,
                         color: Colours.textColor,
                         strokeWidth: 2,
                       )
@@ -86,7 +96,7 @@ Widget getAnswerUI(String text, dynamic height, bool status, bool isloading) {
               ),
               PopupMenuButton(
                 tooltip: 'Menu',
-                color: Colors.white,
+                color: Colours.darkScaffoldColor,
                 splashRadius: 50,
                 padding: const EdgeInsets.only(right: 5, left: 5),
                 enableFeedback: true,
@@ -108,7 +118,10 @@ Widget getAnswerUI(String text, dynamic height, bool status, bool isloading) {
                   return {'Copy'}.map((String choice) {
                     return PopupMenuItem<String>(
                       value: choice,
-                      child: Text(choice),
+                      child: Text(
+                        choice,
+                        style: TextStyle(color: Colours.textColor),
+                      ),
                     );
                   }).toList();
                 },
@@ -127,14 +140,14 @@ Widget getAnswerUI(String text, dynamic height, bool status, bool isloading) {
         SizedBox(height: 5),
         Divider(
           height: 5,
-          color: Colors.grey,
+          color: Colours.darkScaffoldColor,
           thickness: 1,
           indent: 20,
           endIndent: 20,
         ),
         Container(
           child: SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
+            scrollDirection: Axis.vertical,
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: AnimatedTextKit(
@@ -147,7 +160,7 @@ Widget getAnswerUI(String text, dynamic height, bool status, bool isloading) {
                     text,
                     textStyle: TextStyle(
                       fontSize: 12.0,
-                      color: Colors.black87,
+                      color: Colours.textColor,
                       letterSpacing: 0.1,
                     ),
                     speed: const Duration(milliseconds: 20),

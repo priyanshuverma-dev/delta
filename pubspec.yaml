@@ -100,6 +100,8 @@ flutter:
   assets:
     - assets/bot.png
     - assets/splash.json
+    - assets/back.jpg
+    - assets/bg.jpg
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

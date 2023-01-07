@@ -1,6 +1,7 @@
 import 'package:answer_it/utils/colors.dart';
 import 'package:answer_it/core/toaster.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
@@ -143,11 +144,14 @@ Widget historyCard({
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             GestureDetector(
-              onLongPress: () => toast(
-                'Question no. $id Copied to Clipboard',
-                Colours.textColor,
-                16,
-              ),
+              onLongPress: () {
+                toast(
+                  'Question no. $id Copied to Clipboard',
+                  Colours.textColor,
+                  16,
+                );
+                Clipboard.setData(ClipboardData(text: userText));
+              },
               // User's Question ui
               child: RichText(
                 text: TextSpan(
@@ -183,11 +187,14 @@ Widget historyCard({
               endIndent: 20,
             ),
             GestureDetector(
-              onLongPress: () => toast(
-                'Answer no. $id Copied to Clipboard',
-                Colours.textColor,
-                16,
-              ),
+              onLongPress: () {
+                toast(
+                  'Answer no. $id Copied to Clipboard',
+                  Colours.textColor,
+                  16,
+                );
+                Clipboard.setData(ClipboardData(text: botText));
+              },
               // Bot's Question ui
               child: RichText(
                 text: TextSpan(

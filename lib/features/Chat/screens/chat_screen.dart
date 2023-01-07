@@ -1,10 +1,8 @@
 import 'dart:async';
 import 'dart:developer';
-import 'dart:ui';
 
 import 'package:answer_it/utils/colors.dart';
 import 'package:answer_it/widgets/more_bar_container.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -94,7 +92,6 @@ class _ChatScreenState extends State<ChatScreen>
   }
 
   // onPress Floating Action Button...
-
   void onClickFloatingButton() {
     showModalBottomSheet<void>(
       backgroundColor: Colors.transparent,
@@ -127,7 +124,7 @@ class _ChatScreenState extends State<ChatScreen>
                   child: Container(
                     padding: const EdgeInsets.all(10),
                     child: ListView.builder(
-                      itemCount: 10,
+                      itemCount: widget.controller.pvbox.length,
                       itemBuilder: (context, index) {
                         return widget.controller.pvbox.getAt(index)!.question ==
                                 'Deleted'
@@ -159,129 +156,7 @@ class _ChatScreenState extends State<ChatScreen>
                                       ),
                                     ),
                                     IconButton(
-                                      onPressed: () {
-                                        showDialog(
-                                          context: context,
-                                          builder: (context) {
-                                            return Center(
-                                              child: Container(
-                                                padding:
-                                                    const EdgeInsets.all(25),
-                                                margin:
-                                                    const EdgeInsets.all(25),
-                                                width: Get.width - 50,
-                                                height: 187.5,
-                                                decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(20),
-                                                  border: Border.all(
-                                                    width: 1,
-                                                    color: Colors.grey,
-                                                  ),
-                                                  color: Colors.grey.shade300,
-                                                ),
-                                                child: Column(
-                                                  children: [
-                                                    Text(
-                                                      'Warning !!',
-                                                      style: TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        fontSize: 28,
-                                                      ),
-                                                    ),
-                                                    Text(
-                                                        'Do you want to delete this history.'),
-                                                    SizedBox(height: 10),
-                                                    Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceBetween,
-                                                      children: [
-                                                        OutlinedButton(
-                                                          style: OutlinedButton
-                                                              .styleFrom(
-                                                            backgroundColor:
-                                                                Colours
-                                                                    .primaryColor,
-                                                            foregroundColor:
-                                                                Colours
-                                                                    .primaryColor,
-                                                          ),
-                                                          onPressed: () {
-                                                            widget.controller
-                                                                .pvbox
-                                                                .putAt(
-                                                              index,
-                                                              PvTalk(
-                                                                question:
-                                                                    'Deleted',
-                                                                answer: widget
-                                                                    .controller
-                                                                    .pvbox
-                                                                    .getAt(
-                                                                        index)!
-                                                                    .answer,
-                                                                createdAt: widget
-                                                                    .controller
-                                                                    .pvbox
-                                                                    .getAt(
-                                                                        index)!
-                                                                    .createdAt,
-                                                                id: widget
-                                                                    .controller
-                                                                    .pvbox
-                                                                    .getAt(
-                                                                        index)!
-                                                                    .id,
-                                                              ),
-                                                            );
-                                                            Navigator.of(
-                                                                    context)
-                                                                .pop();
-                                                            Navigator.pop(
-                                                                context);
-                                                          },
-                                                          child: Text(
-                                                            'Yes',
-                                                            style: TextStyle(
-                                                              color: Colours
-                                                                  .textColor,
-                                                            ),
-                                                          ),
-                                                        ),
-                                                        OutlinedButton(
-                                                          onPressed: () =>
-                                                              Navigator.of(
-                                                                      context)
-                                                                  .pop(),
-                                                          style: OutlinedButton
-                                                              .styleFrom(
-                                                                  foregroundColor:
-                                                                      Colours
-                                                                          .primaryColor,
-                                                                  side:
-                                                                      BorderSide(
-                                                                    color: Colors
-                                                                        .black,
-                                                                  )),
-                                                          child: Text(
-                                                            'Cancel',
-                                                            style: TextStyle(
-                                                              color:
-                                                                  Colors.black,
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    )
-                                                  ],
-                                                ),
-                                              ),
-                                            );
-                                          },
-                                        );
-                                      },
+                                      onPressed: () => onPressDelete(index),
                                       icon: Icon(
                                         Icons.delete_forever,
                                         color: Colors.red.shade300,
@@ -293,6 +168,90 @@ class _ChatScreenState extends State<ChatScreen>
                       },
                     ),
                   ),
+                )
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  // onPress delete in bottom bar...
+  void onPressDelete(index) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return Center(
+          child: Container(
+            padding: const EdgeInsets.all(25),
+            margin: const EdgeInsets.all(25),
+            width: Get.width - 50,
+            height: 187.5,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+              border: Border.all(
+                width: 1,
+                color: Colors.grey,
+              ),
+              color: Colors.grey.shade300,
+            ),
+            child: Column(
+              children: [
+                Text(
+                  'Warning !!',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 28,
+                  ),
+                ),
+                Text('Do you want to delete this history.'),
+                SizedBox(height: 10),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    OutlinedButton(
+                      style: OutlinedButton.styleFrom(
+                        backgroundColor: Colours.primaryColor,
+                        foregroundColor: Colours.primaryColor,
+                      ),
+                      onPressed: () {
+                        widget.controller.pvbox.putAt(
+                          index,
+                          PvTalk(
+                            question: 'Deleted',
+                            answer:
+                                widget.controller.pvbox.getAt(index)!.answer,
+                            createdAt:
+                                widget.controller.pvbox.getAt(index)!.createdAt,
+                            id: widget.controller.pvbox.getAt(index)!.id,
+                          ),
+                        );
+                        Navigator.of(context).pop();
+                        Navigator.pop(context);
+                      },
+                      child: Text(
+                        'Yes',
+                        style: TextStyle(
+                          color: Colours.textColor,
+                        ),
+                      ),
+                    ),
+                    OutlinedButton(
+                      onPressed: () => Navigator.of(context).pop(),
+                      style: OutlinedButton.styleFrom(
+                          foregroundColor: Colours.primaryColor,
+                          side: BorderSide(
+                            color: Colors.black,
+                          )),
+                      child: Text(
+                        'Cancel',
+                        style: TextStyle(
+                          color: Colors.black,
+                        ),
+                      ),
+                    ),
+                  ],
                 )
               ],
             ),
@@ -319,8 +278,8 @@ class _ChatScreenState extends State<ChatScreen>
           ),
         ),
         centerTitle: true,
-        elevation: 0,
-        backgroundColor: Colours.secondaryColor,
+        elevation: 10,
+        backgroundColor: Colours.darkScaffoldColor,
         actions: [
           PopupMenuButton(
             iconSize: 30,
@@ -370,13 +329,13 @@ class _ChatScreenState extends State<ChatScreen>
           ),
         ],
       ),
-      backgroundColor: Colors.grey[300],
+      backgroundColor: Colours.darkScaffoldColor,
       floatingActionButton: FloatingActionButton(
         enableFeedback: true,
         tooltip: 'Ask a Question',
         onPressed: () => onClickFloatingButton(),
         child: const Icon(Icons.add),
-        backgroundColor: Colours.primaryColor,
+        backgroundColor: Colours.darkScaffoldColor,
       ),
       body: AnnotatedRegion<SystemUiOverlayStyle>(
         value: SystemUiOverlayStyle.light.copyWith(
@@ -389,67 +348,76 @@ class _ChatScreenState extends State<ChatScreen>
               onTap: () {
                 FocusScope.of(context).unfocus();
               },
-              child: RefreshIndicator(
-                color: Colours.secondaryColor,
-                backgroundColor: Colors.transparent,
-                onRefresh: () {
-                  return Future.delayed(
-                    Duration(seconds: 1),
-                    () {
-                      widget.controller.CheckUserConnection();
-                      widget.controller.fetchData();
-                    },
-                  );
-                },
-                child: SingleChildScrollView(
-                  physics: const AlwaysScrollableScrollPhysics(),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      // some space
-                      const SizedBox(height: 10),
-                      // getQuestionUI is a widget which is used to show question...
-                      getQuestionUI(
-                        widget.controller.pvbox
-                            .get(pvboxlength)!
-                            .question
-                            .toString(),
-                      ),
-                      // divider...
-                      Divider(
-                        color: Colours.secondaryColor,
-                        thickness: 2,
-                        indent: 80,
-                        endIndent: 80,
-                      ),
-                      // some space
-                      const SizedBox(height: 10),
-                      // getAnswerUI is a widget which is used to show answer by server...
-                      getAnswerUI(
-                        widget.controller.pvbox
-                            .get(pvboxlength)!
-                            .answer
-                            .toString(),
-                        Get.height,
-                        widget.controller.ActiveConnection.value,
-                        widget.controller.isloading.value,
-                      ),
-                      getMoreOptions(
-                        context,
-                        createdAt: widget.controller.pvbox
-                            .get(widget.controller.pvbox.length - 1)!
-                            .createdAt
-                            .toString(),
-                        id: widget.controller.pvbox
-                            .get(widget.controller.pvbox.length - 1)!
-                            .id
-                            .toString(),
-                        connectionStatus:
-                            widget.controller.connectionOutlook.toString(),
-                      ),
+              child: Container(
+                constraints: BoxConstraints.expand(),
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage('assets/back.jpg'),
+                    fit: BoxFit.fill,
+                  ),
+                ),
+                child: RefreshIndicator(
+                  color: Colours.secondaryColor,
+                  backgroundColor: Colors.transparent,
+                  onRefresh: () {
+                    return Future.delayed(
+                      Duration(seconds: 1),
+                      () {
+                        widget.controller.CheckUserConnection();
+                        widget.controller.fetchData();
+                      },
+                    );
+                  },
+                  child: SingleChildScrollView(
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        // some space
+                        const SizedBox(height: 10),
+                        // getQuestionUI is a widget which is used to show question...
+                        getQuestionUI(
+                          widget.controller.pvbox
+                              .get(pvboxlength)!
+                              .question
+                              .toString(),
+                        ),
+                        // divider...
+                        Divider(
+                          color: Colours.darkScaffoldColor,
+                          thickness: 2,
+                          indent: 80,
+                          endIndent: 80,
+                        ),
+                        // some space
+                        const SizedBox(height: 10),
+                        // getAnswerUI is a widget which is used to show answer by server...
+                        getAnswerUI(
+                          widget.controller.pvbox
+                              .get(pvboxlength)!
+                              .answer
+                              .toString(),
+                          Get.height,
+                          widget.controller.ActiveConnection.value,
+                          widget.controller.isloading.value,
+                        ),
+                        getMoreOptions(
+                          context,
+                          createdAt: widget.controller.pvbox
+                              .get(widget.controller.pvbox.length - 1)!
+                              .createdAt
+                              .toString(),
+                          id: widget.controller.pvbox
+                              .get(widget.controller.pvbox.length - 1)!
+                              .id
+                              .toString(),
+                          connectionStatus:
+                              widget.controller.connectionOutlook.toString(),
+                        ),
 
-                      const SizedBox(height: 20),
-                    ],
+                        const SizedBox(height: 20),
+                      ],
+                    ),
                   ),
                 ),
               ),
