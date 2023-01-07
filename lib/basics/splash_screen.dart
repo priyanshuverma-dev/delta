@@ -1,5 +1,4 @@
-import 'package:answer_it/screens/home_screen.dart';
-import 'package:answer_it/utlts/global_vars.dart';
+import 'package:answer_it/utils/global_vars.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
@@ -42,8 +41,8 @@ class _SplashScreenState extends State<SplashScreen>
           _controller
             ..duration = composition.duration
             ..forward().whenComplete(
-              () => Get.offAll(
-                () => HomeScreen(),
+              () => Get.offAllNamed(
+                '/chat',
               ),
             );
         },
