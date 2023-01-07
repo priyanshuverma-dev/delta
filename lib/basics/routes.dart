@@ -28,7 +28,7 @@ appRoutes() => [
         name: '/credits',
         page: () => CreditsScreen(),
         transition: Transition.downToUp,
-        transitionDuration: Duration(milliseconds: 250),
+        transitionDuration: Duration(milliseconds: 600),
       ),
       GetPage(
         name: '/feedback',

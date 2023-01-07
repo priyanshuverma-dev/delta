@@ -341,6 +341,21 @@ class _ChatScreenState extends State<ChatScreen>
             },
           ),
         ],
+        leading: InkWell(
+          onTap: () => Get.toNamed(
+            '/credits',
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Hero(
+              tag: 'ico',
+              child: CircleAvatar(
+                backgroundImage: AssetImage(Globals.ico),
+                radius: 28,
+              ),
+            ),
+          ),
+        ),
       ),
       backgroundColor: Colours.darkScaffoldColor,
       floatingActionButton: FloatingActionButton(

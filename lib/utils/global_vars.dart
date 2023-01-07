@@ -14,4 +14,6 @@ class Globals {
   static String bg1 = 'assets/backgrounds/bg.jpg';
   static String bg2 = 'assets/backgrounds/bg1.jpg';
   static String bg3 = 'assets/backgrounds/bg2.jpg';
+
+  static String ico = 'assets/ico.png';
 }

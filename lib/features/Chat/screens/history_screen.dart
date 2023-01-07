@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:answer_it/core/snackbar.dart';
 import 'package:answer_it/features/Chat/controller/controller.dart';
 import 'package:answer_it/utils/colors.dart';
@@ -78,38 +80,44 @@ class _HistoryScreenState extends State<HistoryScreen> {
                 fit: BoxFit.fill,
               ),
             ),
-            child: Column(
-              children: [
-                SizedBox(height: 10),
-                Expanded(
-                  child: ListView.builder(
-                    controller: listController,
-                    reverse: true,
-                    scrollDirection: Axis.vertical,
-                    itemCount: controller.pvbox.length,
-                    itemBuilder: (context, index) {
-                      return historyCard(
-                        userText: controller.pvbox.getAt(index)!.question,
-                        botText: controller.pvbox.getAt(index)!.answer,
-                        id: controller.pvbox.getAt(index)!.id,
-                        createdAt: controller.pvbox.getAt(index)!.createdAt,
-                        onPressDelete: () {
-                          controller.pvbox.deleteAt(index);
-                          setState(() {});
-                          Get.showSnackbar(
-                            customSnakeBar(
-                              'Deleted',
-                              'Query Deleted',
-                              Icons.delete_outline_rounded,
-                              2,
-                            ),
-                          );
-                        },
-                      );
-                    },
-                  ),
-                )
-              ],
+            child: BackdropFilter(
+              filter: ImageFilter.blur(
+                sigmaX: 15,
+                sigmaY: 15,
+              ),
+              child: Column(
+                children: [
+                  SizedBox(height: 10),
+                  Expanded(
+                    child: ListView.builder(
+                      controller: listController,
+                      reverse: true,
+                      scrollDirection: Axis.vertical,
+                      itemCount: controller.pvbox.length,
+                      itemBuilder: (context, index) {
+                        return historyCard(
+                          userText: controller.pvbox.getAt(index)!.question,
+                          botText: controller.pvbox.getAt(index)!.answer,
+                          id: controller.pvbox.getAt(index)!.id,
+                          createdAt: controller.pvbox.getAt(index)!.createdAt,
+                          onPressDelete: () {
+                            controller.pvbox.deleteAt(index);
+                            setState(() {});
+                            Get.showSnackbar(
+                              customSnakeBar(
+                                'Deleted',
+                                'Query Deleted',
+                                Icons.delete_outline_rounded,
+                                2,
+                              ),
+                            );
+                          },
+                        );
+                      },
+                    ),
+                  )
+                ],
+              ),
             ),
           ),
         ),

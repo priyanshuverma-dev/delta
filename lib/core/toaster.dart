@@ -1,3 +1,4 @@
+import 'package:answer_it/utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
@@ -11,7 +12,7 @@ Widget toast(
     toastLength: Toast.LENGTH_LONG,
     gravity: ToastGravity.BOTTOM,
     timeInSecForIosWeb: 1,
-    backgroundColor: Colors.black87,
+    backgroundColor: Colours.darkScaffoldColor,
     textColor: textColor,
     fontSize: fontSize,
   );
