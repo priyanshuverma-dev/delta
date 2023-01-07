@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:answer_it/utils/colors.dart';
 import 'package:answer_it/core/toaster.dart';
