@@ -1,7 +1,15 @@
-import 'package:text_to_speech/text_to_speech.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 
 class SpeechApi {
-  TextToSpeech tts = TextToSpeech();
-  String text = "Hello, Good Morning!";
-  // tts.speak(text);
+  static FlutterTts tts = FlutterTts();
+
+  static initTTS() {
+    tts.setLanguage('en-IN');
+  }
+
+  static speak(String text) async {
+    await tts.awaitSpeakCompletion(true);
+
+    tts.speak(text);
+  }
 }

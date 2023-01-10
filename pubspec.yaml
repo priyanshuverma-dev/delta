@@ -50,7 +50,8 @@ dependencies:
   share_plus: ^6.3.0
   font_awesome_flutter: ^10.3.0
   youtube_api: ^1.0.4
-  text_to_speech: ^0.2.3
+  flutter_tts: ^3.6.3
+  speech_to_text: ^6.1.1
 
 dev_dependencies:
   flutter_app_name: ^0.1.0

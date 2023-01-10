@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:answer_it/features/Chat/controller/texttospeech.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -24,6 +25,8 @@ void main() async {
   await Hive.openBox<PvTalk>('Box');
 
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
+
+  SpeechApi.initTTS();
 
   // run app
   runApp(const MyApp());

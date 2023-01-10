@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:developer';
 import 'dart:ui';
 
+import 'package:answer_it/features/Chat/controller/texttospeech.dart';
 import 'package:answer_it/utils/colors.dart';
 import 'package:answer_it/utils/global_vars.dart';
 import 'package:answer_it/widgets/more_bar_container.dart';
@@ -388,7 +389,12 @@ class _ChatScreenState extends State<ChatScreen>
                           FocusScope.of(context).requestFocus(FocusNode());
                           clickAsk(inputController.text);
                         },
-                        () {},
+                        () {
+                          SpeechApi.speak(widget.controller.pvbox
+                              .get(pvboxlength)!
+                              .answer
+                              .toString());
+                        },
                         widget.controller.isloading.value,
                       ),
                     ],
