@@ -63,7 +63,7 @@ Widget historyCard({
                   child: Row(
                     children: [
                       Padding(
-                        padding: const EdgeInsets.only(left: 10),
+                        padding: const EdgeInsets.only(left: 10, top: 5),
                         child: Text(
                           '#',
                           style: TextStyle(
@@ -71,10 +71,13 @@ Widget historyCard({
                           ),
                         ),
                       ),
-                      Text(
-                        '$id',
-                        style: TextStyle(
-                          color: Colours.textColor.withOpacity(0.7),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 5),
+                        child: Text(
+                          '$id',
+                          style: TextStyle(
+                            color: Colours.textColor.withOpacity(0.7),
+                          ),
                         ),
                       ),
                     ],
@@ -188,7 +191,7 @@ Widget historyCard({
                           fontWeight: FontWeight.bold,
                           letterSpacing: 1,
                           fontSize: 18,
-                          color: Colours.textColor.withOpacity(0.5),
+                          color: Colours.textColor,
                         ),
                       ),
                       TextSpan(
@@ -233,7 +236,7 @@ Widget historyCard({
                           fontWeight: FontWeight.bold,
                           letterSpacing: 1,
                           fontSize: 18,
-                          color: Colours.textColor.withOpacity(0.5),
+                          color: Colours.textColor,
                         ),
                       ),
                       TextSpan(
@@ -242,7 +245,7 @@ Widget historyCard({
                           fontWeight: FontWeight.normal,
                           letterSpacing: 1,
                           fontSize: 12,
-                          color: Colours.textColor.withOpacity(0.7),
+                          color: Colours.textColor,
                         ),
                       )
                     ],

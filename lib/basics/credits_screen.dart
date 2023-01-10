@@ -35,9 +35,16 @@ class CreditsScreen extends StatelessWidget {
       backgroundColor: Colours.darkScaffoldColor.withOpacity(0.5),
       body: Container(
         decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage(Globals.bg1),
-            fit: BoxFit.fill,
+          gradient: LinearGradient(
+            begin: Alignment.bottomCenter,
+            end: Alignment.topLeft,
+            colors: [
+              Colours.secondaryColor.withOpacity(0.5),
+              Color.fromRGBO(115, 75, 109, 1),
+              Colors.white10,
+              Color.fromRGBO(66, 39, 90, 1),
+              Colours.primaryColor.withOpacity(0.5),
+            ],
           ),
         ),
         width: Get.width,
@@ -133,27 +140,69 @@ class CreditsScreen extends StatelessWidget {
                         children: [
                           buildSocialIcon(
                             icon: FontAwesomeIcons.youtube,
-                            onPressed: () => _launchURLBrowser(
-                              'https://www.youtube.com/@priyanshu.coding',
-                            ),
+                            onPressed: () async {
+                              Uri url = Uri.parse(
+                                  'https://github.com/priyanshu-creator/');
+                              if (await canLaunchUrl(url)) {
+                                await launchUrl(
+                                  url,
+                                  mode: LaunchMode.externalApplication,
+                                );
+                              } else {
+                                toast('Can.t load the url !', Colours.textColor,
+                                    18);
+                              }
+                            },
                           ),
                           buildSocialIcon(
                             icon: FontAwesomeIcons.github,
-                            onPressed: () => _launchURLBrowser(
-                              'https://github.com/priyanshu-creator/',
-                            ),
+                            onPressed: () async {
+                              Uri url = Uri.parse(
+                                  'https://github.com/priyanshu-creator/');
+                              if (await canLaunchUrl(url)) {
+                                await launchUrl(
+                                  url,
+                                  mode: LaunchMode.externalApplication,
+                                );
+                              } else {
+                                toast('Can.t load the url !', Colours.textColor,
+                                    18);
+                              }
+                            },
                           ),
                           buildSocialIcon(
                             icon: FontAwesomeIcons.instagram,
-                            onPressed: () => _launchURLBrowser(
-                              'https://www.instagram.com/priyanshu.code/',
-                            ),
+                            onPressed: () async {
+                              Uri url = Uri.parse(
+                                  'https://www.instagram.com/priyanshu.code/');
+                              if (await canLaunchUrl(url)) {
+                                await launchUrl(
+                                  url,
+                                  mode: LaunchMode.externalApplication,
+                                );
+                              } else {
+                                toast('Can.t load the url !', Colours.textColor,
+                                    18);
+                              }
+                            },
                           ),
                           buildSocialIcon(
                             icon: FontAwesomeIcons.poop,
-                            onPressed: () => _launchURLBrowser(
-                              'https://somveers.me/',
-                            ),
+                            onPressed: () async {
+                              Uri url = Uri.parse('https://somveers.me');
+                              if (await canLaunchUrl(url)) {
+                                await launchUrl(
+                                  url,
+                                  mode: LaunchMode.externalApplication,
+                                );
+                              } else {
+                                toast(
+                                  'Can.t load the url !',
+                                  Colours.textColor,
+                                  18,
+                                );
+                              }
+                            },
                           )
                         ],
                       ),
@@ -209,17 +258,6 @@ class CreditsScreen extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  _launchURLBrowser(url) async {
-    if (await canLaunchUrl(url)) {
-      await launchUrl(
-        url,
-        mode: LaunchMode.externalApplication,
-      );
-    } else {
-      toast('Can.t load the url !', Colours.textColor, 18);
-    }
   }
 }
 

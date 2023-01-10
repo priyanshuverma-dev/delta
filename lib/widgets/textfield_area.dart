@@ -6,10 +6,21 @@ Widget getSearchBarUI(
   String hintText,
   TextEditingController textEditingController,
   VoidCallback onPressed,
+  VoidCallback onLongPress,
   bool isloading,
 ) {
-  return Padding(
-    padding: const EdgeInsets.only(left: 16, right: 16, top: 8),
+  return Container(
+    decoration: BoxDecoration(
+        border: Border.symmetric(
+      horizontal: BorderSide(
+        color: Colours.darkScaffoldColor.withOpacity(0.7),
+        width: 2.0,
+      ),
+    )),
+    padding: const EdgeInsets.only(
+      left: 16,
+      right: 16,
+    ),
     child: Row(
       children: [
         Expanded(
@@ -37,6 +48,7 @@ Widget getSearchBarUI(
             backgroundColor: Colours.darkScaffoldColor.withOpacity(0.7),
             fixedSize: Size(60, 50),
           ),
+          onLongPress: onLongPress,
           child: Text(
             'Ask',
             style: TextStyle(

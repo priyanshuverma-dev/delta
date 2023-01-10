@@ -3,7 +3,6 @@ import 'dart:ui';
 import 'package:answer_it/core/snackbar.dart';
 import 'package:answer_it/features/Chat/controller/controller.dart';
 import 'package:answer_it/utils/colors.dart';
-import 'package:answer_it/utils/global_vars.dart';
 import 'package:answer_it/widgets/history_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -75,9 +74,16 @@ class _HistoryScreenState extends State<HistoryScreen> {
         child: SafeArea(
           child: Container(
             decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage(Globals.bg1),
-                fit: BoxFit.fill,
+              gradient: LinearGradient(
+                begin: Alignment.bottomCenter,
+                end: Alignment.topLeft,
+                colors: [
+                  Colours.secondaryColor.withOpacity(0.5),
+                  Color.fromRGBO(115, 75, 109, 1),
+                  Colors.white10,
+                  Color.fromRGBO(66, 39, 90, 1),
+                  Colours.primaryColor.withOpacity(0.5),
+                ],
               ),
             ),
             child: BackdropFilter(

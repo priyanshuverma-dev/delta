@@ -92,22 +92,26 @@ class Controller extends GetxController {
       userInput.clear();
     } catch (e) {
       if (e == 'Connection reset by peer') {
-        Get.showSnackbar(customSnakeBar(
-          'Connection reset',
-          e.toString(),
-          Icons.wifi_1_bar_outlined,
-          2,
-        ));
+        Get.showSnackbar(
+          customSnakeBar(
+            'Connection reset',
+            e.toString(),
+            Icons.wifi_1_bar_outlined,
+            2,
+          ),
+        );
 
         log(e.toString());
       } else {
         log(e.toString());
-        Get.showSnackbar(customSnakeBar(
-          'Connection reset',
-          e.toString(),
-          Icons.wifi_1_bar_outlined,
-          2,
-        ));
+        Get.showSnackbar(
+          customSnakeBar(
+            'Connection reset',
+            e.toString(),
+            Icons.wifi_1_bar_outlined,
+            2,
+          ),
+        );
       }
     } finally {
       isloading.value = false;
