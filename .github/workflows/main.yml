@@ -23,9 +23,9 @@ jobs:
         with:
           flutter-version: '3.3.10'
       - run: flutter pub get
-      - run: flutter build apk --release --split-per-abi --dart-define KEY=${{ secrets.KEY }}
+      - run: flutter build apk --release --split-per-abi 
       - run: |
-          flutter build ios --no-codesign --dart-define KEY=${{ secrets.KEY }}
+          flutter build ios --no-codesign 
           cd build/ios/iphoneos
           mkdir Payload
           cd Payload
@@ -36,5 +36,5 @@ jobs:
         uses: ncipollo/release-action@v1
         with:
           artifacts: "build/app/outputs/flutter-apk/*,build/ios/iphoneos/app.ipa"
-          tag: v1.0.${{ github.run_number }}
+          tag: v1.1.${{ github.run_number }}
           token: ${{ secrets.TOKEN }}
