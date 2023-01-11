@@ -3,6 +3,8 @@ import 'dart:developer';
 import 'dart:ui';
 
 import 'package:answer_it/core/toaster.dart';
+import 'package:answer_it/features/youtube_video/services/api_service.dart';
+import 'package:answer_it/features/youtube_video/widgets/getVideoCard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -19,9 +21,11 @@ import 'package:answer_it/widgets/answer_card.dart';
 import 'package:answer_it/widgets/more_bar_container.dart';
 import 'package:answer_it/widgets/question_card.dart';
 import 'package:answer_it/widgets/textfield_area.dart';
+import 'package:youtube_api/youtube_api.dart';
 
 class ChatScreen extends StatefulWidget {
   final Controller controller = Get.put(Controller());
+  final YTAPIService videoController = Get.put(YTAPIService());
 
   ChatScreen({super.key});
 
@@ -33,6 +37,8 @@ class _ChatScreenState extends State<ChatScreen>
     with SingleTickerProviderStateMixin {
   final TextEditingController inputController = TextEditingController();
   late AnimationController bottomSheetController;
+  late stt.SpeechToText _speech;
+  bool _isListening = false;
 
   @override
   void initState() {
@@ -40,14 +46,17 @@ class _ChatScreenState extends State<ChatScreen>
       vsync: this,
       duration: const Duration(milliseconds: 500),
     );
-    // _initSpeech();
     _speech = stt.SpeechToText();
+
     super.initState();
   }
 
   // user input capture and sent to server...
   void clickAsk(String input) async {
     FocusScope.of(context).unfocus();
+
+    await widget.videoController.callAPI(inputController.text);
+    log(widget.videoController.videoResult.toString());
 
     // sending question to server execution...
     if (input.isEmpty) {
@@ -198,9 +207,6 @@ class _ChatScreenState extends State<ChatScreen>
       },
     );
   }
-
-  late stt.SpeechToText _speech;
-  bool _isListening = false;
 
   void _listen() async {
     if (!_isListening) {
@@ -423,6 +429,28 @@ class _ChatScreenState extends State<ChatScreen>
                                               100.0)
                                           .toStringAsFixed(1),
                                 ),
+                                Text(
+                                  "Results on Youtube",
+                                  style: TextStyle(
+                                    color: Colours.textColor.withOpacity(0.7),
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20,
+                                  ),
+                                ),
+                                SizedBox(height: 5),
+                                SizedBox(
+                                  height: 320,
+                                  child: PageView.builder(
+                                    scrollDirection: Axis.horizontal,
+                                    itemBuilder: (context, index) => listItem(
+                                      widget.videoController.videoResult[index],
+                                    ),
+                                    itemCount: widget
+                                        .videoController.videoResult.length,
+                                    physics: const BouncingScrollPhysics(),
+                                  ),
+                                ),
+                                SizedBox(height: 20),
                               ],
                             ),
                           ),

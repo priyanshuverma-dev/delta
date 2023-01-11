@@ -142,7 +142,7 @@ class CreditsScreen extends StatelessWidget {
                             icon: FontAwesomeIcons.youtube,
                             onPressed: () async {
                               Uri url = Uri.parse(
-                                  'https://github.com/priyanshu-creator/');
+                                  'https://youtube.com/@priyanshu.coding/');
                               if (await canLaunchUrl(url)) {
                                 await launchUrl(
                                   url,
