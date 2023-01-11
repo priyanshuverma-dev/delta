@@ -2,24 +2,30 @@ import 'dart:async';
 import 'dart:developer';
 import 'dart:ui';
 
-import 'package:answer_it/utils/colors.dart';
-import 'package:answer_it/utils/global_vars.dart';
-import 'package:answer_it/widgets/history_cell.dart';
-import 'package:answer_it/widgets/more_bar_container.dart';
+import 'package:answer_it/core/toaster.dart';
+import 'package:answer_it/features/youtube_video/services/api_service.dart';
+import 'package:answer_it/features/youtube_video/widgets/getVideoCard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:speech_to_text/speech_to_text.dart' as stt;
 
-import 'package:answer_it/features/Chat/controller/controller.dart';
-import 'package:answer_it/core/snackbar.dart';
 import 'package:answer_it/DeviceDataBase/models/pvtalk.dart';
+import 'package:answer_it/core/snackbar.dart';
+import 'package:answer_it/features/Chat/controller/controller.dart';
+import 'package:answer_it/features/Chat/controller/texttospeech.dart';
 import 'package:answer_it/main.dart';
+import 'package:answer_it/utils/colors.dart';
+import 'package:answer_it/utils/global_vars.dart';
 import 'package:answer_it/widgets/answer_card.dart';
+import 'package:answer_it/widgets/more_bar_container.dart';
 import 'package:answer_it/widgets/question_card.dart';
 import 'package:answer_it/widgets/textfield_area.dart';
+import 'package:youtube_api/youtube_api.dart';
 
 class ChatScreen extends StatefulWidget {
   final Controller controller = Get.put(Controller());
+  final YTAPIService videoController = Get.put(YTAPIService());
 
   ChatScreen({super.key});
 
@@ -31,6 +37,8 @@ class _ChatScreenState extends State<ChatScreen>
     with SingleTickerProviderStateMixin {
   final TextEditingController inputController = TextEditingController();
   late AnimationController bottomSheetController;
+  late stt.SpeechToText _speech;
+  bool _isListening = false;
 
   @override
   void initState() {
@@ -38,12 +46,17 @@ class _ChatScreenState extends State<ChatScreen>
       vsync: this,
       duration: const Duration(milliseconds: 500),
     );
+    _speech = stt.SpeechToText();
+
     super.initState();
   }
 
   // user input capture and sent to server...
   void clickAsk(String input) async {
     FocusScope.of(context).unfocus();
+
+    await widget.videoController.callAPI(inputController.text);
+    log(widget.videoController.videoResult.toString());
 
     // sending question to server execution...
     if (input.isEmpty) {
@@ -86,89 +99,13 @@ class _ChatScreenState extends State<ChatScreen>
     } catch (e) {
       log(e.toString());
     } finally {
+      SpeechApi.speak(widget.controller.messageOutput.text);
       setState(() {
         widget.controller.userInput.text = '';
         widget.controller.messageOutput.text = '';
         inputController.clear();
       });
     }
-  }
-
-  // onPress Floating Action Button...
-  void onClickFloatingButton() {
-    showModalBottomSheet<void>(
-      backgroundColor: Colors.transparent,
-      transitionAnimationController: bottomSheetController,
-      context: context,
-      builder: (BuildContext context) {
-        return ClipRRect(
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(8),
-            topRight: Radius.circular(8),
-          ),
-          child: BackdropFilter(
-            filter: ImageFilter.blur(
-              sigmaX: 15,
-              sigmaY: 15,
-            ),
-            child: Container(
-              height: 500,
-              decoration: BoxDecoration(
-                color: Colours.darkScaffoldColor,
-                gradient: LinearGradient(
-                  begin: Alignment.bottomCenter,
-                  end: Alignment.topCenter,
-                  colors: [
-                    Colours.darkScaffoldColor,
-                    Colours.darkScaffoldColor.withOpacity(0.5),
-                  ],
-                ),
-              ),
-              child: Column(
-                children: <Widget>[
-                  // getSearchBarUI is a widget which is used to get input from user...
-                  getSearchBarUI(
-                    'Ask anything...',
-                    inputController,
-                    () {
-                      FocusScope.of(context).requestFocus(FocusNode());
-                      Navigator.pop(context);
-                      clickAsk(inputController.text);
-                    },
-                    widget.controller.isloading.value,
-                  ),
-                  Text(
-                    'History',
-                    style: TextStyle(color: Colours.textColor.withOpacity(0.7)),
-                  ),
-                  Expanded(
-                    child: Container(
-                      padding: const EdgeInsets.all(10),
-                      child: ListView.builder(
-                        itemCount: widget.controller.pvbox.length,
-                        itemBuilder: (context, index) {
-                          return widget.controller.pvbox
-                                      .getAt(index)!
-                                      .question ==
-                                  'Deleted'
-                              ? SizedBox()
-                              : getHistoryCell(
-                                  widget.controller.pvbox
-                                      .getAt(index)!
-                                      .question,
-                                  () => onPressDelete(index, context),
-                                );
-                        },
-                      ),
-                    ),
-                  )
-                ],
-              ),
-            ),
-          ),
-        );
-      },
-    );
   }
 
   // onPress delete in bottom bar...
@@ -271,6 +208,42 @@ class _ChatScreenState extends State<ChatScreen>
     );
   }
 
+  void _listen() async {
+    if (!_isListening) {
+      bool available = await _speech.initialize(
+        onStatus: (val) {
+          toast('onStatus: $val', Colours.textColor, 18);
+          log('onStatus: $val');
+        },
+        onError: (val) {
+          toast('onError: $val', Colours.textColor, 18);
+          log('onError: $val');
+        },
+      );
+      if (available) {
+        setState(() => _isListening = true);
+        toast('listening', Colours.textColor, 18);
+        _speech.listen(
+          listenFor: Duration(seconds: 20),
+          onResult: (val) => setState(
+            () {
+              widget.controller.sttText.value = val.recognizedWords;
+              inputController.text = widget.controller.sttText.toString();
+              if (val.hasConfidenceRating && val.confidence > 0) {
+                widget.controller.confidence.value = val.confidence;
+              }
+            },
+          ),
+        );
+      }
+    } else {
+      toast('listening stop', Colours.textColor, 18);
+      setState(() => _isListening = false);
+      _speech.stop();
+    }
+    log(widget.controller.sttText.toString());
+  }
+
   @override
   Widget build(BuildContext context) {
     var pvboxlength = widget.controller.pvbox.length - 1;
@@ -290,6 +263,7 @@ class _ChatScreenState extends State<ChatScreen>
         centerTitle: true,
         elevation: 10,
         backgroundColor: Colours.darkScaffoldColor,
+        // backgroundColor: Colors.transparent,
         actions: [
           PopupMenuButton(
             iconSize: 30,
@@ -358,13 +332,6 @@ class _ChatScreenState extends State<ChatScreen>
         ),
       ),
       backgroundColor: Colours.darkScaffoldColor,
-      floatingActionButton: FloatingActionButton(
-        enableFeedback: true,
-        tooltip: 'Ask a Question',
-        onPressed: () => onClickFloatingButton(),
-        child: const Icon(Icons.add),
-        backgroundColor: Colours.darkScaffoldColor,
-      ),
       body: AnnotatedRegion<SystemUiOverlayStyle>(
         value: SystemUiOverlayStyle.light.copyWith(
           statusBarColor: Theme.of(context).secondaryHeaderColor,
@@ -379,9 +346,16 @@ class _ChatScreenState extends State<ChatScreen>
               child: Container(
                 constraints: BoxConstraints.expand(),
                 decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage(Globals.bg0),
-                    fit: BoxFit.fill,
+                  gradient: LinearGradient(
+                    begin: Alignment.bottomCenter,
+                    end: Alignment.topLeft,
+                    colors: [
+                      Colours.secondaryColor.withOpacity(0.5),
+                      Color.fromRGBO(115, 75, 109, 1),
+                      Colors.white10,
+                      Color.fromRGBO(66, 39, 90, 1),
+                      Colours.primaryColor.withOpacity(0.5),
+                    ],
                   ),
                 ),
                 child: RefreshIndicator(
@@ -399,58 +373,105 @@ class _ChatScreenState extends State<ChatScreen>
                       },
                     );
                   },
-                  child: SingleChildScrollView(
-                    physics: const BouncingScrollPhysics(
-                      parent: AlwaysScrollableScrollPhysics(),
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        // some space
-                        const SizedBox(height: 10),
-                        // getQuestionUI is a widget which is used to show question...
-                        getQuestionUI(
-                          widget.controller.pvbox
-                              .get(pvboxlength)!
-                              .question
-                              .toString(),
+                  child: Column(
+                    children: [
+                      Expanded(
+                        child: Container(
+                          child: SingleChildScrollView(
+                            physics: AlwaysScrollableScrollPhysics(),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                // some space
+                                const SizedBox(height: 10),
+                                // getQuestionUI is a widget which is used to show question...
+                                getQuestionUI(
+                                  widget.controller.pvbox
+                                      .get(pvboxlength)!
+                                      .question
+                                      .toString(),
+                                ),
+                                // divider...
+                                Divider(
+                                  color: Colours.darkScaffoldColor,
+                                  thickness: 2,
+                                  indent: 80,
+                                  endIndent: 80,
+                                ),
+                                // some space
+                                const SizedBox(height: 10),
+                                // getAnswerUI is a widget which is used to show answer by server...
+                                getAnswerUI(
+                                  widget.controller.pvbox
+                                      .get(pvboxlength)!
+                                      .answer
+                                      .toString(),
+                                  Get.height,
+                                  widget.controller.ActiveConnection.value,
+                                  widget.controller.isloading.value,
+                                ),
+                                // getMoreOptions is a widget which is used to show more info by server...
+                                getMoreOptions(
+                                  context,
+                                  createdAt: widget.controller.pvbox
+                                      .get(widget.controller.pvbox.length - 1)!
+                                      .createdAt
+                                      .toString(),
+                                  id: widget.controller.pvbox
+                                      .get(widget.controller.pvbox.length - 1)!
+                                      .id
+                                      .toString(),
+                                  connectionStatus: widget
+                                      .controller.connectionOutlook
+                                      .toString(),
+                                  confidence:
+                                      (widget.controller.confidence.value *
+                                              100.0)
+                                          .toStringAsFixed(1),
+                                ),
+                                Text(
+                                  "Results on Youtube",
+                                  style: TextStyle(
+                                    color: Colours.textColor.withOpacity(0.7),
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20,
+                                  ),
+                                ),
+                                SizedBox(height: 5),
+                                SizedBox(
+                                  height: 320,
+                                  child: PageView.builder(
+                                    scrollDirection: Axis.horizontal,
+                                    itemBuilder: (context, index) => listItem(
+                                      widget.videoController.videoResult[index],
+                                    ),
+                                    itemCount: widget
+                                        .videoController.videoResult.length,
+                                    physics: const BouncingScrollPhysics(),
+                                  ),
+                                ),
+                                SizedBox(height: 20),
+                              ],
+                            ),
+                          ),
                         ),
-                        // divider...
-                        Divider(
-                          color: Colours.darkScaffoldColor,
-                          thickness: 2,
-                          indent: 80,
-                          endIndent: 80,
-                        ),
-                        // some space
-                        const SizedBox(height: 10),
-                        // getAnswerUI is a widget which is used to show answer by server...
-                        getAnswerUI(
-                          widget.controller.pvbox
-                              .get(pvboxlength)!
-                              .answer
-                              .toString(),
-                          Get.height,
-                          widget.controller.ActiveConnection.value,
-                          widget.controller.isloading.value,
-                        ),
-                        getMoreOptions(
-                          context,
-                          createdAt: widget.controller.pvbox
-                              .get(widget.controller.pvbox.length - 1)!
-                              .createdAt
-                              .toString(),
-                          id: widget.controller.pvbox
-                              .get(widget.controller.pvbox.length - 1)!
-                              .id
-                              .toString(),
-                          connectionStatus:
-                              widget.controller.connectionOutlook.toString(),
-                        ),
-
-                        const SizedBox(height: 100),
-                      ],
-                    ),
+                      ),
+                      getSearchBarUI(
+                        hintText: 'Ask anything...',
+                        isListen: _isListening,
+                        isloading: widget.controller.isloading.value,
+                        textEditingController: inputController,
+                        onPressed: () {
+                          FocusScope.of(context).requestFocus(FocusNode());
+                          clickAsk(inputController.text);
+                        },
+                        onPressMic: () {
+                          _listen();
+                          log('listening');
+                        },
+                        onLongPress: () => inputController.clear(),
+                      ),
+                    ],
                   ),
                 ),
               ),

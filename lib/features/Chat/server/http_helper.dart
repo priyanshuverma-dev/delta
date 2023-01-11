@@ -1,10 +1,13 @@
-import 'package:answer_it/core/snackbar.dart';
-import 'package:answer_it/features/Chat/models/message.dart';
-import 'package:answer_it/utils/global_vars.dart';
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-import 'dart:developer';
+
+import 'package:answer_it/core/snackbar.dart';
+import 'package:answer_it/core/toaster.dart';
+import 'package:answer_it/features/Chat/models/message.dart';
+import 'package:answer_it/utils/global_vars.dart';
 
 class HttpHelper {
   static Uri url = Uri.https(Globals.backendURL);
@@ -22,14 +25,7 @@ class HttpHelper {
 
       log('Output http: ${output.message}. ');
       log('Request with status: ${response.statusCode}.');
-      Get.showSnackbar(
-        customSnakeBar(
-          'Connection Success',
-          output.message,
-          Icons.wifi_1_bar_outlined,
-          2,
-        ),
-      );
+      toast('Connected', Colors.green.shade300, 20);
       if (output.message == 'Hello World') {
         return 'Bot Online';
       }

@@ -16,6 +16,9 @@ class Controller extends GetxController {
   var connectionOutlook = ''.obs;
   var ActiveConnection = false.obs;
 
+  var confidence = 1.0.obs;
+  var sttText = ''.obs;
+
   var isloading = false.obs;
 
   TextEditingController userInput = TextEditingController();
@@ -92,22 +95,26 @@ class Controller extends GetxController {
       userInput.clear();
     } catch (e) {
       if (e == 'Connection reset by peer') {
-        Get.showSnackbar(customSnakeBar(
-          'Connection reset',
-          e.toString(),
-          Icons.wifi_1_bar_outlined,
-          2,
-        ));
+        Get.showSnackbar(
+          customSnakeBar(
+            'Connection reset',
+            e.toString(),
+            Icons.wifi_1_bar_outlined,
+            2,
+          ),
+        );
 
         log(e.toString());
       } else {
         log(e.toString());
-        Get.showSnackbar(customSnakeBar(
-          'Connection reset',
-          e.toString(),
-          Icons.wifi_1_bar_outlined,
-          2,
-        ));
+        Get.showSnackbar(
+          customSnakeBar(
+            'Connection reset',
+            e.toString(),
+            Icons.wifi_1_bar_outlined,
+            2,
+          ),
+        );
       }
     } finally {
       isloading.value = false;

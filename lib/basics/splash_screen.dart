@@ -1,3 +1,4 @@
+import 'package:answer_it/utils/colors.dart';
 import 'package:answer_it/utils/global_vars.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -32,6 +33,7 @@ class _SplashScreenState extends State<SplashScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colours.darkScaffoldColor,
       body: Lottie.asset(
         Globals.splash,
         controller: _controller,
