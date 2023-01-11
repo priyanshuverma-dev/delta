@@ -11,7 +11,7 @@
 migrate_working_dir/
 github.properties
 .vscode
-\lib\utils\key.dart
+
 
 
 
@@ -25,7 +25,7 @@ github.properties
 # The .vscode folder contains launch configuration and tasks you configure in
 # VS Code which you may wish to be included in version control, so this line
 # is commented out by default.
-#.vscode/
+.vscode/
 
 # Flutter/Dart/Pub related
 **/doc/api/
@@ -37,6 +37,7 @@ github.properties
 .pub-cache/
 .pub/
 /build/
+/lib/utils/key.dart
 
 # Symbolication related
 app.*.symbols
