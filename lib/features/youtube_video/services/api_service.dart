@@ -1,4 +1,4 @@
-import 'package:answer_it/utils/key.dart';
+import 'package:answer_it/utils/key/key.dart';
 import 'package:get/get.dart';
 import 'package:youtube_api/youtube_api.dart';
 
