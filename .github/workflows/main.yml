@@ -23,9 +23,9 @@ jobs:
         with:
           flutter-version: '3.3.10'
       - run: flutter pub get
-      - run: flutter build apk --release --split-per-abi
+      - run: flutter build apk --release --split-per-abi --dart-define KEY=${{ secrets.KEY }}
       - run: |
-          flutter build ios --no-codesign
+          flutter build ios --no-codesign --dart-define KEY=${{ secrets.KEY }}
           cd build/ios/iphoneos
           mkdir Payload
           cd Payload

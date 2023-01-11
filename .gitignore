@@ -12,6 +12,7 @@ migrate_working_dir/
 github.properties
 .vscode
 lib/utils/key/
+*.env
 
 
 
@@ -26,7 +27,6 @@ lib/utils/key/
 # VS Code which you may wish to be included in version control, so this line
 # is commented out by default.
 .vscode/
-lib/utils/key.dart
 # Flutter/Dart/Pub related
 **/doc/api/
 **/ios/Flutter/.last_build_id
@@ -37,7 +37,6 @@ lib/utils/key.dart
 .pub-cache/
 .pub/
 /build/
-/lib/utils/key.dart
 
 # Symbolication related
 app.*.symbols
@@ -49,4 +48,3 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
-lib/utils/key.dart
