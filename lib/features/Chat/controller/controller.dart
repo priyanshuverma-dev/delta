@@ -16,6 +16,9 @@ class Controller extends GetxController {
   var connectionOutlook = ''.obs;
   var ActiveConnection = false.obs;
 
+  var confidence = 1.0.obs;
+  var sttText = ''.obs;
+
   var isloading = false.obs;
 
   TextEditingController userInput = TextEditingController();

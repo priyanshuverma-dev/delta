@@ -1,14 +1,17 @@
 import 'package:answer_it/utils/colors.dart';
 import 'package:answer_it/widgets/inputfield.dart';
+import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter/material.dart';
 
-Widget getSearchBarUI(
-  String hintText,
-  TextEditingController textEditingController,
-  VoidCallback onPressed,
-  VoidCallback onLongPress,
-  bool isloading,
-) {
+Widget getSearchBarUI({
+  required String hintText,
+  required TextEditingController textEditingController,
+  required VoidCallback onPressed,
+  required VoidCallback onPressMic,
+  VoidCallback? onLongPress,
+  required bool isloading,
+  required bool isListen,
+}) {
   return Container(
     decoration: BoxDecoration(
         border: Border.symmetric(
@@ -19,7 +22,7 @@ Widget getSearchBarUI(
     )),
     padding: const EdgeInsets.only(
       left: 16,
-      right: 16,
+      // right: 16,
     ),
     child: Row(
       children: [
@@ -56,6 +59,29 @@ Widget getSearchBarUI(
             ),
           ),
           onPressed: isloading ? null : onPressed,
+        ),
+        IconButton(
+          style: IconButton.styleFrom(
+            elevation: 2,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20.0),
+            ),
+            backgroundColor: Colours.darkScaffoldColor.withOpacity(0.7),
+            fixedSize: Size(20, 50),
+          ),
+          icon: AvatarGlow(
+            animate: isListen,
+            glowColor: Colors.red,
+            endRadius: 65.0,
+            duration: Duration(milliseconds: 2000),
+            repeatPauseDuration: Duration(milliseconds: 100),
+            repeat: true,
+            child: Icon(
+              Icons.mic,
+              color: Colours.textColor.withOpacity(0.5),
+            ),
+          ),
+          onPressed: onPressMic,
         ),
       ],
     ),

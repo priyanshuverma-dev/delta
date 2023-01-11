@@ -2,19 +2,21 @@ import 'dart:async';
 import 'dart:developer';
 import 'dart:ui';
 
-import 'package:answer_it/features/Chat/controller/texttospeech.dart';
-import 'package:answer_it/utils/colors.dart';
-import 'package:answer_it/utils/global_vars.dart';
-import 'package:answer_it/widgets/more_bar_container.dart';
+import 'package:answer_it/core/toaster.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:speech_to_text/speech_to_text.dart' as stt;
 
-import 'package:answer_it/features/Chat/controller/controller.dart';
-import 'package:answer_it/core/snackbar.dart';
 import 'package:answer_it/DeviceDataBase/models/pvtalk.dart';
+import 'package:answer_it/core/snackbar.dart';
+import 'package:answer_it/features/Chat/controller/controller.dart';
+import 'package:answer_it/features/Chat/controller/texttospeech.dart';
 import 'package:answer_it/main.dart';
+import 'package:answer_it/utils/colors.dart';
+import 'package:answer_it/utils/global_vars.dart';
 import 'package:answer_it/widgets/answer_card.dart';
+import 'package:answer_it/widgets/more_bar_container.dart';
 import 'package:answer_it/widgets/question_card.dart';
 import 'package:answer_it/widgets/textfield_area.dart';
 
@@ -38,6 +40,8 @@ class _ChatScreenState extends State<ChatScreen>
       vsync: this,
       duration: const Duration(milliseconds: 500),
     );
+    // _initSpeech();
+    _speech = stt.SpeechToText();
     super.initState();
   }
 
@@ -86,6 +90,7 @@ class _ChatScreenState extends State<ChatScreen>
     } catch (e) {
       log(e.toString());
     } finally {
+      SpeechApi.speak(widget.controller.messageOutput.text);
       setState(() {
         widget.controller.userInput.text = '';
         widget.controller.messageOutput.text = '';
@@ -194,6 +199,45 @@ class _ChatScreenState extends State<ChatScreen>
     );
   }
 
+  late stt.SpeechToText _speech;
+  bool _isListening = false;
+
+  void _listen() async {
+    if (!_isListening) {
+      bool available = await _speech.initialize(
+        onStatus: (val) {
+          toast('onStatus: $val', Colours.textColor, 18);
+          log('onStatus: $val');
+        },
+        onError: (val) {
+          toast('onError: $val', Colours.textColor, 18);
+          log('onError: $val');
+        },
+      );
+      if (available) {
+        setState(() => _isListening = true);
+        toast('listening', Colours.textColor, 18);
+        _speech.listen(
+          listenFor: Duration(seconds: 20),
+          onResult: (val) => setState(
+            () {
+              widget.controller.sttText.value = val.recognizedWords;
+              inputController.text = widget.controller.sttText.toString();
+              if (val.hasConfidenceRating && val.confidence > 0) {
+                widget.controller.confidence.value = val.confidence;
+              }
+            },
+          ),
+        );
+      }
+    } else {
+      toast('listening stop', Colours.textColor, 18);
+      setState(() => _isListening = false);
+      _speech.stop();
+    }
+    log(widget.controller.sttText.toString());
+  }
+
   @override
   Widget build(BuildContext context) {
     var pvboxlength = widget.controller.pvbox.length - 1;
@@ -213,6 +257,7 @@ class _ChatScreenState extends State<ChatScreen>
         centerTitle: true,
         elevation: 10,
         backgroundColor: Colours.darkScaffoldColor,
+        // backgroundColor: Colors.transparent,
         actions: [
           PopupMenuButton(
             iconSize: 30,
@@ -327,9 +372,6 @@ class _ChatScreenState extends State<ChatScreen>
                       Expanded(
                         child: Container(
                           child: SingleChildScrollView(
-                            // physics: const BouncingScrollPhysics(
-                            //   parent: AlwaysScrollableScrollPhysics(),
-                            // ),
                             physics: AlwaysScrollableScrollPhysics(),
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.end,
@@ -376,6 +418,10 @@ class _ChatScreenState extends State<ChatScreen>
                                   connectionStatus: widget
                                       .controller.connectionOutlook
                                       .toString(),
+                                  confidence:
+                                      (widget.controller.confidence.value *
+                                              100.0)
+                                          .toStringAsFixed(1),
                                 ),
                               ],
                             ),
@@ -383,19 +429,19 @@ class _ChatScreenState extends State<ChatScreen>
                         ),
                       ),
                       getSearchBarUI(
-                        'Ask anything...',
-                        inputController,
-                        () {
+                        hintText: 'Ask anything...',
+                        isListen: _isListening,
+                        isloading: widget.controller.isloading.value,
+                        textEditingController: inputController,
+                        onPressed: () {
                           FocusScope.of(context).requestFocus(FocusNode());
                           clickAsk(inputController.text);
                         },
-                        () {
-                          SpeechApi.speak(widget.controller.pvbox
-                              .get(pvboxlength)!
-                              .answer
-                              .toString());
+                        onPressMic: () {
+                          _listen();
+                          log('listening');
                         },
-                        widget.controller.isloading.value,
+                        onLongPress: () => inputController.clear(),
                       ),
                     ],
                   ),

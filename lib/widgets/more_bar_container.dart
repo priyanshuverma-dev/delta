@@ -9,6 +9,7 @@ Widget getMoreOptions(
   required String createdAt,
   required String id,
   required String connectionStatus,
+  required String confidence,
 }) {
   DateTime tempDate = new DateFormat("yyyy-MM-dd hh:mm:ss").parse(createdAt);
   String formattedTime = DateFormat.jm().format(tempDate);
@@ -86,14 +87,14 @@ Widget getMoreOptions(
               ),
             ),
             // Connection Status Ui
-            // SizedBox(
-            //   child: Text(
-            //     connectionStatus,
-            //     style: TextStyle(
-            //       color: Colours.textColor,
-            //     ),
-            //   ),
-            // ),
+            SizedBox(
+              child: Text(
+                confidence,
+                style: TextStyle(
+                  color: Colours.textColor,
+                ),
+              ),
+            ),
             // Date Time Status Ui
             SizedBox(
               child: Text(

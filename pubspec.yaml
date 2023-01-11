@@ -52,6 +52,7 @@ dependencies:
   youtube_api: ^1.0.4
   flutter_tts: ^3.6.3
   speech_to_text: ^6.1.1
+  avatar_glow: ^2.0.2
 
 dev_dependencies:
   flutter_app_name: ^0.1.0
