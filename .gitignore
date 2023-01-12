@@ -11,7 +11,6 @@
 migrate_working_dir/
 github.properties
 .vscode
-lib/utils/key/
 *.env
 
 

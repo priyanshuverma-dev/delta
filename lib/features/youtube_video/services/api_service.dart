@@ -1,13 +1,11 @@
-import 'package:answer_it/utils/key.dart';
+import 'package:answer_it/utils/key/key.dart';
 import 'package:get/get.dart';
 import 'package:youtube_api/youtube_api.dart';
 
 class YTAPIService extends GetxController {
-  static String? key = KEY;
+  static String key = KEY;
 
-  static String EnvKey = String.fromEnvironment('KEY');
-
-  YoutubeAPI youtube = YoutubeAPI(key != null ? key! : EnvKey);
+  YoutubeAPI youtube = YoutubeAPI(key);
   RxList videoResult = [].obs;
   Future<void> callAPI(String search) async {
     videoResult.value = await youtube.search(
