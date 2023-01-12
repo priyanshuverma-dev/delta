@@ -21,7 +21,6 @@ import 'package:answer_it/widgets/answer_card.dart';
 import 'package:answer_it/widgets/more_bar_container.dart';
 import 'package:answer_it/widgets/question_card.dart';
 import 'package:answer_it/widgets/textfield_area.dart';
-import 'package:youtube_api/youtube_api.dart';
 
 class ChatScreen extends StatefulWidget {
   final Controller controller = Get.put(Controller());
