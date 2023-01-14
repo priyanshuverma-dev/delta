@@ -4,7 +4,7 @@ import 'dart:ui';
 
 import 'package:answer_it/core/toaster.dart';
 import 'package:answer_it/features/youtube_video/services/api_service.dart';
-import 'package:answer_it/features/youtube_video/widgets/getVideoCard.dart';
+import 'package:answer_it/widgets/youtube_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -38,6 +38,7 @@ class _ChatScreenState extends State<ChatScreen>
   late AnimationController bottomSheetController;
   late stt.SpeechToText _speech;
   bool _isListening = false;
+  bool videoApiLoading = false;
 
   @override
   void initState() {
@@ -54,7 +55,6 @@ class _ChatScreenState extends State<ChatScreen>
   void clickAsk(String input) async {
     FocusScope.of(context).unfocus();
 
-    await widget.videoController.callAPI(inputController.text);
     log(widget.videoController.videoResult.toString());
 
     // sending question to server execution...
@@ -211,11 +211,16 @@ class _ChatScreenState extends State<ChatScreen>
     if (!_isListening) {
       bool available = await _speech.initialize(
         onStatus: (val) {
-          toast('onStatus: $val', Colours.textColor, 18);
           log('onStatus: $val');
+          if (val == 'done') {
+            setState(() {
+              _isListening = false;
+              widget.controller.status.value = 'done';
+            });
+            _speech.stop();
+          }
         },
         onError: (val) {
-          toast('onError: $val', Colours.textColor, 18);
           log('onError: $val');
         },
       );
@@ -230,6 +235,13 @@ class _ChatScreenState extends State<ChatScreen>
               inputController.text = widget.controller.sttText.toString();
               if (val.hasConfidenceRating && val.confidence > 0) {
                 widget.controller.confidence.value = val.confidence;
+              }
+              if (widget.controller.status.value == 'done') {
+                _speech.stop();
+                setState(() {
+                  _isListening = false;
+                  widget.controller.status.value = '';
+                });
               }
             },
           ),
@@ -362,7 +374,7 @@ class _ChatScreenState extends State<ChatScreen>
                   color: Colours.textColor,
                   strokeWidth: RefreshProgressIndicator.defaultStrokeWidth + 1,
                   triggerMode: RefreshIndicatorTriggerMode.anywhere,
-                  backgroundColor: Colors.transparent,
+                  backgroundColor: Colours.darkScaffoldColor,
                   onRefresh: () {
                     return Future.delayed(
                       Duration(seconds: 1),
@@ -428,27 +440,116 @@ class _ChatScreenState extends State<ChatScreen>
                                               100.0)
                                           .toStringAsFixed(1),
                                 ),
-                                Text(
-                                  "Results on Youtube",
-                                  style: TextStyle(
-                                    color: Colours.textColor.withOpacity(0.7),
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 20,
+                                ElevatedButton(
+                                  onPressed: () async {
+                                    await widget.videoController.callAPI(
+                                      widget.controller.pvbox
+                                          .get(widget.controller.pvbox.length -
+                                              1)!
+                                          .question
+                                          .toString(),
+                                    );
+                                    setState(() {
+                                      videoApiLoading = true;
+                                      Future.delayed(Duration(seconds: 2), () {
+                                        setState(() {
+                                          videoApiLoading = false;
+                                        });
+                                      });
+                                      widget.controller.youtubeCardEnabled
+                                          .value = true;
+                                    });
+                                  },
+                                  child: Row(
+                                    children: [
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(right: 16),
+                                        child: Icon(
+                                          Icons.refresh,
+                                          color: Colours.textColor
+                                              .withOpacity(0.5),
+                                          size: 24,
+                                        ),
+                                      ),
+                                      Text(
+                                        "Search on Youtube",
+                                        style: TextStyle(
+                                          color: Colours.textColor
+                                              .withOpacity(0.5),
+                                          fontSize: 20,
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                ),
-                                SizedBox(height: 5),
-                                SizedBox(
-                                  height: 320,
-                                  child: PageView.builder(
-                                    scrollDirection: Axis.horizontal,
-                                    itemBuilder: (context, index) => listItem(
-                                      widget.videoController.videoResult[index],
+                                  style: ElevatedButton.styleFrom(
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10),
                                     ),
-                                    itemCount: widget
-                                        .videoController.videoResult.length,
-                                    physics: const BouncingScrollPhysics(),
+                                    backgroundColor: Colours.darkScaffoldColor
+                                        .withOpacity(0.7),
+                                    fixedSize: Size(Get.width - 50, 50),
                                   ),
                                 ),
+                                widget.controller.youtubeCardEnabled.value ==
+                                        true
+                                    ? videoApiLoading == true
+                                        ? Container(
+                                            padding: const EdgeInsets.all(16.0),
+                                            margin: const EdgeInsets.only(
+                                              right: 16.0,
+                                              left: 16.0,
+                                              bottom: 10,
+                                              top: 20,
+                                            ),
+                                            decoration: BoxDecoration(
+                                              gradient: LinearGradient(
+                                                begin: Alignment.topLeft,
+                                                end: Alignment.bottomCenter,
+                                                colors: [
+                                                  Colors.white12,
+                                                  Colors.white10,
+                                                ],
+                                              ),
+                                              color: Colours.primarySwatch
+                                                  .withOpacity(0.5),
+                                              // color: Color.fromRGBO(48, 49, 52, 0.2),
+                                              borderRadius:
+                                                  const BorderRadius.only(
+                                                bottomLeft:
+                                                    Radius.circular(15.0),
+                                                bottomRight:
+                                                    Radius.circular(15.0),
+                                                topLeft: Radius.circular(15.0),
+                                                topRight: Radius.circular(15.0),
+                                              ),
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  // color: Colors.grey.withOpacity(0.2),
+                                                  color: Color.fromRGBO(
+                                                      118, 118, 118, 0.2),
+                                                  offset: const Offset(0, 2),
+                                                  blurRadius: 8.0,
+                                                ),
+                                              ],
+                                            ),
+                                            child: Padding(
+                                              padding: const EdgeInsets.all(24),
+                                              child: Center(
+                                                child:
+                                                    CircularProgressIndicator(
+                                                  color: Colours.textColor,
+                                                ),
+                                              ),
+                                            ),
+                                          )
+                                        : youtubeCard(
+                                            widget.videoController.videoResult,
+                                            widget.videoController.videoResult
+                                                .length,
+                                          )
+                                    : SizedBox(),
+
                                 SizedBox(height: 20),
                               ],
                             ),
@@ -461,10 +562,12 @@ class _ChatScreenState extends State<ChatScreen>
                         isloading: widget.controller.isloading.value,
                         textEditingController: inputController,
                         onPressed: () {
+                          widget.controller.youtubeCardEnabled.value = false;
                           FocusScope.of(context).requestFocus(FocusNode());
                           clickAsk(inputController.text);
                         },
                         onPressMic: () {
+                          widget.controller.youtubeCardEnabled.value = false;
                           _listen();
                           log('listening');
                         },

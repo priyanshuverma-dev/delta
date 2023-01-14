@@ -58,7 +58,7 @@ Widget getSearchBarUI({
               color: Colours.textColor.withOpacity(0.5),
             ),
           ),
-          onPressed: isloading ? null : onPressed,
+          onPressed: isloading && isListen ? null : onPressed,
         ),
         IconButton(
           style: IconButton.styleFrom(
