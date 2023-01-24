@@ -16,7 +16,7 @@ appRoutes() => [
         name: '/chat',
         page: () => ChatScreen(),
         transition: Transition.fadeIn,
-        transitionDuration: Duration(milliseconds: 500),
+        transitionDuration: Duration(milliseconds: 250),
       ),
       GetPage(
         name: '/history',
