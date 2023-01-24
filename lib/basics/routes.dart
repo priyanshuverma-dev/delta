@@ -22,7 +22,7 @@ appRoutes() => [
         name: '/history',
         page: () => HistoryScreen(),
         transition: Transition.cupertino,
-        transitionDuration: Duration(milliseconds: 500),
+        transitionDuration: Duration(milliseconds: 250),
       ),
       GetPage(
         name: '/credits',
