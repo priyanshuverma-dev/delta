@@ -20,6 +20,9 @@ class Controller extends GetxController {
   var sttText = ''.obs;
 
   var isloading = false.obs;
+  var youtubeCardEnabled = false.obs;
+
+  var status = ''.obs;
 
   TextEditingController userInput = TextEditingController();
   TextEditingController messageOutput = TextEditingController();

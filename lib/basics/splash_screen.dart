@@ -44,7 +44,7 @@ class _SplashScreenState extends State<SplashScreen>
             ..duration = composition.duration
             ..forward().whenComplete(
               () => Get.offAllNamed(
-                '/chat',
+                '/home',
               ),
             );
         },

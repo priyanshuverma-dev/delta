@@ -3,6 +3,7 @@ import 'package:answer_it/basics/feedback_screen.dart';
 import 'package:answer_it/basics/splash_screen.dart';
 import 'package:answer_it/features/Chat/screens/chat_screen.dart';
 import 'package:answer_it/features/Chat/screens/history_screen.dart';
+import 'package:answer_it/screens/home_screen.dart';
 import 'package:get/get.dart';
 
 appRoutes() => [
@@ -11,6 +12,12 @@ appRoutes() => [
         page: () => SplashScreen(),
         transition: Transition.fadeIn,
         transitionDuration: Duration(milliseconds: 250),
+      ),
+      GetPage(
+        name: '/home',
+        page: () => HomeScreen(),
+        transition: Transition.fadeIn,
+        transitionDuration: Duration(milliseconds: 500),
       ),
       GetPage(
         name: '/chat',

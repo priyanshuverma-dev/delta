@@ -8,8 +8,6 @@ class SpeechApi {
   }
 
   static speak(String text) async {
-    await tts.awaitSpeakCompletion(true);
-
     tts.speak(text);
   }
 }
