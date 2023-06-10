@@ -2,6 +2,7 @@ import 'package:answer_it/features/Chat/server/services.dart';
 import 'package:answer_it/features/Chat/view/chat_screen.dart';
 import 'package:answer_it/utils/colors.dart';
 import 'package:answer_it/utils/global_vars.dart';
+import 'package:chat_gpt_sdk/chat_gpt_sdk.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -83,17 +84,7 @@ class HomeScreen extends StatelessWidget {
         centerTitle: true,
         elevation: 0,
       ),
-      body: Container(
-        child: Center(
-          child: ElevatedButton(
-            onPressed: () {
-              GPTServices().chatComplete();
-            },
-            child: Text('Test'),
-          ),
-        ),
-      ),
-      // body: ChatScreen(),
+      body: ChatScreen(),
     );
   }
 }

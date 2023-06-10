@@ -1,112 +1,39 @@
-import 'dart:convert';
-import 'dart:developer';
-import 'dart:io';
-
-import 'package:answer_it/core/snackbar.dart';
-import 'package:answer_it/features/Chat/models/bot.dart';
 import 'package:answer_it/features/Chat/server/services.dart';
-import 'package:answer_it/utils/global_vars.dart';
+import 'package:answer_it/utils/utils.dart';
+import 'package:chat_gpt_sdk/chat_gpt_sdk.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:http/http.dart' as http;
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class Controller extends GetxController {
-  var connectionOutlook = ''.obs;
-  var ActiveConnection = false.obs;
+final gptControllerStateProvider =
+    StateNotifierProvider<GPTController, bool>((ref) {
+  return GPTController(gptServices: ref.watch(gptServiceProvider));
+});
 
-  var confidence = 1.0.obs;
-  var sttText = ''.obs;
+class GPTController extends StateNotifier<bool> {
+  final GPTServices _gptServices;
 
-  var isloading = false.obs;
-  var youtubeCardEnabled = false.obs;
+  List<String> answers = [];
 
-  var status = ''.obs;
+  GPTController({
+    required GPTServices gptServices,
+  })  : _gptServices = gptServices,
+        super(false);
 
-  TextEditingController userInput = TextEditingController();
-  TextEditingController messageOutput = TextEditingController();
+  void getAns({
+    required String prompt,
+    required BuildContext context,
+  }) async {
+    state = true;
+    final model = TextDavinci2Model();
+    final res = await _gptServices.fetchChatAns(prompt: prompt, model: model);
 
-  @override
-  void onInit() {
-    // fetchData();
-    CheckUserConnection();
-    super.onInit();
-  }
+    state = false;
 
-  Future CheckUserConnection() async {
-    try {
-      final result = await InternetAddress.lookup(Globals.backendURL);
-      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-        ActiveConnection.value = true;
-        connectionOutlook.value = "Bot Online";
+    res.fold((l) => showSnackBar(context, l.message), (r) {
+      if (r == null) {
+        return showSnackBar(context, 'Unable to get try again!');
       }
-    } on SocketException catch (_) {
-      ActiveConnection.value = false;
-      connectionOutlook.value = "Bot offline";
-    }
-  }
-
-  // void fetchData() async {
-  //   var message = await HttpHelper.fetchhttp();
-  //   try {
-  //     isloading.value = true;
-  //     if (message != null) {
-  //       connectionOutlook.value = message;
-  //     } else {
-  //       connectionOutlook.value = 'Error';
-  //     }
-  //   } finally {
-  //     isloading.value = false;
-  //   }
-  // }
-
-  Future<void> askQuestion() async {
-    try {
-      isloading.value = true;
-      var header = {'Content-Type': 'application/json'};
-      var url = Uri.parse(Globals.withHTTPbackendURL);
-
-      Map body = {
-        'prompt': userInput.text,
-      };
-
-      var response =
-          await http.post(url, headers: header, body: jsonEncode(body));
-
-      if (response.statusCode == 200) {
-        var jsonResponse = response.body;
-
-        var output = botFromJson(jsonResponse);
-
-        messageOutput.text = output.bot;
-      } else {
-        messageOutput.text = 'Error';
-      }
-      userInput.clear();
-    } catch (e) {
-      if (e == 'Connection reset by peer') {
-        Get.showSnackbar(
-          customSnakeBar(
-            'Connection reset',
-            e.toString(),
-            Icons.wifi_1_bar_outlined,
-            2,
-          ),
-        );
-
-        log(e.toString());
-      } else {
-        log(e.toString());
-        Get.showSnackbar(
-          customSnakeBar(
-            'Connection reset',
-            e.toString(),
-            Icons.wifi_1_bar_outlined,
-            2,
-          ),
-        );
-      }
-    } finally {
-      isloading.value = false;
-    }
+      answers.insert(0, r.choices[0].text);
+    });
   }
 }

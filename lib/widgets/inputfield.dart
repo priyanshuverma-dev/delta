@@ -23,13 +23,9 @@ class TextFieldInput extends StatelessWidget {
     return TextField(
       controller: textEditingController,
       style: TextStyle(
-        color: Colours.textColor,
         fontSize: 14,
       ),
       decoration: InputDecoration(
-        hintStyle: TextStyle(
-          color: Colours.textColor.withOpacity(0.5),
-        ),
         hintText: hintText,
         border: inputBorder,
         focusedBorder: inputBorder,
