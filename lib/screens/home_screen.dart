@@ -1,10 +1,10 @@
-import 'package:answer_it/features/Chat/server/services.dart';
 import 'package:answer_it/features/Chat/view/chat_screen.dart';
 import 'package:answer_it/utils/colors.dart';
 import 'package:answer_it/utils/global_vars.dart';
-import 'package:chat_gpt_sdk/chat_gpt_sdk.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+import '../features/Chat/widgets/loading_skeletion.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -12,19 +12,15 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colours.darkScaffoldColor,
       appBar: AppBar(
-        backgroundColor: Colours.darkScaffoldColor,
         actions: [
           PopupMenuButton(
             iconSize: 30,
             icon: Icon(
               Icons.more_vert,
               size: 30,
-              color: Colours.textColor,
             ),
             tooltip: 'Menu',
-            color: Colours.darkScaffoldColor,
             splashRadius: 50,
             padding: const EdgeInsets.only(right: 5, left: 5),
             enableFeedback: true,
@@ -46,30 +42,18 @@ class HomeScreen extends StatelessWidget {
               return {'Credits', 'Feedback'}.map((String choice) {
                 return PopupMenuItem<String>(
                   value: choice,
-                  child: Text(choice,
-                      style: TextStyle(
-                        color: Colours.textColor,
-                      )),
+                  child: Text(choice, style: TextStyle()),
                 );
               }).toList();
             },
             onSelected: (choice) {
               if (choice == 'Credits') {
-                Get.toNamed(
-                  '/credits',
-                );
-              } else if (choice == 'Feedback') {
-                Get.toNamed(
-                  '/feedback',
-                );
-              }
+              } else if (choice == 'Feedback') {}
             },
           ),
         ],
         leading: InkWell(
-          onTap: () => Get.toNamed(
-            '/credits',
-          ),
+          onTap: () {},
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Hero(

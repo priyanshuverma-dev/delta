@@ -5,6 +5,7 @@ import 'package:answer_it/widgets/textfield_area.dart';
 
 import '../../../core/loading_page.dart';
 import '../controller/controller.dart';
+import '../widgets/loading_skeletion.dart';
 
 class ChatScreen extends ConsumerStatefulWidget {
   ChatScreen({super.key});
@@ -34,45 +35,45 @@ class _ChatScreenState extends ConsumerState<ChatScreen>
   Widget build(BuildContext context) {
     final isloading = ref.watch(gptControllerStateProvider);
 
-    return isloading
-        ? Loader()
-        : Scaffold(
-            body: SafeArea(
-              child: GestureDetector(
-                onTap: () {
-                  FocusScope.of(context).unfocus();
-                },
-                child: Column(
-                  children: [
-                    Expanded(
-                      child: ref
-                                  .read(gptControllerStateProvider.notifier)
-                                  .answers
-                                  .length !=
-                              0
-                          ? Container(
-                              child: ListTile(
+    return Scaffold(
+      body: SafeArea(
+        child: GestureDetector(
+          onTap: () {
+            FocusScope.of(context).unfocus();
+          },
+          child: Column(
+            children: [
+              Expanded(
+                child: ref
+                            .read(gptControllerStateProvider.notifier)
+                            .answers
+                            .length !=
+                        0
+                    ? Container(
+                        child: isloading
+                            ? LoadingSleletion()
+                            : ListTile(
                                 title: Text(ref
                                     .read(gptControllerStateProvider.notifier)
                                     .answers[0]),
                               ),
-                            )
-                          : SizedBox(),
-                    ),
-                    getSearchBarUI(
-                      hintText: 'Ask anything...',
-                      isloading: false,
-                      textEditingController: inputController,
-                      onPressed: () {
-                        FocusScope.of(context).requestFocus(FocusNode());
-                        clickAsk(inputController.text);
-                      },
-                    ),
-                  ],
-                ),
+                      )
+                    : SizedBox(),
               ),
-            ),
-          );
+              getSearchBarUI(
+                hintText: 'Ask anything...',
+                isloading: false,
+                textEditingController: inputController,
+                onPressed: () {
+                  FocusScope.of(context).requestFocus(FocusNode());
+                  clickAsk(inputController.text);
+                },
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 
   // Close All Boxes.....
