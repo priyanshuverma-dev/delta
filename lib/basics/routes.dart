@@ -1,8 +1,8 @@
 import 'package:answer_it/basics/credits_screen.dart';
 import 'package:answer_it/basics/feedback_screen.dart';
 import 'package:answer_it/basics/splash_screen.dart';
-import 'package:answer_it/features/Chat/screens/chat_screen.dart';
-import 'package:answer_it/features/Chat/screens/history_screen.dart';
+import 'package:answer_it/features/Chat/view/chat_screen.dart';
+import 'package:answer_it/features/Chat/view/history_screen.dart';
 import 'package:answer_it/screens/home_screen.dart';
 import 'package:get/get.dart';
 

@@ -3,10 +3,8 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:answer_it/core/snackbar.dart';
-import 'package:answer_it/DeviceDataBase/database.dart';
-import 'package:answer_it/DeviceDataBase/models/pvtalk.dart';
 import 'package:answer_it/features/Chat/models/bot.dart';
-import 'package:answer_it/features/Chat/server/http_helper.dart';
+import 'package:answer_it/features/Chat/server/services.dart';
 import 'package:answer_it/utils/global_vars.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -27,20 +25,9 @@ class Controller extends GetxController {
   TextEditingController userInput = TextEditingController();
   TextEditingController messageOutput = TextEditingController();
 
-  final pvbox = DataBase.getData();
-
   @override
   void onInit() {
-    fetchData();
-    if (pvbox.length == 0) {
-      final initData = PvTalk(
-        question: 'Hello',
-        answer: 'Hi',
-        createdAt: DateTime.now(),
-        id: 0,
-      );
-      pvbox.add(initData);
-    }
+    // fetchData();
     CheckUserConnection();
     super.onInit();
   }
@@ -58,20 +45,19 @@ class Controller extends GetxController {
     }
   }
 
-  void fetchData() async {
-    var message = await HttpHelper.fetchhttp();
-
-    try {
-      isloading.value = true;
-      if (message != null) {
-        connectionOutlook.value = message;
-      } else {
-        connectionOutlook.value = 'Error';
-      }
-    } finally {
-      isloading.value = false;
-    }
-  }
+  // void fetchData() async {
+  //   var message = await HttpHelper.fetchhttp();
+  //   try {
+  //     isloading.value = true;
+  //     if (message != null) {
+  //       connectionOutlook.value = message;
+  //     } else {
+  //       connectionOutlook.value = 'Error';
+  //     }
+  //   } finally {
+  //     isloading.value = false;
+  //   }
+  // }
 
   Future<void> askQuestion() async {
     try {
