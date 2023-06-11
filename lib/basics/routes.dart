@@ -8,32 +8,32 @@ import 'package:get/get.dart';
 appRoutes() => [
       GetPage(
         name: '/',
-        page: () => SplashScreen(),
+        page: () => const SplashScreen(),
         transition: Transition.fadeIn,
-        transitionDuration: Duration(milliseconds: 250),
+        transitionDuration: const Duration(milliseconds: 250),
       ),
       GetPage(
         name: '/home',
-        page: () => HomeScreen(),
+        page: () => const HomeScreen(),
         transition: Transition.fadeIn,
-        transitionDuration: Duration(milliseconds: 500),
+        transitionDuration: const Duration(milliseconds: 500),
       ),
       GetPage(
         name: '/chat',
         page: () => ChatScreen(),
         transition: Transition.fadeIn,
-        transitionDuration: Duration(milliseconds: 250),
+        transitionDuration: const Duration(milliseconds: 250),
       ),
       GetPage(
         name: '/credits',
-        page: () => CreditsScreen(),
+        page: () => const CreditsScreen(),
         transition: Transition.downToUp,
-        transitionDuration: Duration(milliseconds: 250),
+        transitionDuration: const Duration(milliseconds: 250),
       ),
       GetPage(
         name: '/feedback',
-        page: () => FeedBackScreen(),
+        page: () => const FeedBackScreen(),
         transition: Transition.downToUp,
-        transitionDuration: Duration(milliseconds: 250),
+        transitionDuration: const Duration(milliseconds: 250),
       ),
     ];

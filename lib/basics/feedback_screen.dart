@@ -9,7 +9,7 @@ import 'package:webview_flutter/webview_flutter.dart';
 final webViewKey = GlobalKey<WebViewContainerState>();
 
 class FeedBackScreen extends StatefulWidget {
-  FeedBackScreen({super.key});
+  const FeedBackScreen({super.key});
 
   @override
   State<FeedBackScreen> createState() => _FeedBackScreenState();
@@ -74,7 +74,7 @@ class _FeedBackScreenState extends State<FeedBackScreen> {
 }
 
 class WebViewContainer extends StatefulWidget {
-  WebViewContainer({Key? key}) : super(key: key);
+  const WebViewContainer({Key? key}) : super(key: key);
 
   @override
   WebViewContainerState createState() => WebViewContainerState();
@@ -115,7 +115,7 @@ class WebViewContainerState extends State<WebViewContainer> {
                   color: Colours.textColor,
                 ),
               )
-            : Stack(),
+            : const Stack(),
       ],
     );
   }

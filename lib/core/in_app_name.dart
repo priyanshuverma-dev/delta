@@ -16,7 +16,7 @@ Widget inAppName(String name, {List<Color>? colors, Duration? time}) {
             color: Colours.secondaryColor,
             fontWeight: FontWeight.bold,
           ),
-          speed: time ?? Duration(seconds: 50),
+          speed: time ?? const Duration(seconds: 50),
         ),
       ],
     ),

@@ -1,10 +1,6 @@
 import 'package:answer_it/features/Chat/view/chat_screen.dart';
-import 'package:answer_it/utils/colors.dart';
 import 'package:answer_it/utils/global_vars.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-
-import '../features/Chat/widgets/loading_skeletion.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});

@@ -3,12 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:answer_it/widgets/textfield_area.dart';
 
-import '../../../core/loading_page.dart';
 import '../controller/controller.dart';
 import '../widgets/loading_skeletion.dart';
 
 class ChatScreen extends ConsumerStatefulWidget {
-  ChatScreen({super.key});
+  const ChatScreen({super.key});
 
   @override
   ConsumerState<ChatScreen> createState() => _ChatScreenState();
@@ -45,20 +44,19 @@ class _ChatScreenState extends ConsumerState<ChatScreen>
             children: [
               Expanded(
                 child: ref
-                            .read(gptControllerStateProvider.notifier)
-                            .answers
-                            .length !=
-                        0
+                        .read(gptControllerStateProvider.notifier)
+                        .answers
+                        .isNotEmpty
                     ? Container(
                         child: isloading
-                            ? LoadingSleletion()
+                            ? const LoadingSleletion()
                             : ListTile(
                                 title: Text(ref
                                     .read(gptControllerStateProvider.notifier)
                                     .answers[0]),
                               ),
                       )
-                    : SizedBox(),
+                    : const SizedBox(),
               ),
               getSearchBarUI(
                 hintText: 'Ask anything...',

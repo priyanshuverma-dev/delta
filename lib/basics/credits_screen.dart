@@ -10,7 +10,7 @@ import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class CreditsScreen extends StatelessWidget {
-  CreditsScreen({super.key});
+  const CreditsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -40,9 +40,9 @@ class CreditsScreen extends StatelessWidget {
             end: Alignment.topLeft,
             colors: [
               Colours.secondaryColor.withOpacity(0.5),
-              Color.fromRGBO(115, 75, 109, 1),
+              const Color.fromRGBO(115, 75, 109, 1),
               Colors.white10,
-              Color.fromRGBO(66, 39, 90, 1),
+              const Color.fromRGBO(66, 39, 90, 1),
               Colours.primaryColor.withOpacity(0.5),
             ],
           ),
@@ -56,7 +56,7 @@ class CreditsScreen extends StatelessWidget {
           ),
           child: Container(
             decoration: BoxDecoration(
-              gradient: LinearGradient(
+              gradient: const LinearGradient(
                 begin: Alignment.bottomLeft,
                 end: Alignment.topRight,
                 colors: [
@@ -68,7 +68,7 @@ class CreditsScreen extends StatelessWidget {
             ),
             child: Column(
               children: [
-                SizedBox(height: 30),
+                const SizedBox(height: 30),
                 Text(
                   'Developed by Priyanshu Verma.',
                   style: TextStyle(
@@ -77,7 +77,7 @@ class CreditsScreen extends StatelessWidget {
                     color: Colours.textColor,
                   ),
                 ),
-                SizedBox(height: 15),
+                const SizedBox(height: 15),
                 Text(
                   'Share This Application With Friends...',
                   style: TextStyle(
@@ -85,10 +85,10 @@ class CreditsScreen extends StatelessWidget {
                     color: Colours.textColor.withOpacity(0.7),
                   ),
                 ),
-                SizedBox(height: 15),
+                const SizedBox(height: 15),
                 Container(
                   decoration: BoxDecoration(
-                    gradient: LinearGradient(
+                    gradient: const LinearGradient(
                       begin: Alignment.topLeft,
                       end: Alignment.bottomCenter,
                       colors: [
@@ -103,10 +103,10 @@ class CreditsScreen extends StatelessWidget {
                       topLeft: Radius.circular(15.0),
                       topRight: Radius.circular(15.0),
                     ),
-                    boxShadow: [
+                    boxShadow: const [
                       BoxShadow(
                         color: Color.fromRGBO(118, 118, 118, 0.2),
-                        offset: const Offset(0, 2),
+                        offset: Offset(0, 2),
                         blurRadius: 8.0,
                       ),
                     ],
@@ -219,7 +219,7 @@ class CreditsScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-                SizedBox(height: 15),
+                const SizedBox(height: 15),
                 OutlinedButton(
                   onPressed: () {
                     Share.share(
@@ -228,7 +228,7 @@ class CreditsScreen extends StatelessWidget {
                     );
                   },
                   style: OutlinedButton.styleFrom(
-                    fixedSize: Size(200, 50),
+                    fixedSize: const Size(200, 50),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10.0),
                     ),
@@ -243,7 +243,7 @@ class CreditsScreen extends StatelessWidget {
                     style: TextStyle(color: Colours.textColor.withOpacity(0.7)),
                   ),
                 ),
-                Spacer(),
+                const Spacer(),
                 Text(
                   '..app is in development..',
                   style: TextStyle(
@@ -268,13 +268,11 @@ Widget buildSocialIcon({
 }) {
   return Padding(
     padding: const EdgeInsets.all(10.0),
-    child: Container(
-      child: IconButton(
-        onPressed: onPressed,
-        icon: Icon(
-          icon,
-          color: color ?? Colours.textColor.withOpacity(0.7),
-        ),
+    child: IconButton(
+      onPressed: onPressed,
+      icon: Icon(
+        icon,
+        color: color ?? Colours.textColor.withOpacity(0.7),
       ),
     ),
   );
