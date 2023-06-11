@@ -59,13 +59,13 @@ dev_dependencies:
   build_runner: ^2.3.3
   flutter_app_name: ^0.1.0
   flutter_lints: ^2.0.1
+  rename: ^2.1.1
 
 flutter_app_name:
   name: "Delta"
 
   flutter_test:
     sdk: flutter
-  hive_generator:
   flutter_launcher_icons: "^0.11.0"
 
 flutter_icons:

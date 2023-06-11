@@ -40,34 +40,28 @@ class _ChatScreenState extends ConsumerState<ChatScreen>
           onTap: () {
             FocusScope.of(context).unfocus();
           },
-          child: Column(
-            children: [
-              Expanded(
-                child: ref
-                        .read(gptControllerStateProvider.notifier)
-                        .answers
-                        .isNotEmpty
-                    ? Container(
-                        child: isloading
-                            ? const LoadingSleletion()
-                            : ListTile(
-                                title: Text(ref
-                                    .read(gptControllerStateProvider.notifier)
-                                    .answers[0]),
-                              ),
-                      )
-                    : const SizedBox(),
-              ),
-              getSearchBarUI(
-                hintText: 'Ask anything...',
-                isloading: false,
-                textEditingController: inputController,
-                onPressed: () {
-                  FocusScope.of(context).requestFocus(FocusNode());
-                  clickAsk(inputController.text);
-                },
-              ),
-            ],
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                getSearchBarUI(
+                  hintText: 'Ask anything...',
+                  isloading: false,
+                  textEditingController: inputController,
+                  onPressed: () {
+                    FocusScope.of(context).requestFocus(FocusNode());
+                    clickAsk(inputController.text);
+                  },
+                ),
+                Visibility(
+                  visible: !isloading,
+                  replacement: const LoadingSleletion(),
+                  child: ListTile(
+                    title: Text(
+                        ref.read(gptControllerStateProvider.notifier).answer),
+                  ),
+                )
+              ],
+            ),
           ),
         ),
       ),

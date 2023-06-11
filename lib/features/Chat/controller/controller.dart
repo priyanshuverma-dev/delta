@@ -12,7 +12,7 @@ final gptControllerStateProvider =
 class GPTController extends StateNotifier<bool> {
   final GPTServices _gptServices;
 
-  List<String> answers = [];
+  String answer = 'Welcome back!';
 
   GPTController({
     required GPTServices gptServices,
@@ -33,7 +33,7 @@ class GPTController extends StateNotifier<bool> {
       if (r == null) {
         return showSnackBar(context, 'Unable to get try again!');
       }
-      answers.insert(0, r.choices[0].text);
+      answer = r.choices[0].text;
     });
   }
 }
