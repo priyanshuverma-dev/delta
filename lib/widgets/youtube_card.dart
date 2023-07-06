@@ -1,10 +1,10 @@
-import 'package:answer_it/features/youtube_video/widgets/getVideoCard.dart';
+import 'package:answer_it/features/youtube_video/widgets/get_video_card.dart';
 import 'package:flutter/material.dart';
 
 Widget youtubeCard(video, itemCount) {
   return Column(
     children: [
-      SizedBox(height: 25),
+      const SizedBox(height: 25),
       SizedBox(
         height: 320,
         child: PageView.builder(

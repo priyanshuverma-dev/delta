@@ -2,13 +2,15 @@ import 'dart:async';
 
 import 'package:answer_it/utils/colors.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 import 'package:webview_flutter/webview_flutter.dart';
 
 final webViewKey = GlobalKey<WebViewContainerState>();
 
 class FeedBackScreen extends StatefulWidget {
+  static route() => MaterialPageRoute(
+        builder: (context) => const FeedBackScreen(),
+      );
   const FeedBackScreen({super.key});
 
   @override
@@ -42,7 +44,7 @@ class _FeedBackScreenState extends State<FeedBackScreen> {
         backgroundColor: Colours.darkScaffoldColor,
         elevation: 10,
         leading: IconButton(
-          onPressed: () => Get.back(),
+          onPressed: () => Navigator.pop(context),
           icon: Icon(
             Icons.arrow_back_ios_new,
             color: Colours.textColor,

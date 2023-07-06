@@ -54,7 +54,7 @@ class GPTServices {
         ),
       );
     } catch (e) {
-      print('catch error ->${e}');
+      print('catch error ->$e');
       return left(
         Failure(
           e.toString(),

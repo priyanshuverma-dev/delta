@@ -1,8 +1,13 @@
+import 'package:answer_it/basics/credits_screen.dart';
+import 'package:answer_it/basics/feedback_screen.dart';
 import 'package:answer_it/features/Chat/view/chat_screen.dart';
 import 'package:answer_it/utils/global_vars.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatelessWidget {
+  static route() => MaterialPageRoute(
+        builder: (context) => const HomeScreen(),
+      );
   const HomeScreen({super.key});
 
   @override
@@ -31,20 +36,20 @@ class HomeScreen extends StatelessWidget {
             },
             onSelected: (choice) {
               if (choice == 'Credits') {
-              } else if (choice == 'Feedback') {}
+                Navigator.push(context, CreditsScreen.route());
+              } else if (choice == 'Feedback') {
+                Navigator.push(context, FeedBackScreen.route());
+              }
             },
           ),
         ],
-        leading: InkWell(
-          onTap: () {},
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Hero(
-              tag: 'ico',
-              child: CircleAvatar(
-                backgroundImage: AssetImage(Globals.ico),
-                radius: 28,
-              ),
+        leading: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Hero(
+            tag: 'ico',
+            child: CircleAvatar(
+              backgroundImage: AssetImage(Globals.ico),
+              radius: 28,
             ),
           ),
         ),

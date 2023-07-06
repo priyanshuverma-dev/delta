@@ -1,4 +1,3 @@
-import 'package:answer_it/core/toaster.dart';
 import 'package:answer_it/utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -13,15 +12,13 @@ Widget listItem(YouTubeVideo video) {
           url,
           mode: LaunchMode.externalApplication,
         );
-      } else {
-        toast('Can.t load the url !', Colours.textColor, 18);
-      }
+      } else {}
     },
     child: Container(
       padding: const EdgeInsets.all(16.0),
       margin: const EdgeInsets.only(right: 16.0, left: 16.0, bottom: 10),
       decoration: BoxDecoration(
-        gradient: LinearGradient(
+        gradient: const LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomCenter,
           colors: [
@@ -37,11 +34,11 @@ Widget listItem(YouTubeVideo video) {
           topLeft: Radius.circular(15.0),
           topRight: Radius.circular(15.0),
         ),
-        boxShadow: [
+        boxShadow: const [
           BoxShadow(
             // color: Colors.grey.withOpacity(0.2),
             color: Color.fromRGBO(118, 118, 118, 0.2),
-            offset: const Offset(0, 2),
+            offset: Offset(0, 2),
             blurRadius: 8.0,
           ),
         ],
@@ -66,7 +63,7 @@ Widget listItem(YouTubeVideo video) {
                 );
               },
               errorBuilder: (context, error, stackTrace) {
-                return Center(
+                return const Center(
                   child: Icon(Icons.error),
                 );
               },
@@ -75,7 +72,7 @@ Widget listItem(YouTubeVideo video) {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: 5.0),
+              const SizedBox(height: 5.0),
               Text(
                 video.title,
                 softWrap: true,
@@ -84,7 +81,7 @@ Widget listItem(YouTubeVideo video) {
                 overflow: TextOverflow.ellipsis,
               ),
               Padding(
-                padding: EdgeInsets.symmetric(vertical: 3.0),
+                padding: const EdgeInsets.symmetric(vertical: 3.0),
                 child: Text(
                   video.channelTitle,
                   softWrap: true,

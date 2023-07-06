@@ -35,7 +35,7 @@ Widget getSearchBarUI({
           style: ElevatedButton.styleFrom(
             elevation: 2,
           ),
-          icon: Icon(Icons.send),
+          icon: const Icon(Icons.send),
           onPressed: isloading ? null : onPressed,
         ),
       ],

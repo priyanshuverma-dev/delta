@@ -6,7 +6,7 @@ Widget getHistoryCell(String text, VoidCallback onPressed) {
   return Container(
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(10),
-      gradient: LinearGradient(
+      gradient: const LinearGradient(
         begin: Alignment.bottomCenter,
         end: Alignment.topCenter,
         colors: [
@@ -20,7 +20,7 @@ Widget getHistoryCell(String text, VoidCallback onPressed) {
     child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Container(
+        SizedBox(
           width: Get.width - 100,
           child: SingleChildScrollView(
             scrollDirection: Axis.horizontal,

@@ -1,5 +1,6 @@
 import 'package:answer_it/utils/utils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:answer_it/widgets/textfield_area.dart';
 
@@ -7,6 +8,10 @@ import '../controller/controller.dart';
 import '../widgets/loading_skeletion.dart';
 
 class ChatScreen extends ConsumerStatefulWidget {
+  static route() => MaterialPageRoute(
+        builder: (context) => const ChatScreen(),
+      );
+
   const ChatScreen({super.key});
 
   @override
@@ -35,33 +40,31 @@ class _ChatScreenState extends ConsumerState<ChatScreen>
     final isloading = ref.watch(gptControllerStateProvider);
 
     return Scaffold(
-      body: SafeArea(
-        child: GestureDetector(
-          onTap: () {
-            FocusScope.of(context).unfocus();
-          },
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                getSearchBarUI(
-                  hintText: 'Ask anything...',
-                  isloading: false,
-                  textEditingController: inputController,
-                  onPressed: () {
-                    FocusScope.of(context).requestFocus(FocusNode());
-                    clickAsk(inputController.text);
-                  },
+      body: GestureDetector(
+        onTap: () {
+          FocusManager.instance.primaryFocus?.unfocus();
+        },
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              getSearchBarUI(
+                hintText: 'Ask anything...',
+                isloading: false,
+                textEditingController: inputController,
+                onPressed: () {
+                  FocusScope.of(context).requestFocus(FocusNode());
+                  clickAsk(inputController.text);
+                },
+              ),
+              Visibility(
+                visible: !isloading,
+                replacement: const LoadingSleletion(),
+                child: ListTile(
+                  title: Text(
+                      ref.read(gptControllerStateProvider.notifier).answer),
                 ),
-                Visibility(
-                  visible: !isloading,
-                  replacement: const LoadingSleletion(),
-                  child: ListTile(
-                    title: Text(
-                        ref.read(gptControllerStateProvider.notifier).answer),
-                  ),
-                )
-              ],
-            ),
+              )
+            ],
           ),
         ),
       ),

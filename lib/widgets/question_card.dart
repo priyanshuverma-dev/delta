@@ -14,7 +14,7 @@ Widget getQuestionUI(text) {
       padding: const EdgeInsets.all(16.0),
       margin: const EdgeInsets.only(right: 16.0, left: 16.0),
       decoration: BoxDecoration(
-        gradient: LinearGradient(
+        gradient: const LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomCenter,
           colors: [
@@ -30,11 +30,11 @@ Widget getQuestionUI(text) {
           topLeft: Radius.circular(15.0),
           topRight: Radius.circular(15.0),
         ),
-        boxShadow: [
+        boxShadow: const [
           BoxShadow(
             // color: Colors.grey.withOpacity(0.2),
             color: Color.fromRGBO(118, 118, 118, 0.2),
-            offset: const Offset(0, 2),
+            offset: Offset(0, 2),
             blurRadius: 8.0,
           ),
         ],

@@ -22,7 +22,7 @@ class TextFieldInput extends StatelessWidget {
 
     return TextField(
       controller: textEditingController,
-      style: TextStyle(
+      style: const TextStyle(
         fontSize: 14,
       ),
       decoration: InputDecoration(
