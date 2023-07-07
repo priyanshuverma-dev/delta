@@ -13,12 +13,6 @@ on:
 name: "Build & Release"
 jobs:
   build:
-    name: Creating .env
-     run: |
-          touch .env
-          echo OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }} >> .env
-          cat .env
-
     name: Build & Release
     runs-on: macos-latest
     steps:
@@ -30,6 +24,12 @@ jobs:
       - uses: subosito/flutter-action@v2
         with:
           flutter-version: '3.10.4'
+      - name: Creating .env
+      - run: |
+          touch .env
+          echo OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }} >> .env
+          cat .env
+
       - name: Dependencies install
       - run: flutter pub get
       - name: Build For android
