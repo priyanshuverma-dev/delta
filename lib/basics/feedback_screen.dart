@@ -1,14 +1,17 @@
 import 'dart:async';
 
-import 'package:answer_it/utils/colors.dart';
+import 'package:delta/utils/colors.dart';
 import 'package:flutter/material.dart';
 
 import 'package:webview_flutter/webview_flutter.dart';
+
+import '../utils/global_vars.dart';
 
 final webViewKey = GlobalKey<WebViewContainerState>();
 
 class FeedBackScreen extends StatefulWidget {
   static route() => MaterialPageRoute(
+        fullscreenDialog: true,
         builder: (context) => const FeedBackScreen(),
       );
   const FeedBackScreen({super.key});
@@ -43,13 +46,6 @@ class _FeedBackScreenState extends State<FeedBackScreen> {
       appBar: AppBar(
         backgroundColor: Colours.darkScaffoldColor,
         elevation: 10,
-        leading: IconButton(
-          onPressed: () => Navigator.pop(context),
-          icon: Icon(
-            Icons.arrow_back_ios_new,
-            color: Colours.textColor,
-          ),
-        ),
         actions: [
           IconButton(
             tooltip: 'reload',
@@ -83,16 +79,13 @@ class WebViewContainer extends StatefulWidget {
 }
 
 class WebViewContainerState extends State<WebViewContainer> {
+  late WebViewController _webViewController;
+  bool isloading = true;
+
   @override
   void dispose() {
     super.dispose();
   }
-
-  late WebViewController _webViewController;
-  bool isloading = true;
-
-  String url =
-      'https://docs.google.com/forms/d/e/1FAIpQLSdQ1APKp1-7VOLQ_xV6URhPT4n3MwDD_Kzkx5qzOE_dhTE2jw/viewform?usp=sf_link';
 
   @override
   Widget build(BuildContext context) {
@@ -104,7 +97,7 @@ class WebViewContainerState extends State<WebViewContainer> {
           onWebViewCreated: (controller) {
             _webViewController = controller;
           },
-          initialUrl: url,
+          initialUrl: Globals.formUrl,
           onPageFinished: (finish) {
             setState(() {
               isloading = false;

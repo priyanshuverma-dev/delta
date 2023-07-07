@@ -1,10 +1,12 @@
-import 'package:answer_it/screens/home_screen.dart';
+import 'package:delta/screens/home_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:answer_it/utils/colors.dart';
+import 'package:delta/utils/colors.dart';
 
-void main() async {
+Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await dotenv.load(fileName: '.env');
   // run app
   runApp(const ProviderScope(
     child: MyApp(),

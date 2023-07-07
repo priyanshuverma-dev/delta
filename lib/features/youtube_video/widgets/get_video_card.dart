@@ -1,4 +1,4 @@
-import 'package:answer_it/utils/colors.dart';
+import 'package:delta/utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:youtube_api/youtube_api.dart';

@@ -1,4 +1,4 @@
-import 'package:answer_it/utils/colors.dart';
+import 'package:delta/utils/colors.dart';
 import 'package:flutter/material.dart';
 
 class TextFieldInput extends StatelessWidget {
@@ -30,10 +30,10 @@ class TextFieldInput extends StatelessWidget {
         border: inputBorder,
         focusedBorder: inputBorder,
         enabledBorder: inputBorder,
-        filled: true,
+        // filled: true,
         contentPadding: const EdgeInsets.all(8),
       ),
-      cursorColor: Colours.darkScaffoldColor,
+      cursorColor: Colours.textColor,
       keyboardType: textInputType,
       obscureText: isPass,
     );

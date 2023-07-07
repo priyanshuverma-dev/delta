@@ -1,11 +1,12 @@
-import 'package:answer_it/utils/utils.dart';
+import 'package:delta/utils/utils.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:answer_it/widgets/textfield_area.dart';
+import 'package:delta/widgets/textfield_area.dart';
 
 import '../controller/controller.dart';
+import '../widgets/answer_box.dart';
 import '../widgets/loading_skeletion.dart';
+import '../widgets/recent_box.dart';
 
 class ChatScreen extends ConsumerStatefulWidget {
   static route() => MaterialPageRoute(
@@ -27,45 +28,70 @@ class _ChatScreenState extends ConsumerState<ChatScreen>
     FocusScope.of(context).unfocus();
     // sending question to server execution...
     if (input.isEmpty) {
-      return showSnackBar(context, 'Please fill input');
+      return showSnackBar(context, 'Please fill in the blanks 👀');
     }
 
     ref
         .watch(gptControllerStateProvider.notifier)
         .getAns(prompt: input, context: context);
+
+    inputController.clear();
   }
 
   @override
   Widget build(BuildContext context) {
     final isloading = ref.watch(gptControllerStateProvider);
 
-    return Scaffold(
-      body: GestureDetector(
-        onTap: () {
-          FocusManager.instance.primaryFocus?.unfocus();
-        },
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              getSearchBarUI(
-                hintText: 'Ask anything...',
-                isloading: false,
-                textEditingController: inputController,
-                onPressed: () {
-                  FocusScope.of(context).requestFocus(FocusNode());
-                  clickAsk(inputController.text);
-                },
-              ),
-              Visibility(
-                visible: !isloading,
-                replacement: const LoadingSleletion(),
-                child: ListTile(
-                  title: Text(
-                      ref.read(gptControllerStateProvider.notifier).answer),
+    return GestureDetector(
+      onTap: hideKeyboard,
+      child: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
+        keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+        child: Column(
+          children: [
+            getSearchBarUI(
+              hintText: 'Ask anything...',
+              isloading: false,
+              textEditingController: inputController,
+              onPressed: () {
+                FocusScope.of(context).requestFocus(FocusNode());
+                clickAsk(inputController.text);
+              },
+            ),
+            Visibility(
+              visible: !isloading,
+              replacement: const LoadingSkeletion(),
+              child: Visibility(
+                visible: ref
+                        .watch(gptControllerStateProvider.notifier)
+                        .oneWay
+                        .response !=
+                    '',
+                replacement: Container(
+                  child: const Text('Hi, Start asking questions from GPT-4.'),
                 ),
-              )
-            ],
-          ),
+                child: AnswerBox(
+                  text: ref
+                      .watch(gptControllerStateProvider.notifier)
+                      .oneWay
+                      .response,
+                  prompt: ref
+                      .watch(gptControllerStateProvider.notifier)
+                      .oneWay
+                      .prompt,
+                ),
+              ),
+            ),
+            // Visibility(
+            //   visible: ref
+            //       .watch(gptControllerStateProvider.notifier)
+            //       .recentres
+            //       .isNotEmpty,
+            //   child: RecentBox(
+            //     text: ref.watch(gptControllerStateProvider.notifier).recentres,
+            //   ),
+            // )
+          ],
         ),
       ),
     );

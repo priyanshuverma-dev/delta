@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:skeleton_loader/skeleton_loader.dart';
 
-class LoadingSleletion extends StatelessWidget {
-  const LoadingSleletion({super.key});
+import '../../../utils/colors.dart';
+
+class LoadingSkeletion extends StatelessWidget {
+  const LoadingSkeletion({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -11,6 +13,8 @@ class LoadingSleletion extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: SkeletonLoader(
+        baseColor: Colors.grey,
+        highlightColor: Colours.darkScaffoldColor,
         builder: Card(
           color: Colors.transparent,
           child: Container(
@@ -21,45 +25,45 @@ class LoadingSleletion extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Container(
-                  width: size.width - 20,
+                  width: 70,
                   height: 20,
-                  color: Colors.white,
+                  color: Colors.grey,
                 ),
                 const SizedBox(height: 10),
                 Container(
                   width: size.width - 20,
                   height: 20,
-                  color: Colors.white,
+                  color: Colors.black,
                 ),
                 const SizedBox(height: 10),
                 Container(
                   width: size.width - 20,
                   height: 20,
-                  color: Colors.white,
+                  color: Colors.black,
                 ),
                 const SizedBox(height: 10),
                 Container(
                   width: size.width - 50,
                   height: 20,
-                  color: Colors.white,
+                  color: Colors.black,
                 ),
                 const SizedBox(height: 10),
                 Container(
                   width: size.width - 100,
                   height: 20,
-                  color: Colors.white,
+                  color: Colors.black,
                 ),
                 const SizedBox(height: 10),
                 Container(
                   width: 150,
                   height: 20,
-                  color: Colors.white,
+                  color: Colors.black,
                 ),
                 const SizedBox(height: 10),
                 Container(
-                  width: 70,
+                  width: size.width - 20,
                   height: 20,
-                  color: Colors.white,
+                  color: Colors.black,
                 ),
               ],
             ),
@@ -67,7 +71,6 @@ class LoadingSleletion extends StatelessWidget {
         ),
         items: 1,
         period: const Duration(seconds: 2),
-        // highlightColor: Colors.lightBlue.shade300,
         direction: SkeletonDirection.ltr,
       ),
     );

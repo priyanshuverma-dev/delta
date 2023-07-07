@@ -1,4 +1,4 @@
-import 'package:answer_it/utils/colors.dart';
+import 'package:delta/utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 

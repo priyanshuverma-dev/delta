@@ -1,6 +1,6 @@
-import 'package:answer_it/utils/colors.dart';
-import 'package:answer_it/utils/global_vars.dart';
-import 'package:answer_it/utils/utils.dart';
+import 'package:delta/utils/colors.dart';
+import 'package:delta/utils/global_vars.dart';
+import 'package:delta/utils/utils.dart';
 import 'package:flutter/material.dart';
 
 import 'package:share_plus/share_plus.dart';
@@ -8,6 +8,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 class CreditsScreen extends StatelessWidget {
   static route() => MaterialPageRoute(
+        fullscreenDialog: true,
         builder: (context) => const CreditsScreen(),
       );
   const CreditsScreen({super.key});
@@ -18,13 +19,6 @@ class CreditsScreen extends StatelessWidget {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colours.darkScaffoldColor,
-        leading: IconButton(
-          onPressed: () => Navigator.pop(context),
-          icon: Icon(
-            Icons.arrow_back_ios_new,
-            color: Colours.textColor,
-          ),
-        ),
         title: Text(
           'Credits',
           style: TextStyle(
@@ -37,7 +31,7 @@ class CreditsScreen extends StatelessWidget {
         children: [
           const SizedBox(height: 30),
           Text(
-            'Developed by Priyanshu Verma.',
+            'Made by ❤ by Priyanshu.',
             style: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 18,
@@ -53,97 +47,93 @@ class CreditsScreen extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 15),
-          SizedBox(
-            height: 400,
-            width: MediaQuery.of(context).size.width - 20,
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: CircleAvatar(
-                    radius: 34,
-                    backgroundColor: Colours.darkScaffoldColor,
-                    child: Hero(
-                      tag: 'ico',
-                      child: CircleAvatar(
-                        radius: 32,
-                        backgroundImage: AssetImage(Globals.ico),
-                      ),
+          Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: CircleAvatar(
+                  radius: 34,
+                  backgroundColor: Colours.darkScaffoldColor,
+                  child: Hero(
+                    tag: 'ico',
+                    child: CircleAvatar(
+                      radius: 32,
+                      backgroundImage: AssetImage(Globals.ico),
                     ),
                   ),
                 ),
-                Text(
-                  'Priyanshu Verma'.toUpperCase(),
+              ),
+              Text(
+                'Delta'.toUpperCase(),
+                style: TextStyle(
+                  color: Colours.textColor.withOpacity(0.7),
+                ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  buildSocialIcon(
+                    icon: Icons.deblur_outlined,
+                    onPressed: () async {
+                      Uri url = Uri.parse('https://github.com/codebyps/');
+                      if (await canLaunchUrl(url)) {
+                        await launchUrl(
+                          url,
+                          mode: LaunchMode.externalApplication,
+                        );
+                      } else {
+                        if (context.mounted) {
+                          showSnackBar(context, 'Can.t load the url !');
+                        }
+                      }
+                    },
+                  ),
+                  buildSocialIcon(
+                    icon: Icons.style_outlined,
+                    onPressed: () async {
+                      Uri url =
+                          Uri.parse('https://www.youtube.com/@antrikshdevs');
+                      if (await canLaunchUrl(url)) {
+                        await launchUrl(
+                          url,
+                          mode: LaunchMode.externalApplication,
+                        );
+                      } else {
+                        if (context.mounted) {
+                          showSnackBar(context, 'Can.t load the url !');
+                        }
+                      }
+                    },
+                  ),
+                  buildSocialIcon(
+                    icon: Icons.web_stories_outlined,
+                    onPressed: () async {
+                      Uri url = Uri.parse('https://antrikshdev.tech');
+                      if (await canLaunchUrl(url)) {
+                        await launchUrl(
+                          url,
+                          mode: LaunchMode.externalApplication,
+                        );
+                      } else {
+                        if (context.mounted) {
+                          showSnackBar(context, 'Can.t load the url !');
+                        }
+                      }
+                    },
+                  )
+                ],
+              ),
+              Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Text(
+                  '🔭 I’m tech enthusiast who is curious new technology, new frameworks and more...',
+                  textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Colours.textColor.withOpacity(0.7),
                   ),
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    buildSocialIcon(
-                      icon: Icons.deblur_outlined,
-                      onPressed: () async {
-                        Uri url = Uri.parse('https://github.com/codebyps/');
-                        if (await canLaunchUrl(url)) {
-                          await launchUrl(
-                            url,
-                            mode: LaunchMode.externalApplication,
-                          );
-                        } else {
-                          if (context.mounted) {
-                            showSnackBar(context, 'Can.t load the url !');
-                          }
-                        }
-                      },
-                    ),
-                    buildSocialIcon(
-                      icon: Icons.style_outlined,
-                      onPressed: () async {
-                        Uri url = Uri.parse(
-                            'https://www.instagram.com/priyanshu.sayz/');
-                        if (await canLaunchUrl(url)) {
-                          await launchUrl(
-                            url,
-                            mode: LaunchMode.externalApplication,
-                          );
-                        } else {
-                          if (context.mounted) {
-                            showSnackBar(context, 'Can.t load the url !');
-                          }
-                        }
-                      },
-                    ),
-                    buildSocialIcon(
-                      icon: Icons.web_stories_outlined,
-                      onPressed: () async {
-                        Uri url = Uri.parse('https://antrikshdev.tech');
-                        if (await canLaunchUrl(url)) {
-                          await launchUrl(
-                            url,
-                            mode: LaunchMode.externalApplication,
-                          );
-                        } else {
-                          if (context.mounted) {
-                            showSnackBar(context, 'Can.t load the url !');
-                          }
-                        }
-                      },
-                    )
-                  ],
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: Text(
-                    '🔭 I’m tech enthusiast who is curious new technology, new frameworks and more...',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Colours.textColor.withOpacity(0.7),
-                    ),
-                  ),
-                )
-              ],
-            ),
+              )
+            ],
           ),
           const SizedBox(height: 15),
           OutlinedButton(
@@ -157,6 +147,7 @@ class CreditsScreen extends StatelessWidget {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10.0),
               ),
+              maximumSize: const Size(100, 80),
               side: const BorderSide(
                 width: 0,
               ),
@@ -165,14 +156,6 @@ class CreditsScreen extends StatelessWidget {
             child: Text(
               'Share',
               style: TextStyle(color: Colours.textColor.withOpacity(0.7)),
-            ),
-          ),
-          const Spacer(),
-          Text(
-            'Beta Mode',
-            style: TextStyle(
-              fontSize: 15,
-              color: Colours.textColor.withOpacity(0.7),
             ),
           ),
         ],

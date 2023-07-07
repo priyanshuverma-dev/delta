@@ -1,12 +1,15 @@
-import 'package:answer_it/utils/Failure.dart';
-import 'package:answer_it/utils/type_defs.dart';
+// ignore_for_file: avoid_print
+
+import 'package:delta/utils/Failure.dart';
+import 'package:delta/utils/type_defs.dart';
 import 'package:chat_gpt_sdk/chat_gpt_sdk.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fpdart/fpdart.dart';
 
-final gptServiceProvider = Provider<GPTServices>((ref) {
+final gptServiceProvider = Provider.family((ref, String? key) {
+  print(key);
   final openAI = OpenAI.instance.build(
-    token: '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',
+    token: key,
     baseOption: HttpSetup(receiveTimeout: const Duration(seconds: 5)),
     enableLog: true,
   );
