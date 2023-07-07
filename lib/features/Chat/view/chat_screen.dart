@@ -6,7 +6,6 @@ import 'package:delta/widgets/textfield_area.dart';
 import '../controller/controller.dart';
 import '../widgets/answer_box.dart';
 import '../widgets/loading_skeletion.dart';
-import '../widgets/recent_box.dart';
 
 class ChatScreen extends ConsumerStatefulWidget {
   static route() => MaterialPageRoute(
@@ -67,9 +66,8 @@ class _ChatScreenState extends ConsumerState<ChatScreen>
                         .oneWay
                         .response !=
                     '',
-                replacement: Container(
-                  child: const Text('Hi, Start asking questions from GPT-4.'),
-                ),
+                replacement:
+                    const Text('Hi, Start asking questions from GPT-4.'),
                 child: AnswerBox(
                   text: ref
                       .watch(gptControllerStateProvider.notifier)
