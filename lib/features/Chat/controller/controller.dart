@@ -49,7 +49,7 @@ class GPTController extends StateNotifier<bool> {
     required BuildContext context,
   }) async {
     state = true;
-    final model = TextDavinci2Model();
+    final model = TextDavinci3Model();
     final res = await _gptServices.fetchChatAns(prompt: prompt, model: model);
 
     state = false;

@@ -9,7 +9,6 @@ on:
       - master
       - develop
 
-  
 name: "Build & Release"
 jobs:
   build:
@@ -25,17 +24,16 @@ jobs:
         with:
           flutter-version: '3.10.4'
       - name: Creating .env
-      - run: |
+        run: |
           touch .env
-          echo OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }} >> .env
+          echo "OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}" >> .env
           cat .env
-
       - name: Dependencies install
-      - run: flutter pub get
-      - name: Build For android
-      - run: flutter build apk --release --build-name 2.1.14  --build-number 5
+        run: flutter pub get
+      - name: Build For Android
+        run: flutter build apk --release --build-name 2.1.14 --build-number 5
       - name: Build For Windows
-      - run: flutter build windows --release --build-name 2.1.14 --build-number 5
+        run: flutter build windows --release --build-name 2.1.14 --build-number 5
       - name: Archive Release
         uses: thedoctor0/zip-release@master
         with:
