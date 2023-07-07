@@ -139,8 +139,8 @@ class CreditsScreen extends StatelessWidget {
           OutlinedButton(
             onPressed: () {
               Share.share(
-                'check out all new app solves all questions answer with the help of AI. https://answerit.somveers.me',
-                subject: 'New Ai App',
+                'check out all new app solves all questions answer with the help of AI. https://github.com/codebyps/delta/releases',
+                subject: 'Delta App',
               );
             },
             style: OutlinedButton.styleFrom(

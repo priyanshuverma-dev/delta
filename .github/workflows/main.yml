@@ -45,4 +45,4 @@ jobs:
         with:
           artifacts: "build/app/outputs/flutter-apk/*,build/windows/runner/Release/Delta-2.1.14-windows.zip"
           tag: v2.1.14
-          token: ${{ secrets.TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
