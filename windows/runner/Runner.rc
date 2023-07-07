@@ -89,12 +89,12 @@ BEGIN
     BEGIN
         BLOCK "040904e4"
         BEGIN
-            VALUE "CompanyName", "com.pv" "\0"
+            VALUE "CompanyName", "Antriksh" "\0"
             VALUE "FileDescription", "Delta" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
             VALUE "InternalName", "Delta" "\0"
-            VALUE "LegalCopyright", "Copyright (C) 2022 com.pv. All rights reserved." "\0"
-            VALUE "OriginalFilename", "Answer.exe" "\0"
+            VALUE "LegalCopyright", "Copyright (C) 2023 Priyanshu Verma All rights reserved." "\0"
+            VALUE "OriginalFilename", "delta.exe" "\0"
             VALUE "ProductName", "Delta" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END

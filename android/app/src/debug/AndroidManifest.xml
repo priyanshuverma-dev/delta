@@ -6,7 +6,12 @@
     -->
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <queries>  
+    <queries> 
+    <intent>
+        <action android:name="android.intent.action.VIEW" />
+        <category android:name="android.intent.category.BROWSABLE" />
+        <data android:scheme="https" />
+    </intent> 
     <intent>  
         <action android:name="android.intent.action.TTS_SERVICE" />  
     </intent>  

@@ -10,6 +10,8 @@
 .svn/
 migrate_working_dir/
 github.properties
+./github.properties
+/github.properties
 .vscode
 *.env
 
