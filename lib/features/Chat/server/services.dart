@@ -6,9 +6,10 @@ import 'package:fpdart/fpdart.dart';
 
 final gptServiceProvider = Provider<GPTServices>((ref) {
   final openAI = OpenAI.instance.build(
-      token: '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',
-      baseOption: HttpSetup(receiveTimeout: const Duration(seconds: 5)),
-      enableLog: true);
+    token: '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',
+    baseOption: HttpSetup(receiveTimeout: const Duration(seconds: 5)),
+    enableLog: true,
+  );
   return GPTServices(openAI: openAI);
 });
 
