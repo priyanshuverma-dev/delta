@@ -1,6 +1,8 @@
 class Globals {
   static String backendURL = "chat-soms.onrender.com";
   static String withHTTPbackendURL = "https://chat-soms.onrender.com";
+  static String formUrl =
+      'https://docs.google.com/forms/d/e/1FAIpQLSdQ1APKp1-7VOLQ_xV6URhPT4n3MwDD_Kzkx5qzOE_dhTE2jw/viewform?usp=sf_link';
   static double fontSize = 16.0;
   static double textfieldAndButtonheight = 45;
 
@@ -9,11 +11,6 @@ class Globals {
 
   static String botName = "BOT :";
   static String userName = ": YOU";
-
-  static String bg0 = 'assets/backgrounds/back.jpg';
-  static String bg1 = 'assets/backgrounds/bg.jpg';
-  static String bg2 = 'assets/backgrounds/bg1.jpg';
-  static String bg3 = 'assets/backgrounds/bg2.jpg';
 
   static String ico = 'assets/ico.png';
 }

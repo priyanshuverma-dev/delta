@@ -1,4 +1,4 @@
-import 'package:answer_it/utils/colors.dart';
+import 'package:delta/utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -20,16 +20,16 @@ class ImageGenScreen extends StatelessWidget {
               FocusScope.of(context).unfocus();
             },
             child: Container(
-              constraints: BoxConstraints.expand(),
+              constraints: const BoxConstraints.expand(),
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   begin: Alignment.bottomCenter,
                   end: Alignment.topLeft,
                   colors: [
                     Colours.secondaryColor.withOpacity(0.5),
-                    Color.fromRGBO(115, 75, 109, 1),
+                    const Color.fromRGBO(115, 75, 109, 1),
                     Colors.white10,
-                    Color.fromRGBO(66, 39, 90, 1),
+                    const Color.fromRGBO(66, 39, 90, 1),
                     Colours.primaryColor.withOpacity(0.5),
                   ],
                 ),
@@ -42,11 +42,11 @@ class ImageGenScreen extends StatelessWidget {
                 backgroundColor: Colours.darkScaffoldColor,
                 onRefresh: () {
                   return Future.delayed(
-                    Duration(seconds: 1),
+                    const Duration(seconds: 1),
                     () {},
                   );
                 },
-                child: Column(
+                child: const Column(
                   children: [
                     SizedBox(height: 25),
                   ],

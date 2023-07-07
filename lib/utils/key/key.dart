@@ -1,1 +1,4 @@
-final KEY = 'AIzaSyDk7T-W0tykaoFBON5_V0tmppISrhxLnbU';
+class Prefs {
+  static const String gptApiKey = 'gptApiKey';
+  static const String recentres = 'recentres';
+}

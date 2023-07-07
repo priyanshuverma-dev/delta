@@ -1,126 +1,76 @@
-import 'dart:convert';
-import 'dart:developer';
-import 'dart:io';
-
-import 'package:answer_it/core/snackbar.dart';
-import 'package:answer_it/DeviceDataBase/database.dart';
-import 'package:answer_it/DeviceDataBase/models/pvtalk.dart';
-import 'package:answer_it/features/Chat/models/bot.dart';
-import 'package:answer_it/features/Chat/server/http_helper.dart';
-import 'package:answer_it/utils/global_vars.dart';
+import 'package:delta/features/Chat/server/services.dart';
+import 'package:delta/utils/key/key.dart';
+import 'package:delta/utils/utils.dart';
+import 'package:chat_gpt_sdk/chat_gpt_sdk.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:http/http.dart' as http;
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class Controller extends GetxController {
-  var connectionOutlook = ''.obs;
-  var ActiveConnection = false.obs;
+import '../../../core/controller/prefs.dart';
 
-  var confidence = 1.0.obs;
-  var sttText = ''.obs;
+final gptControllerStateProvider =
+    StateNotifierProvider<GPTController, bool>((ref) {
+  final keyGPTData = ref.watch(prefGetProvider(Prefs.gptApiKey));
+  String? data = keyGPTData.when(
+    data: (data) => data,
+    error: (error, stackTrace) => null,
+    loading: () => null,
+  );
 
-  var isloading = false.obs;
-  var youtubeCardEnabled = false.obs;
-
-  var status = ''.obs;
-
-  TextEditingController userInput = TextEditingController();
-  TextEditingController messageOutput = TextEditingController();
-
-  final pvbox = DataBase.getData();
-
-  @override
-  void onInit() {
-    fetchData();
-    if (pvbox.length == 0) {
-      final initData = PvTalk(
-        question: 'Hello',
-        answer: 'Hi',
-        createdAt: DateTime.now(),
-        id: 0,
-      );
-      pvbox.add(initData);
-    }
-    CheckUserConnection();
-    super.onInit();
+  if (data == null) {
+    return GPTController(
+        gptServices: ref.watch(
+          gptServiceProvider(dotenv.get('OPENAI_API_KEY')),
+        ),
+        prefController: PrefController());
+  } else {
+    return GPTController(
+        gptServices: ref.watch(gptServiceProvider(data)),
+        prefController: PrefController());
   }
+});
 
-  Future CheckUserConnection() async {
-    try {
-      final result = await InternetAddress.lookup(Globals.backendURL);
-      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-        ActiveConnection.value = true;
-        connectionOutlook.value = "Bot Online";
+class GPTController extends StateNotifier<bool> {
+  final GPTServices _gptServices;
+  final PrefController _prefController;
+
+  String recentres = '';
+  OneWay oneWay = OneWay(prompt: '', response: '');
+
+  GPTController({
+    required GPTServices gptServices,
+    required PrefController prefController,
+  })  : _gptServices = gptServices,
+        _prefController = prefController,
+        super(false);
+
+  void getAns({
+    required String prompt,
+    required BuildContext context,
+  }) async {
+    state = true;
+    final model = TextDavinci2Model();
+    final res = await _gptServices.fetchChatAns(prompt: prompt, model: model);
+
+    state = false;
+
+    res.fold((l) => showSnackBar(context, l.message), (r) {
+      if (r == null) {
+        return showSnackBar(context, 'Unable to get try again!');
       }
-    } on SocketException catch (_) {
-      ActiveConnection.value = false;
-      connectionOutlook.value = "Bot offline";
-    }
+      oneWay.prompt = prompt;
+      oneWay.response = r.choices[0].text;
+      _prefController.setPrefs(Prefs.recentres, oneWay.response).then((value) {
+        if (!value) {
+          showSnackBar(context, "can't save to recent");
+        }
+      });
+    });
   }
+}
 
-  void fetchData() async {
-    var message = await HttpHelper.fetchhttp();
-
-    try {
-      isloading.value = true;
-      if (message != null) {
-        connectionOutlook.value = message;
-      } else {
-        connectionOutlook.value = 'Error';
-      }
-    } finally {
-      isloading.value = false;
-    }
-  }
-
-  Future<void> askQuestion() async {
-    try {
-      isloading.value = true;
-      var header = {'Content-Type': 'application/json'};
-      var url = Uri.parse(Globals.withHTTPbackendURL);
-
-      Map body = {
-        'prompt': userInput.text,
-      };
-
-      var response =
-          await http.post(url, headers: header, body: jsonEncode(body));
-
-      if (response.statusCode == 200) {
-        var jsonResponse = response.body;
-
-        var output = botFromJson(jsonResponse);
-
-        messageOutput.text = output.bot;
-      } else {
-        messageOutput.text = 'Error';
-      }
-      userInput.clear();
-    } catch (e) {
-      if (e == 'Connection reset by peer') {
-        Get.showSnackbar(
-          customSnakeBar(
-            'Connection reset',
-            e.toString(),
-            Icons.wifi_1_bar_outlined,
-            2,
-          ),
-        );
-
-        log(e.toString());
-      } else {
-        log(e.toString());
-        Get.showSnackbar(
-          customSnakeBar(
-            'Connection reset',
-            e.toString(),
-            Icons.wifi_1_bar_outlined,
-            2,
-          ),
-        );
-      }
-    } finally {
-      isloading.value = false;
-    }
-  }
+class OneWay {
+  String prompt;
+  String response;
+  OneWay({required this.prompt, required this.response});
 }

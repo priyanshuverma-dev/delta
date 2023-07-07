@@ -1,89 +1,65 @@
-import 'package:answer_it/utils/colors.dart';
-import 'package:answer_it/widgets/inputfield.dart';
-import 'package:avatar_glow/avatar_glow.dart';
+import 'package:delta/utils/colors.dart';
+import 'package:delta/widgets/inputfield.dart';
 import 'package:flutter/material.dart';
 
 Widget getSearchBarUI({
   required String hintText,
   required TextEditingController textEditingController,
   required VoidCallback onPressed,
-  required VoidCallback onPressMic,
-  VoidCallback? onLongPress,
   required bool isloading,
-  required bool isListen,
 }) {
-  return Container(
-    decoration: BoxDecoration(
-        border: Border.symmetric(
-      horizontal: BorderSide(
-        color: Colours.darkScaffoldColor.withOpacity(0.7),
-        width: 2.0,
+  return Padding(
+    padding: const EdgeInsets.all(8.0),
+    child: Container(
+      padding: const EdgeInsets.only(
+        left: 1,
+        // right: 16,
       ),
-    )),
-    padding: const EdgeInsets.only(
-      left: 16,
-      // right: 16,
-    ),
-    child: Row(
-      children: [
-        Expanded(
-          child: Padding(
-            padding: const EdgeInsets.only(
-              right: 10,
-              top: 12,
-              bottom: 12,
-            ),
-            child: TextFieldInput(
-              hintText: hintText,
-              textEditingController: textEditingController,
-              textInputType: TextInputType.text,
+      decoration: BoxDecoration(
+        color: Colours.darkScaffoldColor,
+        boxShadow: const [
+          BoxShadow(
+            color: Color.fromRGBO(0, 0, 0, 0.05),
+            offset: Offset(0, 0),
+            blurRadius: 0,
+            spreadRadius: 1,
+          ),
+          BoxShadow(
+            color: Color.fromRGBO(0, 0, 0, 0.09),
+            offset: Offset(0, 2),
+            blurRadius: 4,
+            spreadRadius: 1,
+          ),
+        ],
+      ),
+      child: Row(
+        children: [
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.only(
+                right: 10,
+                left: 10,
+                top: 12,
+                bottom: 12,
+              ),
+              child: TextFieldInput(
+                hintText: hintText,
+                textEditingController: textEditingController,
+                textInputType: TextInputType.text,
+              ),
             ),
           ),
-        ),
 
-        // Button
-        ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            elevation: 2,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10.0),
+          // Button
+          IconButton(
+            style: ElevatedButton.styleFrom(
+              elevation: 2,
             ),
-            backgroundColor: Colours.darkScaffoldColor.withOpacity(0.7),
-            fixedSize: Size(60, 50),
+            icon: const Icon(Icons.send),
+            onPressed: isloading ? null : onPressed,
           ),
-          onLongPress: onLongPress,
-          child: Text(
-            'Ask',
-            style: TextStyle(
-              color: Colours.textColor.withOpacity(0.5),
-            ),
-          ),
-          onPressed: isloading && isListen ? null : onPressed,
-        ),
-        IconButton(
-          style: IconButton.styleFrom(
-            elevation: 2,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20.0),
-            ),
-            backgroundColor: Colours.darkScaffoldColor.withOpacity(0.7),
-            fixedSize: Size(20, 50),
-          ),
-          icon: AvatarGlow(
-            animate: isListen,
-            glowColor: Colors.red,
-            endRadius: 65.0,
-            duration: Duration(milliseconds: 2000),
-            repeatPauseDuration: Duration(milliseconds: 100),
-            repeat: true,
-            child: Icon(
-              Icons.mic,
-              color: Colours.textColor.withOpacity(0.5),
-            ),
-          ),
-          onPressed: onPressMic,
-        ),
-      ],
+        ],
+      ),
     ),
   );
 }

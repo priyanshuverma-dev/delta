@@ -1,4 +1,4 @@
-import 'package:answer_it/utils/colors.dart';
+import 'package:delta/utils/colors.dart';
 import 'package:flutter/material.dart';
 
 class TextFieldInput extends StatelessWidget {
@@ -22,22 +22,18 @@ class TextFieldInput extends StatelessWidget {
 
     return TextField(
       controller: textEditingController,
-      style: TextStyle(
-        color: Colours.textColor,
+      style: const TextStyle(
         fontSize: 14,
       ),
       decoration: InputDecoration(
-        hintStyle: TextStyle(
-          color: Colours.textColor.withOpacity(0.5),
-        ),
         hintText: hintText,
         border: inputBorder,
         focusedBorder: inputBorder,
         enabledBorder: inputBorder,
-        filled: true,
+        // filled: true,
         contentPadding: const EdgeInsets.all(8),
       ),
-      cursorColor: Colours.darkScaffoldColor,
+      cursorColor: Colours.textColor,
       keyboardType: textInputType,
       obscureText: isPass,
     );
