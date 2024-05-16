@@ -75,7 +75,7 @@ class CreditsScreen extends StatelessWidget {
                   buildSocialIcon(
                     icon: Icons.deblur_outlined,
                     onPressed: () async {
-                      Uri url = Uri.parse('https://github.com/codebyps/');
+                      Uri url = Uri.parse('https://github.com/priyanshuverma-dev/');
                       if (await canLaunchUrl(url)) {
                         await launchUrl(
                           url,
@@ -92,7 +92,7 @@ class CreditsScreen extends StatelessWidget {
                     icon: Icons.style_outlined,
                     onPressed: () async {
                       Uri url =
-                          Uri.parse('https://www.youtube.com/@antrikshdevs');
+                          Uri.parse('https://www.youtube.com/@ben_code');
                       if (await canLaunchUrl(url)) {
                         await launchUrl(
                           url,
@@ -108,7 +108,7 @@ class CreditsScreen extends StatelessWidget {
                   buildSocialIcon(
                     icon: Icons.web_stories_outlined,
                     onPressed: () async {
-                      Uri url = Uri.parse('https://antrikshdev.tech');
+                      Uri url = Uri.parse('https://p7u.tech');
                       if (await canLaunchUrl(url)) {
                         await launchUrl(
                           url,

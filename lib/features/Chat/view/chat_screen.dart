@@ -1,5 +1,7 @@
 import 'package:delta/utils/utils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gemini/flutter_gemini.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:delta/widgets/textfield_area.dart';
 
@@ -18,8 +20,7 @@ class ChatScreen extends ConsumerStatefulWidget {
   ConsumerState<ChatScreen> createState() => _ChatScreenState();
 }
 
-class _ChatScreenState extends ConsumerState<ChatScreen>
-    with SingleTickerProviderStateMixin {
+class _ChatScreenState extends ConsumerState<ChatScreen> {
   final TextEditingController inputController = TextEditingController();
 
   // user input capture and sent to server...
@@ -31,7 +32,7 @@ class _ChatScreenState extends ConsumerState<ChatScreen>
     }
 
     ref
-        .watch(gptControllerStateProvider.notifier)
+        .read(gptControllerStateProvider.notifier)
         .getAns(prompt: input, context: context);
 
     inputController.clear();
@@ -57,15 +58,29 @@ class _ChatScreenState extends ConsumerState<ChatScreen>
                 clickAsk(inputController.text);
               },
             ),
+            // GeminiResponseTypeView(
+            //   builder: (context, child, response, loading) {
+            //     if (loading) {
+            //       /// show loading animation or use CircularProgressIndicator();
+            //       return const CircularProgressIndicator();
+            //     }
+
+            //     /// The runtimeType of response is String?
+            //     if (response != null) {
+            //       return Markdown(
+            //         data: response,
+            //         selectable: true,
+            //       );
+            //     } else {
+            //       /// idle state
+            //       return const Center(child: Text('Search something!'));
+            //     }
+            //   },
+            // ),
             Visibility(
               visible: !isloading,
               replacement: const LoadingSkeletion(),
               child: Visibility(
-                visible: ref
-                        .watch(gptControllerStateProvider.notifier)
-                        .oneWay
-                        .response !=
-                    '',
                 replacement:
                     const Text('Hi, Start asking questions from GPT-4.'),
                 child: AnswerBox(
