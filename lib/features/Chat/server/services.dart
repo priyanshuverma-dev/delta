@@ -2,62 +2,35 @@
 
 import 'package:delta/utils/Failure.dart';
 import 'package:delta/utils/type_defs.dart';
-import 'package:chat_gpt_sdk/chat_gpt_sdk.dart';
+import 'package:flutter_gemini/flutter_gemini.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fpdart/fpdart.dart';
 
-final gptServiceProvider = Provider.family((ref, String? key) {
-  print(key);
-  final openAI = OpenAI.instance.build(
-    token: key,
-    baseOption: HttpSetup(receiveTimeout: const Duration(seconds: 5)),
-    enableLog: true,
-  );
-  return GPTServices(openAI: openAI);
+final gptServiceProvider = Provider((ref) {
+  final gemini = Gemini.instance;
+  return GPTServices(gemini: gemini);
 });
 
 class GPTServices {
-  final OpenAI _openAI;
-  const GPTServices({required OpenAI openAI}) : _openAI = openAI;
+  final Gemini _gemini;
+  const GPTServices({required Gemini gemini}) : _gemini = gemini;
 
-  FutureEither<CompleteResponse?> fetchChatAns({
+  FutureEither<String?> fetchChatAns({
     required prompt,
-    required Model model,
   }) async {
-    final request = CompleteText(
-      prompt: prompt,
-      model: model,
-      maxTokens: 200,
-    );
 
     try {
-      final response = await _openAI.onCompletion(request: request);
-      return right(response);
-    } on OpenAIRateLimitError catch (err) {
-      print('catch error ->${err.data?.error.toMap()}');
+      final response = await _gemini.text(prompt);
+      return right(response?.output);
+    } on GeminiException catch (err) {
+      print('catch error ->${err.message}');
       return left(
         Failure(
-          err.data?.message.toString() ?? "Rate Limit crossed",
-          err.data?.error.code as int,
+          err.message.toString(),
+          err.hashCode,
         ),
       );
-    } on OpenAIAuthError catch (err) {
-      print('catch error ->${err.data?.error.toMap()}');
-      return left(
-        Failure(
-          err.data?.message.toString() ?? "Auth Not Found",
-          err.data?.error.code as int,
-        ),
-      );
-    } on OpenAIServerError catch (err) {
-      print('catch error ->${err.data?.error.toMap()}');
-      return left(
-        Failure(
-          err.data?.message.toString() ?? "OpenAI server Error",
-          err.data?.error.code as int,
-        ),
-      );
-    } catch (e) {
+    }  catch (e) {
       print('catch error ->$e');
       return left(
         Failure(

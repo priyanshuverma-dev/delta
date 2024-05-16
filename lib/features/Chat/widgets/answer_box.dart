@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:share_plus/share_plus.dart';
 
 import '../../../utils/colors.dart';
@@ -114,16 +115,9 @@ class AnswerBox extends StatelessWidget {
               left: 8,
               bottom: 8,
             ),
-            child: Text(
-              text,
-              style: TextStyle(
-                color: Colours.textColor,
-                fontSize: 14,
-                fontWeight: FontWeight.normal,
-                wordSpacing: 2,
-                letterSpacing: .5,
-              ),
-            ),
+            child: Markdown(data: text,
+            selectable: true,
+            shrinkWrap: true,),
           ),
         ],
       ),

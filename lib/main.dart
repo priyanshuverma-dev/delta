@@ -1,12 +1,16 @@
 import 'package:delta/screens/home_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:delta/utils/colors.dart';
+import 'package:flutter_gemini/flutter_gemini.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await dotenv.load(fileName: '.env');
+  final prefs = await SharedPreferences.getInstance();
+  final key =  prefs.getString("API") ?? "";
+ 
+  Gemini.init(apiKey: key);
   // run app
   runApp(const ProviderScope(
     child: MyApp(),
