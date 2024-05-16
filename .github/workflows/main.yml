@@ -23,26 +23,21 @@ jobs:
       - uses: subosito/flutter-action@v2
         with:
           flutter-version: '3.10.4'
-      - name: Creating .env
-        run: |
-          touch .env
-          echo OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }} >> .env
-          cat .env
       - name: Dependencies install
         run: flutter pub get
       - name: Build For Android
-        run: flutter build apk --release --build-name 2.1.14 --build-number 5
+        run: flutter build apk --release --build-name 2.2.10 --build-number 5
       - name: Build For Windows
-        run: flutter build windows --release --build-name 2.1.14 --build-number 5
+        run: flutter build windows --release --build-name 2.2.10 --build-number 5
       - name: Archive Release
         uses: thedoctor0/zip-release@master
         with:
           type: 'zip'
-          filename: Delta-2.1.14-windows.zip
+          filename: Delta-2.2.10-windows.zip
           directory: build/windows/runner/Release
       - name: Push to Releases
         uses: ncipollo/release-action@v1
         with:
-          artifacts: "build/app/outputs/flutter-apk/*,build/windows/runner/Release/Delta-2.1.14-windows.zip"
-          tag: v2.1.14
+          artifacts: "build/app/outputs/flutter-apk/*,build/windows/runner/Release/Delta-2.2.10-windows.zip"
+          tag: v2.2.10
           token: ${{ secrets.GITHUB_TOKEN }}
