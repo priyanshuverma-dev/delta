@@ -26,9 +26,9 @@ jobs:
       - name: Dependencies install
         run: flutter pub get
       - name: Build For Android
-        run: flutter build apk --release --build-name 2.2.10 --build-number 5
+        run: flutter build apk --release --build-name 2.2.10 --build-number 6
       - name: Build For Windows
-        run: flutter build windows --release --build-name 2.2.10 --build-number 5
+        run: flutter build windows --release --build-name 2.2.10 --build-number 6
       - name: Archive Release
         uses: thedoctor0/zip-release@master
         with:
