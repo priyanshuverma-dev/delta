@@ -27,18 +27,18 @@ jobs:
       - name: Dependencies install
         run: flutter pub get
       - name: Build For Android
-        run: flutter build apk --release --build-name 2.2.10 --build-number 6
+        run: flutter build apk --release --build-name 2.2.${{ github.run_number }} --build-number ${{ github.run_number }}
       - name: Build For Windows
-        run: flutter build windows --release --build-name 2.2.10 --build-number 6
+        run: flutter build windows --release --build-name 2.2.${{ github.run_number }} --build-number ${{ github.run_number }}
       - name: Archive Release
         uses: thedoctor0/zip-release@master
         with:
           type: 'zip'
-          filename: Delta-2.2.10-windows.zip
+          filename: Delta-latest-windows.zip
           directory: build/windows/x64/runner/Release
       - name: Push to Releases
         uses: ncipollo/release-action@v1
         with:
-          artifacts: "build/app/outputs/flutter-apk/*,build/windows/x64/runner/Release/Delta-2.2.10-windows.zip"
-          tag: v2.2.10
+          artifacts: "build/app/outputs/flutter-apk/*,build/windows/x64/runner/Release/Delta-latest-windows.zip"
+          tag: v2.2.${{ github.run_number }}
           token: ${{ secrets.GITHUB_TOKEN }}
