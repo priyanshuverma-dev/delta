@@ -21,7 +21,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final TextEditingController _controller =
-      TextEditingController(text: "AIzaSyDrIXbj860ioWz_F8d5vww2tWJPFdpOjiU");
+      TextEditingController();
 
   @override
   Widget build(BuildContext context) {
