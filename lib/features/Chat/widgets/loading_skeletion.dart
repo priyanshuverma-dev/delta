@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:skeleton_loader/skeleton_loader.dart';
 
-import '../../../utils/colors.dart';
-
 class LoadingSkeletion extends StatelessWidget {
   const LoadingSkeletion({super.key});
 
@@ -13,8 +11,6 @@ class LoadingSkeletion extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: SkeletonLoader(
-        baseColor: Colors.grey,
-        highlightColor: Colours.darkScaffoldColor,
         builder: Card(
           color: Colors.transparent,
           child: Container(
@@ -27,43 +23,64 @@ class LoadingSkeletion extends StatelessWidget {
                 Container(
                   width: 70,
                   height: 20,
-                  color: Colors.grey,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Theme.of(context).highlightColor,
+                  ),
                 ),
                 const SizedBox(height: 10),
                 Container(
                   width: size.width - 20,
                   height: 20,
-                  color: Colors.black,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Theme.of(context).highlightColor,
+                  ),
                 ),
                 const SizedBox(height: 10),
                 Container(
                   width: size.width - 20,
                   height: 20,
-                  color: Colors.black,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                  color: Theme.of(context).highlightColor,
+                  ),
                 ),
                 const SizedBox(height: 10),
                 Container(
                   width: size.width - 50,
                   height: 20,
-                  color: Colors.black,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Theme.of(context).highlightColor,
+                  ),
                 ),
                 const SizedBox(height: 10),
                 Container(
                   width: size.width - 100,
                   height: 20,
-                  color: Colors.black,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                   color: Theme.of(context).highlightColor,
+                  ),
                 ),
                 const SizedBox(height: 10),
                 Container(
                   width: 150,
                   height: 20,
-                  color: Colors.black,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Theme.of(context).highlightColor,
+                  ),
                 ),
                 const SizedBox(height: 10),
                 Container(
                   width: size.width - 20,
                   height: 20,
-                  color: Colors.black,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Theme.of(context).highlightColor,
+                  ),
                 ),
               ],
             ),

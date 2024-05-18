@@ -1,65 +1,57 @@
-import 'package:delta/utils/colors.dart';
-import 'package:delta/widgets/inputfield.dart';
 import 'package:flutter/material.dart';
 
-Widget getSearchBarUI({
-  required String hintText,
-  required TextEditingController textEditingController,
-  required VoidCallback onPressed,
-  required bool isloading,
-}) {
-  return Padding(
-    padding: const EdgeInsets.all(8.0),
-    child: Container(
-      padding: const EdgeInsets.only(
-        left: 1,
-        // right: 16,
-      ),
-      decoration: BoxDecoration(
-        color: Colours.darkScaffoldColor,
-        boxShadow: const [
-          BoxShadow(
-            color: Color.fromRGBO(0, 0, 0, 0.05),
-            offset: Offset(0, 0),
-            blurRadius: 0,
-            spreadRadius: 1,
-          ),
-          BoxShadow(
-            color: Color.fromRGBO(0, 0, 0, 0.09),
-            offset: Offset(0, 2),
-            blurRadius: 4,
-            spreadRadius: 1,
-          ),
-        ],
-      ),
-      child: Row(
-        children: [
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.only(
-                right: 10,
-                left: 10,
-                top: 12,
-                bottom: 12,
-              ),
-              child: TextFieldInput(
-                hintText: hintText,
-                textEditingController: textEditingController,
-                textInputType: TextInputType.text,
-              ),
-            ),
-          ),
+class SearchBarUI extends StatelessWidget {
+  final String hintText;
+  final TextEditingController textEditingController;
+  final VoidCallback onPressed;
+  final bool isloading;
 
-          // Button
-          IconButton(
-            style: ElevatedButton.styleFrom(
-              elevation: 2,
-            ),
-            icon: const Icon(Icons.send),
-            onPressed: isloading ? null : onPressed,
+  const SearchBarUI({
+    Key? key,
+    required this.hintText,
+    required this.textEditingController,
+    required this.onPressed,
+    required this.isloading,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(5.0),
+          border: Border.all(
+            width: 1,
+            color: Theme.of(context).dividerColor,
           ),
-        ],
+        ),
+        child: Row(
+          children: [
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.only(left: 8.0),
+                child: TextField(
+                  controller: textEditingController,
+                  decoration: InputDecoration(
+                    hintText: hintText,
+                    border: InputBorder.none,
+                  ),
+                ),
+              ),
+            ),
+
+            // Button
+            IconButton(
+              style: ElevatedButton.styleFrom(
+                elevation: 2,
+              ),
+              icon: const Icon(Icons.send),
+              onPressed: isloading ? null : onPressed,
+            ),
+          ],
+        ),
       ),
-    ),
-  );
+    );
+  }
 }

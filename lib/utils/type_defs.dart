@@ -1,4 +1,4 @@
-import 'package:delta/utils/Failure.dart';
+import 'package:delta/utils/failure.dart';
 import 'package:fpdart/fpdart.dart';
 
 typedef FutureEither<T> = Future<Either<Failure, T>>;

@@ -3,6 +3,8 @@ import 'package:delta/basics/feedback_screen.dart';
 import 'package:delta/features/Chat/view/chat_screen.dart';
 import 'package:delta/utils/global_vars.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gemini/flutter_gemini.dart';
+import 'package:restart_app/restart_app.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../utils/utils.dart';
@@ -17,10 +19,9 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-
-
 class _HomeScreenState extends State<HomeScreen> {
-  final TextEditingController _controller = TextEditingController();
+  final TextEditingController _controller =
+      TextEditingController(text: "AIzaSyDrIXbj860ioWz_F8d5vww2tWJPFdpOjiU");
 
   @override
   Widget build(BuildContext context) {
@@ -63,6 +64,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           TextButton(
                             onPressed: () {
                               Navigator.pop(context);
+                              _controller.clear();
                             },
                             child: const Text('Cancel'),
                           ),
@@ -71,8 +73,10 @@ class _HomeScreenState extends State<HomeScreen> {
                               final prefs =
                                   await SharedPreferences.getInstance();
                               await prefs.setString('API', _controller.text);
+                              Gemini.init(apiKey: prefs.getString('API') ?? "");
                               Future.delayed(const Duration(milliseconds: 1),
                                   () {
+                                Restart.restartApp();
                                 Navigator.pop(context);
                               });
                             },

@@ -5,8 +5,6 @@ import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:delta/widgets/textfield_area.dart';
 
-import '../controller/controller.dart';
-import '../widgets/answer_box.dart';
 import '../widgets/loading_skeletion.dart';
 
 class ChatScreen extends ConsumerStatefulWidget {
@@ -21,6 +19,7 @@ class ChatScreen extends ConsumerStatefulWidget {
 }
 
 class _ChatScreenState extends ConsumerState<ChatScreen> {
+  final gemini = Gemini.instance;
   final TextEditingController inputController = TextEditingController();
 
   // user input capture and sent to server...
@@ -31,17 +30,16 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
       return showSnackBar(context, 'Please fill in the blanks 👀');
     }
 
-    ref
-        .read(gptControllerStateProvider.notifier)
-        .getAns(prompt: input, context: context);
-
+    gemini.streamGenerateContent(input).listen((data) {}, onError: (er) {
+      showSnackBar(context, "Something went wrong! Check your API KEY.");
+      print(er);
+      gemini.typeProvider?.loading = false;
+    }, cancelOnError: true);
     inputController.clear();
   }
 
   @override
   Widget build(BuildContext context) {
-    final isloading = ref.watch(gptControllerStateProvider);
-
     return GestureDetector(
       onTap: hideKeyboard,
       child: SingleChildScrollView(
@@ -49,7 +47,25 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
         keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
         child: Column(
           children: [
-            getSearchBarUI(
+            SizedBox(
+              height: MediaQuery.of(context).size.height - 150,
+              child: GeminiResponseTypeView(
+                builder: (context, child, response, loading) {
+                  if (loading && response == null) {
+                    return const LoadingSkeletion();
+                  }
+
+                  if (response == null) {
+                    return const Center(child: Text('Search something!'));
+                  }
+                  return Markdown(
+                    data: response,
+                    selectable: true,
+                  );
+                },
+              ),
+            ),
+            SearchBarUI(
               hintText: 'Ask anything...',
               isloading: false,
               textEditingController: inputController,
@@ -58,52 +74,6 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
                 clickAsk(inputController.text);
               },
             ),
-            // GeminiResponseTypeView(
-            //   builder: (context, child, response, loading) {
-            //     if (loading) {
-            //       /// show loading animation or use CircularProgressIndicator();
-            //       return const CircularProgressIndicator();
-            //     }
-
-            //     /// The runtimeType of response is String?
-            //     if (response != null) {
-            //       return Markdown(
-            //         data: response,
-            //         selectable: true,
-            //       );
-            //     } else {
-            //       /// idle state
-            //       return const Center(child: Text('Search something!'));
-            //     }
-            //   },
-            // ),
-            Visibility(
-              visible: !isloading,
-              replacement: const LoadingSkeletion(),
-              child: Visibility(
-                replacement:
-                    const Text('Hi, Start asking questions from GPT-4.'),
-                child: AnswerBox(
-                  text: ref
-                      .watch(gptControllerStateProvider.notifier)
-                      .oneWay
-                      .response,
-                  prompt: ref
-                      .watch(gptControllerStateProvider.notifier)
-                      .oneWay
-                      .prompt,
-                ),
-              ),
-            ),
-            // Visibility(
-            //   visible: ref
-            //       .watch(gptControllerStateProvider.notifier)
-            //       .recentres
-            //       .isNotEmpty,
-            //   child: RecentBox(
-            //     text: ref.watch(gptControllerStateProvider.notifier).recentres,
-            //   ),
-            // )
           ],
         ),
       ),

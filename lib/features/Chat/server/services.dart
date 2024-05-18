@@ -1,6 +1,6 @@
 // ignore_for_file: avoid_print
 
-import 'package:delta/utils/Failure.dart';
+import 'package:delta/utils/failure.dart';
 import 'package:delta/utils/type_defs.dart';
 import 'package:flutter_gemini/flutter_gemini.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -16,21 +16,24 @@ class GPTServices {
   const GPTServices({required Gemini gemini}) : _gemini = gemini;
 
   FutureEither<String?> fetchChatAns({
-    required prompt,
+    required String prompt,
   }) async {
-
     try {
-      final response = await _gemini.text(prompt);
-      return right(response?.output);
+     _gemini
+          .streamGenerateContent(prompt)
+          .listen((value) {})
+          .onError((e) {});
+      // return right(response.first.toString());
+      return right("");
     } on GeminiException catch (err) {
       print('catch error ->${err.message}');
       return left(
         Failure(
           err.message.toString(),
-          err.hashCode,
+          err.statusCode ?? 00,
         ),
       );
-    }  catch (e) {
+    } catch (e) {
       print('catch error ->$e');
       return left(
         Failure(
