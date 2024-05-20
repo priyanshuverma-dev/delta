@@ -32,7 +32,6 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
 
     gemini.streamGenerateContent(input).listen((data) {}, onError: (er) {
       showSnackBar(context, "Something went wrong! Check your API KEY.");
-      print(er);
       gemini.typeProvider?.loading = false;
     }, cancelOnError: true);
     inputController.clear();
@@ -43,7 +42,6 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
     return GestureDetector(
       onTap: hideKeyboard,
       child: SingleChildScrollView(
-        physics: const BouncingScrollPhysics(),
         keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
         child: Column(
           children: [
@@ -56,7 +54,8 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
                   }
 
                   if (response == null) {
-                    return const Center(child: Text('Search something!'));
+                    return const Center(
+                        child: Text('Get knowledge from Gemini AI!'));
                   }
                   return Markdown(
                     data: response,
@@ -66,7 +65,7 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
               ),
             ),
             SearchBarUI(
-              hintText: 'Ask anything...',
+              hintText: 'write anything...',
               isloading: false,
               textEditingController: inputController,
               onPressed: () {

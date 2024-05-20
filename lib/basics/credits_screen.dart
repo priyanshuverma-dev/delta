@@ -1,5 +1,4 @@
 import 'package:delta/utils/colors.dart';
-import 'package:delta/utils/global_vars.dart';
 import 'package:delta/utils/utils.dart';
 import 'package:flutter/material.dart';
 
@@ -31,7 +30,7 @@ class CreditsScreen extends StatelessWidget {
         children: [
           const SizedBox(height: 30),
           Text(
-            'Made by ❤ by Priyanshu.',
+            'Made with ❤ by Priyanshu.',
             style: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 18,
@@ -56,10 +55,8 @@ class CreditsScreen extends StatelessWidget {
                   backgroundColor: Colours.darkScaffoldColor,
                   child: Hero(
                     tag: 'ico',
-                    child: CircleAvatar(
-                      radius: 32,
-                      backgroundImage: AssetImage(Globals.ico),
-                    ),
+                    child: Icon(Icons.ac_unit_outlined,
+                        color: Colours.textColor.withOpacity(0.7)),
                   ),
                 ),
               ),
@@ -75,7 +72,8 @@ class CreditsScreen extends StatelessWidget {
                   buildSocialIcon(
                     icon: Icons.deblur_outlined,
                     onPressed: () async {
-                      Uri url = Uri.parse('https://github.com/priyanshuverma-dev/');
+                      Uri url =
+                          Uri.parse('https://github.com/priyanshuverma-dev/');
                       if (await canLaunchUrl(url)) {
                         await launchUrl(
                           url,
@@ -91,8 +89,7 @@ class CreditsScreen extends StatelessWidget {
                   buildSocialIcon(
                     icon: Icons.style_outlined,
                     onPressed: () async {
-                      Uri url =
-                          Uri.parse('https://www.youtube.com/@ben_code');
+                      Uri url = Uri.parse('https://www.youtube.com/@ben_code');
                       if (await canLaunchUrl(url)) {
                         await launchUrl(
                           url,
