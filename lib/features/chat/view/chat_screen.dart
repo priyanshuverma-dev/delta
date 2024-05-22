@@ -2,12 +2,11 @@ import 'package:delta/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gemini/flutter_gemini.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:delta/widgets/textfield_area.dart';
 
 import '../widgets/loading_skeletion.dart';
 
-class ChatScreen extends ConsumerStatefulWidget {
+class ChatScreen extends StatefulWidget {
   static route() => MaterialPageRoute(
         builder: (context) => const ChatScreen(),
       );
@@ -15,10 +14,10 @@ class ChatScreen extends ConsumerStatefulWidget {
   const ChatScreen({super.key});
 
   @override
-  ConsumerState<ChatScreen> createState() => _ChatScreenState();
+  State<ChatScreen> createState() => _ChatScreenState();
 }
 
-class _ChatScreenState extends ConsumerState<ChatScreen> {
+class _ChatScreenState extends State<ChatScreen> {
   final gemini = Gemini.instance;
   final TextEditingController inputController = TextEditingController();
 

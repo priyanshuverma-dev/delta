@@ -39,6 +39,6 @@ jobs:
       - name: Push to Releases
         uses: ncipollo/release-action@v1
         with:
-          artifacts: "build/app/outputs/flutter-apk/*,build/windows/x64/runner/Release/Delta-2.2.${{ github.run_number }}-windows.zip"
+          artifacts: "build/app/outputs/apk/release/*,build/windows/x64/runner/Release/Delta-2.2.${{ github.run_number }}-windows.zip"
           tag: v2.2.${{ github.run_number }}
           token: ${{ secrets.GITHUB_TOKEN }}

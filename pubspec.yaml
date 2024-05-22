@@ -35,9 +35,6 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
-  http: ^0.13.5
-  animated_text_kit: ^4.2.2
-  lottie: ^2.1.0
   path_provider: ^2.0.11
   permission_handler: ^10.2.0
   intl: ^0.18.0
@@ -45,9 +42,6 @@ dependencies:
   webview_flutter: ^3.0.4
   share_plus: ^6.3.0
   font_awesome_flutter: ^10.3.0
-  youtube_api: ^1.0.4
-  envied: ^0.3.0
-  flutter_riverpod: ^2.3.6
   fpdart: ^0.6.0
   skeleton_loader: ^2.0.0+4
   shared_preferences: ^2.2.0
@@ -69,21 +63,21 @@ flutter_app_name:
   flutter_test:
     sdk: flutter
 
-flutter_icons:
-  android: "launcher_icon"
-  ios: true
-  image_path: "assets/icons/android/play_store_512.png"
-  min_sdk_android: 21 # android min sdk min:16, default 21
-  web:
-    generate: true
-    image_path: "assets/icons/web/icon-512.png"
-  windows:
-    generate: true
-    image_path: "assets/icons/web/icon-512.png"
-    icon_size: 256 # min:48, max:256, default: 48
-  macos:
-    generate: true
-    image_path: "assets/icons/ios/AppIcon~ipad.png"
+# flutter_icons:
+#   android: "launcher_icon"
+#   ios: true
+#   image_path: "assets/icons/android/play_store_512.png"
+#   min_sdk_android: 21 # android min sdk min:16, default 21
+#   web:
+#     generate: true
+#     image_path: "assets/icons/web/icon-512.png"
+#   windows:
+#     generate: true
+#     image_path: "assets/icons/web/icon-512.png"
+#     icon_size: 256 # min:48, max:256, default: 48
+#   macos:
+#     generate: true
+#     image_path: "assets/icons/ios/AppIcon~ipad.png"
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -105,8 +99,6 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - assets/bot.png
-    - assets/splash.json
     - assets/ico.png
   #   - images/a_dot_ham.jpeg
 
@@ -121,22 +113,22 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  fonts:
-    - family: ubuntu
-      fonts:
-        - asset: assets/fonts/Ubuntu-Regular.ttf
-        - asset: assets/fonts/Ubuntu-Italic.ttf
-          style: italic
-    - family: ubuntu
-      fonts:
-        - asset: assets/fonts/Ubuntu-Regular.ttf
-        - asset: assets/fonts/Ubuntu-Bold.ttf
-          weight: 700
-    - family: header
-      fonts:
-        - asset: assets/fonts/heading/Amita-Regular.ttf
-        - asset: assets/fonts/heading/Amita-Bold.ttf
-          weight: 700
+  # fonts:
+  #   - family: ubuntu
+  #     fonts:
+  #       - asset: assets/fonts/Ubuntu-Regular.ttf
+  #       - asset: assets/fonts/Ubuntu-Italic.ttf
+  #         style: italic
+  #   - family: ubuntu
+  #     fonts:
+  #       - asset: assets/fonts/Ubuntu-Regular.ttf
+  #       - asset: assets/fonts/Ubuntu-Bold.ttf
+  #         weight: 700
+  #   - family: header
+  #     fonts:
+  #       - asset: assets/fonts/heading/Amita-Regular.ttf
+  #       - asset: assets/fonts/heading/Amita-Bold.ttf
+  #         weight: 700
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

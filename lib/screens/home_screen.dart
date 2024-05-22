@@ -1,6 +1,6 @@
 import 'package:delta/basics/credits_screen.dart';
 import 'package:delta/basics/feedback_screen.dart';
-import 'package:delta/features/Chat/view/chat_screen.dart';
+import 'package:delta/features/chat/view/chat_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gemini/flutter_gemini.dart';
 import 'package:restart_app/restart_app.dart';

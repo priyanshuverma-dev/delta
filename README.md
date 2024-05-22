@@ -1,4 +1,4 @@
-[![Build & Release](https://github.com/priyanshu-creator/answer-it/actions/workflows/main.yml/badge.svg)](https://github.com/priyanshu-creator/answer-it/actions/workflows/main.yml)
+[![Build & Release](https://github.com/priyanshuverma-dev/delta/actions/workflows/main.yml/badge.svg)](https://github.com/priyanshuverma-dev/delta/actions/workflows/main.yml)
 
 # Delta
 

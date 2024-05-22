@@ -1,6 +1,5 @@
 import 'package:delta/screens/home_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_gemini/flutter_gemini.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -11,9 +10,7 @@ Future main() async {
 
   Gemini.init(apiKey: key);
   // run app
-  runApp(const ProviderScope(
-    child: MyApp(),
-  ));
+  runApp( const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -25,7 +22,6 @@ class MyApp extends StatelessWidget {
       title: 'Delta',
       theme: ThemeData(
         useMaterial3: true,
-        fontFamily: 'ubuntu',
         scaffoldBackgroundColor: Colors.black,
         appBarTheme: const AppBarTheme(
           backgroundColor: Colors.black,
