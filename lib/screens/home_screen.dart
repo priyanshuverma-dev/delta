@@ -1,7 +1,6 @@
 import 'package:delta/basics/credits_screen.dart';
 import 'package:delta/basics/feedback_screen.dart';
 import 'package:delta/features/Chat/view/chat_screen.dart';
-import 'package:delta/utils/global_vars.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gemini/flutter_gemini.dart';
 import 'package:restart_app/restart_app.dart';
@@ -20,21 +19,22 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final TextEditingController _controller =
-      TextEditingController();
+  final TextEditingController _controller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: hideKeyboard,
       child: Scaffold(
+        backgroundColor: Colors.black,
         appBar: AppBar(
+          backgroundColor: Colors.black,
           actions: [
             PopupMenuButton(
               iconSize: 30,
               icon: const Icon(
                 Icons.more_vert,
-                size: 30,
+                size: 28,
               ),
               tooltip: 'Menu',
               padding: const EdgeInsets.only(right: 5, left: 5),
@@ -94,17 +94,14 @@ class _HomeScreenState extends State<HomeScreen> {
               },
             ),
           ],
-          leading: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Hero(
-              tag: 'ico',
-              child: CircleAvatar(
-                backgroundImage: AssetImage(Globals.ico),
-                radius: 28,
-              ),
+          centerTitle: true,
+          title: const Text(
+            "Chat with AI",
+            style: TextStyle(
+              fontSize: 25,
+              fontWeight: FontWeight.bold,
             ),
           ),
-          centerTitle: true,
           elevation: 0,
         ),
         body: const ChatScreen(),

@@ -22,7 +22,7 @@ class SearchBarUI extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5.0),
           border: Border.all(
-            width: 1,
+            width: .3,
             color: Theme.of(context).dividerColor,
           ),
         ),
@@ -35,6 +35,9 @@ class SearchBarUI extends StatelessWidget {
                   controller: textEditingController,
                   decoration: InputDecoration(
                     hintText: hintText,
+                    hintStyle: const TextStyle(
+                      fontSize: 14,
+                    ),
                     border: InputBorder.none,
                   ),
                 ),
