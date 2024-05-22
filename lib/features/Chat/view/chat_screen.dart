@@ -46,7 +46,7 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
         child: Column(
           children: [
             SizedBox(
-              height: MediaQuery.of(context).size.height - 150,
+              height: MediaQuery.of(context).size.height * 0.75,
               child: GeminiResponseTypeView(
                 builder: (context, child, response, loading) {
                   if (loading && response == null) {

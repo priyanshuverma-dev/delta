@@ -94,16 +94,14 @@ class _HomeScreenState extends State<HomeScreen> {
               },
             ),
           ],
-          leading: const Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Hero(
-              tag: 'ico',
-              child: Icon(
-                Icons.ac_unit,
-              ),
+          centerTitle: true,
+          title: const Text(
+            "Chat with AI",
+            style: TextStyle(
+              fontSize: 25,
+              fontWeight: FontWeight.bold,
             ),
           ),
-          centerTitle: true,
           elevation: 0,
         ),
         body: const ChatScreen(),
