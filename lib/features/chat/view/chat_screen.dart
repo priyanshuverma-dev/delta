@@ -1,8 +1,9 @@
 import 'package:delta/utils/utils.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gemini/flutter_gemini.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:delta/widgets/textfield_area.dart';
+import 'package:mistralai_dart/mistralai_dart.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../widgets/loading_skeletion.dart';
 
@@ -18,9 +19,10 @@ class ChatScreen extends StatefulWidget {
 }
 
 class _ChatScreenState extends State<ChatScreen> {
-  final gemini = Gemini.instance;
+  final client = MistralAIClient();
   final TextEditingController inputController = TextEditingController();
-
+  var loading = false;
+  String?r;
   // user input capture and sent to server...
   void clickAsk(String input) async {
     FocusScope.of(context).unfocus();
@@ -28,11 +30,32 @@ class _ChatScreenState extends State<ChatScreen> {
     if (input.isEmpty) {
       return showSnackBar(context, 'Please fill in the blanks 👀');
     }
+    final prefs = await SharedPreferences.getInstance();
+  final key = prefs.getString("API") ?? "";
+  final client = MistralAIClient(
+    apiKey: key,
+  );
+  setState(() {
+    loading = true;
+  });
+   var res = await client.createChatCompletion(
+    request: ChatCompletionRequest(
+      model: const ChatCompletionModel.model(ChatCompletionModels.mistralMedium),
+      temperature: 0,
+      messages: [
+        ChatCompletionMessage(
+          role: ChatCompletionMessageRole.user,
+          content: input,
+        ),
+      ],
+    ),
+  );
+  
+  setState(() {
+    loading = false;
+    r = res.choices.first.message?.content;
+  });
 
-    gemini.streamGenerateContent(input).listen((data) {}, onError: (er) {
-      showSnackBar(context, "Something went wrong! Check your API KEY.");
-      gemini.typeProvider?.loading = false;
-    }, cancelOnError: true);
     inputController.clear();
   }
 
@@ -46,26 +69,19 @@ class _ChatScreenState extends State<ChatScreen> {
           children: [
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.75,
-              child: GeminiResponseTypeView(
-                builder: (context, child, response, loading) {
-                  if (loading && response == null) {
-                    return const LoadingSkeletion();
-                  }
-
-                  if (response == null) {
-                    return const Center(
-                        child: Text('Get knowledge from Gemini AI!'));
-                  }
-                  return Markdown(
-                    data: response,
+              child: Visibility(
+               visible: r == null,
+               replacement: Markdown(
+                    data: r ?? "",
                     selectable: true,
-                  );
-                },
-              ),
+                  ),
+                child: loading? const LoadingSkeletion() : const Text('Get knowledge from Mistral AI!'),
+              
+               ),
             ),
             SearchBarUI(
               hintText: 'write anything...',
-              isloading: false,
+              isloading: loading,
               textEditingController: inputController,
               onPressed: () {
                 FocusScope.of(context).requestFocus(FocusNode());

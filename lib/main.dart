@@ -1,6 +1,5 @@
 import 'package:delta/screens/home_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gemini/flutter_gemini.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 Future main() async {
@@ -8,7 +7,8 @@ Future main() async {
   final prefs = await SharedPreferences.getInstance();
   final key = prefs.getString("API") ?? "";
 
-  Gemini.init(apiKey: key);
+   
+  
   // run app
   runApp( const MyApp());
 }
